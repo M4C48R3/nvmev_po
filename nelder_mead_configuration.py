@@ -6,7 +6,7 @@ import get_params
 SAMPLE_INITIAL_INPUTS = np.random.randint(0, 20, size=(15,14)).astype(np.float64)
 
 
-ITERATION = 20
+ITERATION = 200
 PRINT_OPTION = True
 
 good = '223800-223800-187363-83830-311360-4539-6272-2665-644'
