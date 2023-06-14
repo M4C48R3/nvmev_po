@@ -410,6 +410,7 @@ static const struct file_operations proc_file_fops = {
 
 void NVMEV_STORAGE_INIT(struct nvmev_dev *nvmev_vdev)
 {
+	NVMEV_INFO("----SSD TYPE---- %d", BASE_SSD);
 	NVMEV_INFO("Storage : %lx + %lx\n", nvmev_vdev->config.storage_start,
 		   nvmev_vdev->config.storage_size);
 

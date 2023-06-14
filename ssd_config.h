@@ -9,6 +9,7 @@
 #define ZNS_PROTOTYPE 2
 #define KV_PROTOTYPE 3
 #define WD_ZN540 4
+#define HYNIX 5
 
 /* SSD Type */
 #define SSD_TYPE_NVM 0
@@ -225,6 +226,51 @@ static_assert((ZONE_SIZE % DIES_PER_ZONE) == 0);
 #define ZRWAFG_SIZE (0)
 #define ZRWA_SIZE (0)
 #define ZRWA_BUFFER_SIZE (0)
+
+#elif (BASE_SSD == HYNIX)
+#define NR_NAMESPACES 1
+
+#define NS_SSD_TYPE_0 SSD_TYPE_CONV
+#define NS_CAPACITY_0 (0)
+#define NS_SSD_TYPE_1 NS_SSD_TYPE_0
+#define NS_CAPACITY_1 (0)
+#define MDTS (6)
+#define CELL_MODE (CELL_MODE_TLC)
+
+#define SSD_PARTITIONS (4)
+#define NAND_CHANNELS (4)
+#define LUNS_PER_NAND_CH (2)
+#define PLNS_PER_LUN (1)
+#define FLASH_PAGE_SIZE KB(16)
+#define ONESHOT_PAGE_SIZE (FLASH_PAGE_SIZE * 3)
+#define BLKS_PER_PLN (0)
+#define BLK_SIZE (8172) 
+static_assert((ONESHOT_PAGE_SIZE % FLASH_PAGE_SIZE) == 0);
+
+#define MAX_CH_XFER_SIZE KB(16) /* to overlap with pcie transfer */
+#define WRITE_UNIT_SIZE (512)
+
+#define NAND_CHANNEL_BANDWIDTH (2400ull) //MB/s
+#define PCIE_BANDWIDTH (3360ull) //MB/s
+
+#define NAND_4KB_READ_LATENCY_LSB (289363 - 0) //ns
+#define NAND_4KB_READ_LATENCY_MSB (112036 + 0) //ns
+#define NAND_4KB_READ_LATENCY_CSB (0) //not used
+#define NAND_READ_LATENCY_LSB (106362 - 0)
+#define NAND_READ_LATENCY_MSB (11832 + 0)
+#define NAND_READ_LATENCY_CSB (0) //not used
+#define NAND_PROG_LATENCY (1942)
+#define NAND_ERASE_LATENCY (0)
+
+#define FW_4KB_READ_LATENCY (2045)
+#define FW_READ_LATENCY (3697)
+#define FW_WBUF_LATENCY0 (3040)
+#define FW_WBUF_LATENCY1 (398)
+#define FW_CH_XFER_LATENCY (0)
+#define OP_AREA_PERCENT (0.1)
+
+#define GLOBAL_WB_SIZE (NAND_CHANNELS * LUNS_PER_NAND_CH * ONESHOT_PAGE_SIZE * 2)
+#define WRITE_EARLY_COMPLETION 1
 #endif 
 ///////////////////////////////////////////////////////////////////////////
 
@@ -240,3 +286,4 @@ static_assert(NR_NAMESPACES <= 2);
 #define SUPPORTED_SSD_TYPE(type) (NS_SSD_TYPE_0 == SSD_TYPE_##type || NS_SSD_TYPE_1 == SSD_TYPE_##type) 
 
 #endif
+
