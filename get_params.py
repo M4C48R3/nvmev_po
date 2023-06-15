@@ -14,7 +14,7 @@ def get_params(values) -> int:
         return
     
     for val in values:
-        if val < 0:
+        if val <= 0:
             return 100
     
     try:
