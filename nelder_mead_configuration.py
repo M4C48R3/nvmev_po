@@ -6,12 +6,12 @@ import get_params
 SAMPLE_INITIAL_INPUTS = np.random.randint(0, 20, size=(15,14)).astype(np.float64)
 
 
-ITERATION = 200
+ITERATION = 20
 PRINT_OPTION = True
 
-good = '223800-223800-187363-83830-311360-4539-6272-2665-644'
-INPUT_CENTRIC = list(map(int, good.split('-')))
-#INPUT_CENTRIC = [73000, 73000, 73000, 73000, 695000, 21500, 30490, 4000, 460]
+# good = '223800-223800-187363-83830-311360-4539-6272-2665-644'
+# INPUT_CENTRIC = list(map(int, good.split('-')))
+INPUT_CENTRIC = [73000, 73000, 73000, 73000, 695000, 21500, 30490, 4000, 460]
 initial_variance = 0.3
 
 alpha = 1

@@ -13,6 +13,10 @@ def get_params(values) -> int:
         print("ERROR! 9 values must be given.")
         return
     
+    for val in values:
+        if val < 0:
+            return 100
+    
     try:
         with open("output/ours_hynix.json") as f:
             cache = json.load(f)

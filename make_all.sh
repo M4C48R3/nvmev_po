@@ -5,14 +5,14 @@ make
 echo "Remove previously installed nvmev module"
 sudo rmmod nvmev
 
-echo "verify virtual device is removed"
-sudo nvme list
+#echo "verify virtual device is removed"
+#sudo nvme list
 
 echo "insert module"
-sudo insmod nvmev.ko memmap_start=4g memmap_size=1g cpus=3,4
+sudo insmod nvmev.ko memmap_start=4G memmap_size=1G cpus=3,4
 
-echo "verify device is made"
-sudo nvme list
+#echo "verify device is made"
+#sudo nvme list
 
 # echo ""
 # echo "------------------------------------------------------------------------"
