@@ -39,7 +39,7 @@ def get_params(values) -> int:
     # run fio and get params
     ours = {}
     with open('output/temp.txt', 'w') as f, stdout_redirected(f):
-        for mode in ['read', 'write']:
+        for mode in ['write', 'read']:
             ours[mode] = {}
             for i in range(0, 7): # TODO: change to 7
                 bs = 4 * 2 ** i
