@@ -6,10 +6,10 @@ import get_params
 SAMPLE_INITIAL_INPUTS = np.random.randint(0, 20, size=(15,14)).astype(np.float64)
 
 
-ITERATION = 117
+ITERATION = 200
 PRINT_OPTION = True
 
-good = '88892-74169-12812-115035-109460-10958-35954-5245-77'
+good = '5026-1196-7310-737-88664-2533-1460-5553-76'
 INPUT_CENTRIC = list(map(int, good.split('-')))
 # INPUT_CENTRIC = [73000, 73000, 73000, 73000, 695000, 21500, 30490, 4000, 460]
 initial_variance = 0.3
@@ -132,6 +132,7 @@ def check_degeneracy(inputs: np.ndarray):
 def simplex_variance(inputs: np.ndarray):
     return np.var(inputs, axis = 0)
 
+'''
 def simplex_generator(input_centric):
     n = len(input_centric)
     L = [1 if i < (n+1)/2 else 0 for i in range(n)]
@@ -146,6 +147,25 @@ def simplex_generator(input_centric):
     initial_input -= variance
     initial_input += 2 * np.multiply(Mapper, variance)
     return np.round(initial_input)
+'''
+
+#generates initial simplex and keeps write variables fixed
+def simplex_generator(input_centric):
+    input_centric = np.array(input_centric, dtype = np.float64)
+    simplex = []
+    simplex.append(input_centric)
+    simplex.append(input_centric + np.array([1000,200,1400,140,0,500,280,0,0],dtype = np.float64))
+    simplex.append(input_centric + np.array([-1000,200,1400,140,0,500,280,0,0],dtype = np.float64))
+    simplex.append(input_centric + np.array([1000,-200,1400,140,0,500,280,0,0],dtype = np.float64))
+    simplex.append(input_centric + np.array([1000,200,-1400,140,0,500,280,0,0],dtype = np.float64))
+    simplex.append(input_centric + np.array([1000,200,1400,-140,0,500,280,0,0],dtype = np.float64))
+    simplex.append(input_centric + np.array([1000,200,1400,140,0,-500,280,0,0],dtype = np.float64))
+    simplex.append(input_centric + np.array([1000,200,1400,140,0,500,-280,0,0],dtype = np.float64))
+    simplex.append(input_centric + np.array([-1000,200,-1400,140,0,-500,280,0,0],dtype = np.float64))
+    simplex.append(input_centric + np.array([1000,-200,1400,-140,0,500,-280,0,0],dtype = np.float64))
+    simplex = np.array(simplex, dtype = np.float64)
+    return simplex
+
 
 if __name__ == '__main__':
 
