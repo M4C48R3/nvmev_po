@@ -2,20 +2,20 @@ fio_direct_write_test: (g=0): rw=write, bs=(R) 4096B-4096B, (W) 4096B-4096B, (T)
 fio-3.16
 Starting 1 process
 
-fio_direct_write_test: (groupid=0, jobs=1): err= 0: pid=290422: Sat Jun 17 15:22:56 2023
-  write: IOPS=86.1k, BW=337MiB/s (353MB/s)(1024MiB/3043msec); 0 zone resets
-    clat (nsec): min=10910, max=168486, avg=11340.81, stdev=576.55
-     lat (nsec): min=10950, max=168526, avg=11382.50, stdev=581.27
+fio_direct_write_test: (groupid=0, jobs=1): err= 0: pid=297762: Sun Jun 18 16:08:32 2023
+  write: IOPS=86.3k, BW=337MiB/s (354MB/s)(1024MiB/3037msec); 0 zone resets
+    clat (nsec): min=10901, max=82384, avg=11327.54, stdev=475.01
+     lat (nsec): min=10941, max=82464, avg=11368.41, stdev=480.54
     clat percentiles (nsec):
      |  1.00th=[11072],  5.00th=[11072], 10.00th=[11072], 20.00th=[11072],
-     | 30.00th=[11072], 40.00th=[11200], 50.00th=[11200], 60.00th=[11200],
-     | 70.00th=[11200], 80.00th=[11456], 90.00th=[11968], 95.00th=[12096],
-     | 99.00th=[12224], 99.50th=[12608], 99.90th=[15040], 99.95th=[16512],
-     | 99.99th=[22912]
-   bw (  KiB/s): min=327456, max=350904, per=100.00%, avg=344641.33, stdev=9055.72, samples=6
-   iops        : min=81864, max=87726, avg=86160.33, stdev=2263.93, samples=6
-  lat (usec)   : 20=99.98%, 50=0.01%, 100=0.01%, 250=0.01%
-  cpu          : usr=3.88%, sys=18.31%, ctx=262144, majf=0, minf=11
+     | 30.00th=[11200], 40.00th=[11200], 50.00th=[11200], 60.00th=[11200],
+     | 70.00th=[11200], 80.00th=[11328], 90.00th=[11968], 95.00th=[12096],
+     | 99.00th=[12224], 99.50th=[12608], 99.90th=[15040], 99.95th=[17792],
+     | 99.99th=[23680]
+   bw (  KiB/s): min=331368, max=350720, per=100.00%, avg=345264.33, stdev=8019.09, samples=6
+   iops        : min=82842, max=87680, avg=86316.00, stdev=2004.71, samples=6
+  lat (usec)   : 20=99.98%, 50=0.02%, 100=0.01%
+  cpu          : usr=5.83%, sys=16.24%, ctx=262144, majf=0, minf=10
   IO depths    : 1=100.0%, 2=0.0%, 4=0.0%, 8=0.0%, 16=0.0%, 32=0.0%, >=64=0.0%
      submit    : 0=0.0%, 4=100.0%, 8=0.0%, 16=0.0%, 32=0.0%, 64=0.0%, >=64=0.0%
      complete  : 0=0.0%, 4=100.0%, 8=0.0%, 16=0.0%, 32=0.0%, 64=0.0%, >=64=0.0%
@@ -23,29 +23,28 @@ fio_direct_write_test: (groupid=0, jobs=1): err= 0: pid=290422: Sat Jun 17 15:22
      latency   : target=0, window=0, percentile=100.00%, depth=1
 
 Run status group 0 (all jobs):
-  WRITE: bw=337MiB/s (353MB/s), 337MiB/s-337MiB/s (353MB/s-353MB/s), io=1024MiB (1074MB), run=3043-3043msec
+  WRITE: bw=337MiB/s (354MB/s), 337MiB/s-337MiB/s (354MB/s-354MB/s), io=1024MiB (1074MB), run=3037-3037msec
 
 Disk stats (read/write):
-  nvme1n1: ios=48/249411, merge=0/0, ticks=1/2407, in_queue=2408, util=96.83%
+  nvme1n1: ios=48/249896, merge=0/0, ticks=1/2409, in_queue=2411, util=96.83%
 fio_direct_read_test: (g=0): rw=read, bs=(R) 4096B-4096B, (W) 4096B-4096B, (T) 4096B-4096B, ioengine=psync, iodepth=1
 fio-3.16
 Starting 1 process
 
-fio_direct_read_test: (groupid=0, jobs=1): err= 0: pid=290442: Sat Jun 17 15:22:59 2023
-  read: IOPS=95.9k, BW=375MiB/s (393MB/s)(1024MiB/2733msec)
-    clat (usec): min=6, max=1650, avg=10.19, stdev= 4.68
-     lat (usec): min=6, max=1650, avg=10.22, stdev= 4.68
+fio_direct_read_test: (groupid=0, jobs=1): err= 0: pid=297782: Sun Jun 18 16:08:36 2023
+  read: IOPS=97.3k, BW=380MiB/s (399MB/s)(1024MiB/2694msec)
+    clat (nsec): min=8095, max=90350, avg=10051.44, stdev=1733.60
+     lat (nsec): min=8115, max=90410, avg=10076.78, stdev=1733.73
     clat percentiles (nsec):
      |  1.00th=[ 8160],  5.00th=[ 8256], 10.00th=[ 8256], 20.00th=[ 8256],
-     | 30.00th=[ 8896], 40.00th=[ 9536], 50.00th=[ 9536], 60.00th=[10048],
-     | 70.00th=[12224], 80.00th=[12352], 90.00th=[12352], 95.00th=[12864],
-     | 99.00th=[13120], 99.50th=[13120], 99.90th=[14016], 99.95th=[14784],
-     | 99.99th=[19328]
-   bw (  KiB/s): min=372544, max=389960, per=100.00%, avg=385644.80, stdev=7452.60, samples=5
-   iops        : min=93136, max=97490, avg=96411.20, stdev=1863.15, samples=5
-  lat (usec)   : 10=60.01%, 20=39.98%, 50=0.01%, 100=0.01%, 250=0.01%
-  lat (msec)   : 2=0.01%
-  cpu          : usr=4.28%, sys=20.06%, ctx=262145, majf=0, minf=12
+     | 30.00th=[ 8384], 40.00th=[ 9536], 50.00th=[ 9536], 60.00th=[ 9536],
+     | 70.00th=[12224], 80.00th=[12352], 90.00th=[12352], 95.00th=[12352],
+     | 99.00th=[12480], 99.50th=[12608], 99.90th=[13888], 99.95th=[14272],
+     | 99.99th=[18816]
+   bw (  KiB/s): min=387872, max=390624, per=100.00%, avg=389308.80, stdev=991.56, samples=5
+   iops        : min=96968, max=97656, avg=97327.20, stdev=247.89, samples=5
+  lat (usec)   : 10=66.46%, 20=33.54%, 50=0.01%, 100=0.01%
+  cpu          : usr=5.16%, sys=18.34%, ctx=262144, majf=0, minf=12
   IO depths    : 1=100.0%, 2=0.0%, 4=0.0%, 8=0.0%, 16=0.0%, 32=0.0%, >=64=0.0%
      submit    : 0=0.0%, 4=100.0%, 8=0.0%, 16=0.0%, 32=0.0%, 64=0.0%, >=64=0.0%
      complete  : 0=0.0%, 4=100.0%, 8=0.0%, 16=0.0%, 32=0.0%, 64=0.0%, >=64=0.0%
@@ -53,29 +52,29 @@ fio_direct_read_test: (groupid=0, jobs=1): err= 0: pid=290442: Sat Jun 17 15:22:
      latency   : target=0, window=0, percentile=100.00%, depth=1
 
 Run status group 0 (all jobs):
-   READ: bw=375MiB/s (393MB/s), 375MiB/s-375MiB/s (393MB/s-393MB/s), io=1024MiB (1074MB), run=2733-2733msec
+   READ: bw=380MiB/s (399MB/s), 380MiB/s-380MiB/s (399MB/s-399MB/s), io=1024MiB (1074MB), run=2694-2694msec
 
 Disk stats (read/write):
-  nvme1n1: ios=254340/0, merge=0/0, ticks=2188/0, in_queue=2188, util=96.58%
+  nvme1n1: ios=257588/0, merge=0/0, ticks=2204/0, in_queue=2204, util=96.58%
 fio_direct_write_test: (g=0): rw=write, bs=(R) 4096B-4096B, (W) 4096B-4096B, (T) 4096B-4096B, ioengine=psync, iodepth=1
 fio-3.16
 Starting 1 process
 
-fio_direct_write_test: (groupid=0, jobs=1): err= 0: pid=290462: Sat Jun 17 15:23:02 2023
-  write: IOPS=88.8k, BW=347MiB/s (364MB/s)(1024MiB/2952msec); 0 zone resets
-    clat (usec): min=10, max=2218, avg=10.98, stdev= 7.44
-     lat (usec): min=10, max=2218, avg=11.03, stdev= 7.44
+fio_direct_write_test: (groupid=0, jobs=1): err= 0: pid=297802: Sun Jun 18 16:08:39 2023
+  write: IOPS=89.9k, BW=351MiB/s (368MB/s)(1024MiB/2917msec); 0 zone resets
+    clat (usec): min=10, max=2211, avg=10.88, stdev= 7.38
+     lat (usec): min=10, max=2211, avg=10.92, stdev= 7.38
     clat percentiles (nsec):
-     |  1.00th=[10432],  5.00th=[10560], 10.00th=[10560], 20.00th=[10816],
-     | 30.00th=[10816], 40.00th=[10816], 50.00th=[10944], 60.00th=[10944],
-     | 70.00th=[11200], 80.00th=[11200], 90.00th=[11200], 95.00th=[11328],
-     | 99.00th=[11584], 99.50th=[12480], 99.90th=[15296], 99.95th=[17536],
-     | 99.99th=[22656]
-   bw (  KiB/s): min=351576, max=357616, per=99.94%, avg=354981.80, stdev=2496.32, samples=5
-   iops        : min=87894, max=89404, avg=88745.40, stdev=624.12, samples=5
-  lat (usec)   : 20=99.98%, 50=0.01%, 100=0.01%
+     |  1.00th=[10432],  5.00th=[10560], 10.00th=[10560], 20.00th=[10560],
+     | 30.00th=[10560], 40.00th=[10816], 50.00th=[10944], 60.00th=[10944],
+     | 70.00th=[10944], 80.00th=[10944], 90.00th=[11200], 95.00th=[11328],
+     | 99.00th=[11584], 99.50th=[12736], 99.90th=[15296], 99.95th=[17536],
+     | 99.99th=[22400]
+   bw (  KiB/s): min=358032, max=361200, per=100.00%, avg=359540.80, stdev=1202.03, samples=5
+   iops        : min=89508, max=90300, avg=89885.20, stdev=300.51, samples=5
+  lat (usec)   : 20=99.99%, 50=0.01%, 100=0.01%, 250=0.01%
   lat (msec)   : 4=0.01%
-  cpu          : usr=4.20%, sys=19.28%, ctx=262147, majf=0, minf=12
+  cpu          : usr=5.73%, sys=17.42%, ctx=262145, majf=0, minf=11
   IO depths    : 1=100.0%, 2=0.0%, 4=0.0%, 8=0.0%, 16=0.0%, 32=0.0%, >=64=0.0%
      submit    : 0=0.0%, 4=100.0%, 8=0.0%, 16=0.0%, 32=0.0%, 64=0.0%, >=64=0.0%
      complete  : 0=0.0%, 4=100.0%, 8=0.0%, 16=0.0%, 32=0.0%, 64=0.0%, >=64=0.0%
@@ -83,29 +82,29 @@ fio_direct_write_test: (groupid=0, jobs=1): err= 0: pid=290462: Sat Jun 17 15:23
      latency   : target=0, window=0, percentile=100.00%, depth=1
 
 Run status group 0 (all jobs):
-  WRITE: bw=347MiB/s (364MB/s), 347MiB/s-347MiB/s (364MB/s-364MB/s), io=1024MiB (1074MB), run=2952-2952msec
+  WRITE: bw=351MiB/s (368MB/s), 351MiB/s-351MiB/s (368MB/s-368MB/s), io=1024MiB (1074MB), run=2917-2917msec
 
 Disk stats (read/write):
-  nvme0n1: ios=32/257505, merge=0/6, ticks=3/2370, in_queue=2373, util=97.23%
+  nvme0n1: ios=80/260626, merge=0/19, ticks=5/2380, in_queue=2386, util=97.23%
 fio_direct_read_test: (g=0): rw=read, bs=(R) 4096B-4096B, (W) 4096B-4096B, (T) 4096B-4096B, ioengine=psync, iodepth=1
 fio-3.16
 Starting 1 process
 
-fio_direct_read_test: (groupid=0, jobs=1): err= 0: pid=290492: Sat Jun 17 15:23:05 2023
-  read: IOPS=108k, BW=421MiB/s (442MB/s)(1024MiB/2431msec)
-    clat (usec): min=8, max=2210, avg= 9.06, stdev= 6.18
-     lat (usec): min=8, max=2210, avg= 9.08, stdev= 6.18
+fio_direct_read_test: (groupid=0, jobs=1): err= 0: pid=297831: Sun Jun 18 16:08:42 2023
+  read: IOPS=108k, BW=421MiB/s (442MB/s)(1024MiB/2430msec)
+    clat (usec): min=8, max=2211, avg= 9.05, stdev= 7.52
+     lat (usec): min=8, max=2211, avg= 9.07, stdev= 7.52
     clat percentiles (nsec):
-     |  1.00th=[ 8512],  5.00th=[ 8512], 10.00th=[ 8512], 20.00th=[ 8512],
-     | 30.00th=[ 8640], 40.00th=[ 8640], 50.00th=[ 8768], 60.00th=[ 8768],
-     | 70.00th=[ 8768], 80.00th=[ 8896], 90.00th=[ 9024], 95.00th=[14016],
-     | 99.00th=[14016], 99.50th=[14144], 99.90th=[15296], 99.95th=[15808],
-     | 99.99th=[17280]
-   bw (  KiB/s): min=429816, max=433448, per=100.00%, avg=431828.00, stdev=1500.16, samples=4
-   iops        : min=107454, max=108362, avg=107957.00, stdev=375.04, samples=4
-  lat (usec)   : 10=93.55%, 20=6.44%, 50=0.01%, 100=0.01%
+     |  1.00th=[ 8384],  5.00th=[ 8512], 10.00th=[ 8512], 20.00th=[ 8512],
+     | 30.00th=[ 8512], 40.00th=[ 8640], 50.00th=[ 8640], 60.00th=[ 8768],
+     | 70.00th=[ 8768], 80.00th=[ 8768], 90.00th=[ 9024], 95.00th=[14016],
+     | 99.00th=[14016], 99.50th=[14144], 99.90th=[15552], 99.95th=[15808],
+     | 99.99th=[17792]
+   bw (  KiB/s): min=431016, max=433720, per=100.00%, avg=431782.00, stdev=1299.82, samples=4
+   iops        : min=107754, max=108430, avg=107945.50, stdev=324.95, samples=4
+  lat (usec)   : 10=93.30%, 20=6.69%, 50=0.01%, 100=0.01%, 250=0.01%
   lat (msec)   : 4=0.01%
-  cpu          : usr=7.20%, sys=21.36%, ctx=262147, majf=0, minf=13
+  cpu          : usr=4.49%, sys=24.13%, ctx=262145, majf=0, minf=12
   IO depths    : 1=100.0%, 2=0.0%, 4=0.0%, 8=0.0%, 16=0.0%, 32=0.0%, >=64=0.0%
      submit    : 0=0.0%, 4=100.0%, 8=0.0%, 16=0.0%, 32=0.0%, 64=0.0%, >=64=0.0%
      complete  : 0=0.0%, 4=100.0%, 8=0.0%, 16=0.0%, 32=0.0%, 64=0.0%, >=64=0.0%
@@ -113,28 +112,28 @@ fio_direct_read_test: (groupid=0, jobs=1): err= 0: pid=290492: Sat Jun 17 15:23:
      latency   : target=0, window=0, percentile=100.00%, depth=1
 
 Run status group 0 (all jobs):
-   READ: bw=421MiB/s (442MB/s), 421MiB/s-421MiB/s (442MB/s-442MB/s), io=1024MiB (1074MB), run=2431-2431msec
+   READ: bw=421MiB/s (442MB/s), 421MiB/s-421MiB/s (442MB/s-442MB/s), io=1024MiB (1074MB), run=2430-2430msec
 
 Disk stats (read/write):
-  nvme0n1: ios=258774/60, merge=0/6, ticks=1921/5, in_queue=1926, util=96.36%
+  nvme0n1: ios=258882/58, merge=0/2, ticks=1919/5, in_queue=1924, util=96.20%
 fio_direct_write_test: (g=0): rw=write, bs=(R) 8192B-8192B, (W) 8192B-8192B, (T) 8192B-8192B, ioengine=psync, iodepth=1
 fio-3.16
 Starting 1 process
 
-fio_direct_write_test: (groupid=0, jobs=1): err= 0: pid=290512: Sat Jun 17 15:23:07 2023
-  write: IOPS=78.5k, BW=613MiB/s (643MB/s)(1024MiB/1670msec); 0 zone resets
-    clat (nsec): min=12193, max=86622, avg=12470.77, stdev=315.91
-     lat (nsec): min=12243, max=86662, avg=12524.89, stdev=316.81
+fio_direct_write_test: (groupid=0, jobs=1): err= 0: pid=297851: Sun Jun 18 16:08:44 2023
+  write: IOPS=77.3k, BW=604MiB/s (633MB/s)(1024MiB/1695msec); 0 zone resets
+    clat (nsec): min=12393, max=76463, avg=12666.79, stdev=354.17
+     lat (nsec): min=12443, max=76513, avg=12719.81, stdev=355.48
     clat percentiles (nsec):
-     |  1.00th=[12352],  5.00th=[12352], 10.00th=[12352], 20.00th=[12352],
-     | 30.00th=[12352], 40.00th=[12480], 50.00th=[12480], 60.00th=[12480],
-     | 70.00th=[12480], 80.00th=[12480], 90.00th=[12608], 95.00th=[12608],
-     | 99.00th=[12736], 99.50th=[12864], 99.90th=[14784], 99.95th=[15552],
-     | 99.99th=[19072]
-   bw (  KiB/s): min=628224, max=630256, per=100.00%, avg=629333.33, stdev=1028.78, samples=3
-   iops        : min=78528, max=78782, avg=78666.67, stdev=128.60, samples=3
+     |  1.00th=[12480],  5.00th=[12480], 10.00th=[12608], 20.00th=[12608],
+     | 30.00th=[12608], 40.00th=[12608], 50.00th=[12608], 60.00th=[12608],
+     | 70.00th=[12736], 80.00th=[12736], 90.00th=[12736], 95.00th=[12864],
+     | 99.00th=[12992], 99.50th=[13504], 99.90th=[15552], 99.95th=[16768],
+     | 99.99th=[19840]
+   bw (  KiB/s): min=619120, max=620288, per=100.00%, avg=619525.33, stdev=660.92, samples=3
+   iops        : min=77390, max=77536, avg=77440.67, stdev=82.62, samples=3
   lat (usec)   : 20=99.99%, 50=0.01%, 100=0.01%
-  cpu          : usr=3.42%, sys=16.42%, ctx=131072, majf=0, minf=10
+  cpu          : usr=4.43%, sys=15.35%, ctx=131072, majf=0, minf=12
   IO depths    : 1=100.0%, 2=0.0%, 4=0.0%, 8=0.0%, 16=0.0%, 32=0.0%, >=64=0.0%
      submit    : 0=0.0%, 4=100.0%, 8=0.0%, 16=0.0%, 32=0.0%, 64=0.0%, >=64=0.0%
      complete  : 0=0.0%, 4=100.0%, 8=0.0%, 16=0.0%, 32=0.0%, 64=0.0%, >=64=0.0%
@@ -142,28 +141,28 @@ fio_direct_write_test: (groupid=0, jobs=1): err= 0: pid=290512: Sat Jun 17 15:23
      latency   : target=0, window=0, percentile=100.00%, depth=1
 
 Run status group 0 (all jobs):
-  WRITE: bw=613MiB/s (643MB/s), 613MiB/s-613MiB/s (643MB/s-643MB/s), io=1024MiB (1074MB), run=1670-1670msec
+  WRITE: bw=604MiB/s (633MB/s), 604MiB/s-604MiB/s (633MB/s-633MB/s), io=1024MiB (1074MB), run=1695-1695msec
 
 Disk stats (read/write):
-  nvme1n1: ios=49/129259, merge=0/0, ticks=1/1393, in_queue=1395, util=94.67%
+  nvme1n1: ios=48/127276, merge=0/0, ticks=1/1397, in_queue=1398, util=94.67%
 fio_direct_read_test: (g=0): rw=read, bs=(R) 8192B-8192B, (W) 8192B-8192B, (T) 8192B-8192B, ioengine=psync, iodepth=1
 fio-3.16
 Starting 1 process
 
-fio_direct_read_test: (groupid=0, jobs=1): err= 0: pid=290532: Sat Jun 17 15:23:09 2023
-  read: IOPS=94.0k, BW=742MiB/s (778MB/s)(1024MiB/1380msec)
-    clat (nsec): min=8335, max=24556, avg=10304.43, stdev=1705.16
-     lat (nsec): min=8356, max=24777, avg=10331.38, stdev=1705.22
+fio_direct_read_test: (groupid=0, jobs=1): err= 0: pid=297872: Sun Jun 18 16:08:46 2023
+  read: IOPS=94.8k, BW=741MiB/s (777MB/s)(1024MiB/1382msec)
+    clat (nsec): min=8356, max=26039, avg=10316.96, stdev=1710.31
+     lat (nsec): min=8386, max=26259, avg=10343.56, stdev=1710.39
     clat percentiles (nsec):
      |  1.00th=[ 8384],  5.00th=[ 8512], 10.00th=[ 8512], 20.00th=[ 8512],
      | 30.00th=[ 8640], 40.00th=[ 9792], 50.00th=[ 9792], 60.00th=[ 9792],
      | 70.00th=[12480], 80.00th=[12608], 90.00th=[12608], 95.00th=[12608],
-     | 99.00th=[12736], 99.50th=[12736], 99.90th=[14016], 99.95th=[14400],
-     | 99.99th=[16320]
-   bw (  KiB/s): min=760608, max=761296, per=100.00%, avg=760952.00, stdev=486.49, samples=2
-   iops        : min=95076, max=95162, avg=95119.00, stdev=60.81, samples=2
-  lat (usec)   : 10=66.16%, 20=33.83%, 50=0.01%
-  cpu          : usr=4.57%, sys=20.23%, ctx=131072, majf=0, minf=13
+     | 99.00th=[12736], 99.50th=[12864], 99.90th=[14400], 99.95th=[14784],
+     | 99.99th=[18048]
+   bw (  KiB/s): min=758624, max=759328, per=100.00%, avg=758976.00, stdev=497.80, samples=2
+   iops        : min=94828, max=94916, avg=94872.00, stdev=62.23, samples=2
+  lat (usec)   : 10=65.89%, 20=34.10%, 50=0.01%
+  cpu          : usr=7.24%, sys=17.81%, ctx=131072, majf=0, minf=12
   IO depths    : 1=100.0%, 2=0.0%, 4=0.0%, 8=0.0%, 16=0.0%, 32=0.0%, >=64=0.0%
      submit    : 0=0.0%, 4=100.0%, 8=0.0%, 16=0.0%, 32=0.0%, 64=0.0%, >=64=0.0%
      complete  : 0=0.0%, 4=100.0%, 8=0.0%, 16=0.0%, 32=0.0%, 64=0.0%, >=64=0.0%
@@ -171,29 +170,29 @@ fio_direct_read_test: (groupid=0, jobs=1): err= 0: pid=290532: Sat Jun 17 15:23:
      latency   : target=0, window=0, percentile=100.00%, depth=1
 
 Run status group 0 (all jobs):
-   READ: bw=742MiB/s (778MB/s), 742MiB/s-742MiB/s (778MB/s-778MB/s), io=1024MiB (1074MB), run=1380-1380msec
+   READ: bw=741MiB/s (777MB/s), 741MiB/s-741MiB/s (777MB/s-777MB/s), io=1024MiB (1074MB), run=1382-1382msec
 
 Disk stats (read/write):
-  nvme1n1: ios=108886/0, merge=0/0, ticks=954/0, in_queue=953, util=92.21%
+  nvme1n1: ios=108669/0, merge=0/0, ticks=952/0, in_queue=952, util=92.21%
 fio_direct_write_test: (g=0): rw=write, bs=(R) 8192B-8192B, (W) 8192B-8192B, (T) 8192B-8192B, ioengine=psync, iodepth=1
 fio-3.16
 Starting 1 process
 
-fio_direct_write_test: (groupid=0, jobs=1): err= 0: pid=290552: Sat Jun 17 15:23:11 2023
-  write: IOPS=79.2k, BW=619MiB/s (649MB/s)(1024MiB/1654msec); 0 zone resets
-    clat (usec): min=11, max=2216, avg=12.35, stdev= 6.33
-     lat (usec): min=11, max=2216, avg=12.40, stdev= 6.33
+fio_direct_write_test: (groupid=0, jobs=1): err= 0: pid=297892: Sun Jun 18 16:08:48 2023
+  write: IOPS=78.7k, BW=615MiB/s (645MB/s)(1024MiB/1666msec); 0 zone resets
+    clat (usec): min=11, max=2209, avg=12.45, stdev= 6.21
+     lat (usec): min=11, max=2209, avg=12.50, stdev= 6.21
     clat percentiles (nsec):
-     |  1.00th=[11328],  5.00th=[11712], 10.00th=[11712], 20.00th=[12096],
+     |  1.00th=[11968],  5.00th=[11968], 10.00th=[12096], 20.00th=[12352],
      | 30.00th=[12352], 40.00th=[12352], 50.00th=[12352], 60.00th=[12352],
      | 70.00th=[12480], 80.00th=[12480], 90.00th=[12736], 95.00th=[12736],
-     | 99.00th=[13120], 99.50th=[14528], 99.90th=[15168], 99.95th=[15424],
-     | 99.99th=[26752]
-   bw (  KiB/s): min=626640, max=646944, per=100.00%, avg=634555.67, stdev=10865.85, samples=3
-   iops        : min=78330, max=80868, avg=79319.33, stdev=1358.31, samples=3
-  lat (usec)   : 20=99.98%, 50=0.01%, 100=0.01%, 250=0.01%, 500=0.01%
+     | 99.00th=[13888], 99.50th=[14912], 99.90th=[16192], 99.95th=[17024],
+     | 99.99th=[27520]
+   bw (  KiB/s): min=626240, max=632160, per=100.00%, avg=629765.33, stdev=3117.76, samples=3
+   iops        : min=78280, max=79020, avg=78720.67, stdev=389.72, samples=3
+  lat (usec)   : 20=99.97%, 50=0.02%, 100=0.01%, 250=0.01%
   lat (msec)   : 4=0.01%
-  cpu          : usr=4.11%, sys=16.52%, ctx=131073, majf=0, minf=11
+  cpu          : usr=2.34%, sys=18.38%, ctx=131074, majf=0, minf=12
   IO depths    : 1=100.0%, 2=0.0%, 4=0.0%, 8=0.0%, 16=0.0%, 32=0.0%, >=64=0.0%
      submit    : 0=0.0%, 4=100.0%, 8=0.0%, 16=0.0%, 32=0.0%, 64=0.0%, >=64=0.0%
      complete  : 0=0.0%, 4=100.0%, 8=0.0%, 16=0.0%, 32=0.0%, 64=0.0%, >=64=0.0%
@@ -201,29 +200,29 @@ fio_direct_write_test: (groupid=0, jobs=1): err= 0: pid=290552: Sat Jun 17 15:23
      latency   : target=0, window=0, percentile=100.00%, depth=1
 
 Run status group 0 (all jobs):
-  WRITE: bw=619MiB/s (649MB/s), 619MiB/s-619MiB/s (649MB/s-649MB/s), io=1024MiB (1074MB), run=1654-1654msec
+  WRITE: bw=615MiB/s (645MB/s), 615MiB/s-615MiB/s (645MB/s-645MB/s), io=1024MiB (1074MB), run=1666-1666msec
 
 Disk stats (read/write):
-  nvme0n1: ios=80/130845, merge=0/9, ticks=5/1391, in_queue=1396, util=95.83%
+  nvme0n1: ios=80/129846, merge=0/2, ticks=4/1389, in_queue=1393, util=95.37%
 fio_direct_read_test: (g=0): rw=read, bs=(R) 8192B-8192B, (W) 8192B-8192B, (T) 8192B-8192B, ioengine=psync, iodepth=1
 fio-3.16
 Starting 1 process
 
-fio_direct_read_test: (groupid=0, jobs=1): err= 0: pid=290578: Sat Jun 17 15:23:13 2023
-  read: IOPS=92.0k, BW=719MiB/s (754MB/s)(1024MiB/1424msec)
-    clat (usec): min=9, max=2174, avg=10.63, stdev= 6.36
-     lat (usec): min=9, max=2174, avg=10.66, stdev= 6.36
+fio_direct_read_test: (groupid=0, jobs=1): err= 0: pid=297918: Sun Jun 18 16:08:50 2023
+  read: IOPS=90.8k, BW=709MiB/s (744MB/s)(1024MiB/1444msec)
+    clat (usec): min=9, max=2173, avg=10.79, stdev= 8.69
+     lat (usec): min=9, max=2173, avg=10.81, stdev= 8.69
     clat percentiles (nsec):
-     |  1.00th=[ 9664],  5.00th=[ 9664], 10.00th=[ 9664], 20.00th=[ 9792],
-     | 30.00th=[ 9792], 40.00th=[ 9920], 50.00th=[ 9920], 60.00th=[ 9920],
-     | 70.00th=[10048], 80.00th=[10048], 90.00th=[15424], 95.00th=[15552],
-     | 99.00th=[15936], 99.50th=[16064], 99.90th=[17024], 99.95th=[17280],
-     | 99.99th=[55552]
-   bw (  KiB/s): min=734336, max=739712, per=100.00%, avg=737024.00, stdev=3801.41, samples=2
-   iops        : min=91792, max=92464, avg=92128.00, stdev=475.18, samples=2
-  lat (usec)   : 10=72.64%, 20=27.34%, 50=0.01%, 100=0.01%, 250=0.01%
+     |  1.00th=[ 9792],  5.00th=[ 9920], 10.00th=[ 9920], 20.00th=[ 9920],
+     | 30.00th=[ 9920], 40.00th=[10048], 50.00th=[10048], 60.00th=[10048],
+     | 70.00th=[10176], 80.00th=[10304], 90.00th=[15424], 95.00th=[15552],
+     | 99.00th=[15936], 99.50th=[16064], 99.90th=[17024], 99.95th=[17536],
+     | 99.99th=[56576]
+   bw (  KiB/s): min=726368, max=728960, per=100.00%, avg=727664.00, stdev=1832.82, samples=2
+   iops        : min=90796, max=91120, avg=90958.00, stdev=229.10, samples=2
+  lat (usec)   : 10=39.19%, 20=60.79%, 50=0.01%, 100=0.01%, 250=0.01%
   lat (msec)   : 4=0.01%
-  cpu          : usr=4.57%, sys=20.24%, ctx=131074, majf=0, minf=13
+  cpu          : usr=2.77%, sys=23.08%, ctx=131073, majf=0, minf=13
   IO depths    : 1=100.0%, 2=0.0%, 4=0.0%, 8=0.0%, 16=0.0%, 32=0.0%, >=64=0.0%
      submit    : 0=0.0%, 4=100.0%, 8=0.0%, 16=0.0%, 32=0.0%, 64=0.0%, >=64=0.0%
      complete  : 0=0.0%, 4=100.0%, 8=0.0%, 16=0.0%, 32=0.0%, 64=0.0%, >=64=0.0%
@@ -231,28 +230,28 @@ fio_direct_read_test: (groupid=0, jobs=1): err= 0: pid=290578: Sat Jun 17 15:23:
      latency   : target=0, window=0, percentile=100.00%, depth=1
 
 Run status group 0 (all jobs):
-   READ: bw=719MiB/s (754MB/s), 719MiB/s-719MiB/s (754MB/s-754MB/s), io=1024MiB (1074MB), run=1424-1424msec
+   READ: bw=709MiB/s (744MB/s), 709MiB/s-709MiB/s (744MB/s-744MB/s), io=1024MiB (1074MB), run=1444-1444msec
 
 Disk stats (read/write):
-  nvme0n1: ios=128884/2, merge=0/8, ticks=1155/0, in_queue=1156, util=93.66%
+  nvme0n1: ios=127030/2, merge=0/18, ticks=1157/1, in_queue=1158, util=93.66%
 fio_direct_write_test: (g=0): rw=write, bs=(R) 16.0KiB-16.0KiB, (W) 16.0KiB-16.0KiB, (T) 16.0KiB-16.0KiB, ioengine=psync, iodepth=1
 fio-3.16
 Starting 1 process
 
-fio_direct_write_test: (groupid=0, jobs=1): err= 0: pid=290599: Sat Jun 17 15:23:14 2023
-  write: IOPS=63.4k, BW=990MiB/s (1038MB/s)(1024MiB/1034msec); 0 zone resets
-    clat (nsec): min=15038, max=83998, avg=15432.54, stdev=522.94
-     lat (nsec): min=15149, max=84098, avg=15545.42, stdev=526.91
+fio_direct_write_test: (groupid=0, jobs=1): err= 0: pid=297938: Sun Jun 18 16:08:51 2023
+  write: IOPS=63.7k, BW=995MiB/s (1043MB/s)(1024MiB/1029msec); 0 zone resets
+    clat (nsec): min=15038, max=71864, avg=15366.77, stdev=535.41
+     lat (nsec): min=15128, max=71964, avg=15472.82, stdev=539.47
     clat percentiles (nsec):
-     |  1.00th=[15168],  5.00th=[15168], 10.00th=[15168], 20.00th=[15296],
+     |  1.00th=[15168],  5.00th=[15168], 10.00th=[15168], 20.00th=[15168],
      | 30.00th=[15296], 40.00th=[15296], 50.00th=[15296], 60.00th=[15296],
-     | 70.00th=[15424], 80.00th=[15424], 90.00th=[15808], 95.00th=[16192],
-     | 99.00th=[16320], 99.50th=[16768], 99.90th=[18048], 99.95th=[18816],
-     | 99.99th=[28544]
-   bw (  KiB/s): min=1013120, max=1019776, per=100.00%, avg=1016448.00, stdev=4706.50, samples=2
-   iops        : min=63320, max=63736, avg=63528.00, stdev=294.16, samples=2
-  lat (usec)   : 20=99.97%, 50=0.03%, 100=0.01%
-  cpu          : usr=2.13%, sys=15.00%, ctx=65537, majf=0, minf=12
+     | 70.00th=[15296], 80.00th=[15424], 90.00th=[15680], 95.00th=[15680],
+     | 99.00th=[17792], 99.50th=[18048], 99.90th=[19072], 99.95th=[21888],
+     | 99.99th=[30336]
+   bw (  KiB/s): min=1016896, max=1022592, per=100.00%, avg=1019744.00, stdev=4027.68, samples=2
+   iops        : min=63556, max=63912, avg=63734.00, stdev=251.73, samples=2
+  lat (usec)   : 20=99.92%, 50=0.07%, 100=0.01%
+  cpu          : usr=3.40%, sys=13.52%, ctx=65536, majf=0, minf=11
   IO depths    : 1=100.0%, 2=0.0%, 4=0.0%, 8=0.0%, 16=0.0%, 32=0.0%, >=64=0.0%
      submit    : 0=0.0%, 4=100.0%, 8=0.0%, 16=0.0%, 32=0.0%, 64=0.0%, >=64=0.0%
      complete  : 0=0.0%, 4=100.0%, 8=0.0%, 16=0.0%, 32=0.0%, 64=0.0%, >=64=0.0%
@@ -260,28 +259,28 @@ fio_direct_write_test: (groupid=0, jobs=1): err= 0: pid=290599: Sat Jun 17 15:23
      latency   : target=0, window=0, percentile=100.00%, depth=1
 
 Run status group 0 (all jobs):
-  WRITE: bw=990MiB/s (1038MB/s), 990MiB/s-990MiB/s (1038MB/s-1038MB/s), io=1024MiB (1074MB), run=1034-1034msec
+  WRITE: bw=995MiB/s (1043MB/s), 995MiB/s-995MiB/s (1043MB/s-1043MB/s), io=1024MiB (1074MB), run=1029-1029msec
 
 Disk stats (read/write):
-  nvme1n1: ios=0/57014, merge=0/0, ticks=0/777, in_queue=777, util=90.54%
+  nvme1n1: ios=0/57204, merge=0/0, ticks=0/778, in_queue=777, util=90.45%
 fio_direct_read_test: (g=0): rw=read, bs=(R) 16.0KiB-16.0KiB, (W) 16.0KiB-16.0KiB, (T) 16.0KiB-16.0KiB, ioengine=psync, iodepth=1
 fio-3.16
 Starting 1 process
 
-fio_direct_read_test: (groupid=0, jobs=1): err= 0: pid=290619: Sat Jun 17 15:23:16 2023
-  read: IOPS=66.6k, BW=1041MiB/s (1091MB/s)(1024MiB/984msec)
-    clat (nsec): min=12554, max=32681, avg=14770.49, stdev=1653.32
-     lat (nsec): min=12574, max=32902, avg=14795.81, stdev=1653.52
+fio_direct_read_test: (groupid=0, jobs=1): err= 0: pid=297958: Sun Jun 18 16:08:52 2023
+  read: IOPS=67.1k, BW=1048MiB/s (1099MB/s)(1024MiB/977msec)
+    clat (nsec): min=12514, max=32741, avg=14662.88, stdev=1652.39
+     lat (nsec): min=12544, max=32951, avg=14688.38, stdev=1652.49
     clat percentiles (nsec):
-     |  1.00th=[12736],  5.00th=[12736], 10.00th=[12736], 20.00th=[12864],
-     | 30.00th=[13248], 40.00th=[14400], 50.00th=[14528], 60.00th=[14528],
-     | 70.00th=[16768], 80.00th=[16768], 90.00th=[16768], 95.00th=[17024],
-     | 99.00th=[17280], 99.50th=[17536], 99.90th=[18304], 99.95th=[18560],
-     | 99.99th=[20352]
-   bw (  MiB/s): min= 1041, max= 1041, per=100.00%, avg=1041.34, stdev= 0.00, samples=1
-   iops        : min=66646, max=66646, avg=66646.00, stdev= 0.00, samples=1
-  lat (usec)   : 20=99.99%, 50=0.01%
-  cpu          : usr=4.27%, sys=14.45%, ctx=65536, majf=0, minf=15
+     |  1.00th=[12608],  5.00th=[12608], 10.00th=[12736], 20.00th=[12736],
+     | 30.00th=[13120], 40.00th=[14400], 50.00th=[14400], 60.00th=[14528],
+     | 70.00th=[16768], 80.00th=[16768], 90.00th=[16768], 95.00th=[16768],
+     | 99.00th=[17280], 99.50th=[17280], 99.90th=[18304], 99.95th=[19584],
+     | 99.99th=[23936]
+   bw (  MiB/s): min= 1049, max= 1049, per=100.00%, avg=1049.59, stdev= 0.00, samples=1
+   iops        : min=67174, max=67174, avg=67174.00, stdev= 0.00, samples=1
+  lat (usec)   : 20=99.96%, 50=0.04%
+  cpu          : usr=4.00%, sys=14.55%, ctx=65536, majf=0, minf=14
   IO depths    : 1=100.0%, 2=0.0%, 4=0.0%, 8=0.0%, 16=0.0%, 32=0.0%, >=64=0.0%
      submit    : 0=0.0%, 4=100.0%, 8=0.0%, 16=0.0%, 32=0.0%, 64=0.0%, >=64=0.0%
      complete  : 0=0.0%, 4=100.0%, 8=0.0%, 16=0.0%, 32=0.0%, 64=0.0%, >=64=0.0%
@@ -289,29 +288,29 @@ fio_direct_read_test: (groupid=0, jobs=1): err= 0: pid=290619: Sat Jun 17 15:23:
      latency   : target=0, window=0, percentile=100.00%, depth=1
 
 Run status group 0 (all jobs):
-   READ: bw=1041MiB/s (1091MB/s), 1041MiB/s-1041MiB/s (1091MB/s-1091MB/s), io=1024MiB (1074MB), run=984-984msec
+   READ: bw=1048MiB/s (1099MB/s), 1048MiB/s-1048MiB/s (1099MB/s-1099MB/s), io=1024MiB (1074MB), run=977-977msec
 
 Disk stats (read/write):
-  nvme1n1: ios=59584/0, merge=0/0, ticks=781/0, in_queue=782, util=90.54%
+  nvme1n1: ios=60065/0, merge=0/0, ticks=782/0, in_queue=783, util=90.45%
 fio_direct_write_test: (g=0): rw=write, bs=(R) 16.0KiB-16.0KiB, (W) 16.0KiB-16.0KiB, (T) 16.0KiB-16.0KiB, ioengine=psync, iodepth=1
 fio-3.16
 Starting 1 process
 
-fio_direct_write_test: (groupid=0, jobs=1): err= 0: pid=290639: Sat Jun 17 15:23:17 2023
-  write: IOPS=65.9k, BW=1030MiB/s (1080MB/s)(1024MiB/994msec); 0 zone resets
-    clat (usec): min=14, max=2435, avg=14.87, stdev=20.77
-     lat (usec): min=14, max=2435, avg=14.95, stdev=20.77
+fio_direct_write_test: (groupid=0, jobs=1): err= 0: pid=297982: Sun Jun 18 16:08:54 2023
+  write: IOPS=66.1k, BW=1032MiB/s (1082MB/s)(1024MiB/992msec); 0 zone resets
+    clat (usec): min=14, max=2430, avg=14.84, stdev=20.91
+     lat (usec): min=14, max=2430, avg=14.92, stdev=20.91
     clat percentiles (usec):
      |  1.00th=[   15],  5.00th=[   15], 10.00th=[   15], 20.00th=[   15],
      | 30.00th=[   15], 40.00th=[   15], 50.00th=[   15], 60.00th=[   15],
      | 70.00th=[   15], 80.00th=[   15], 90.00th=[   16], 95.00th=[   16],
-     | 99.00th=[   16], 99.50th=[   16], 99.90th=[   18], 99.95th=[   19],
+     | 99.00th=[   16], 99.50th=[   17], 99.90th=[   19], 99.95th=[   20],
      | 99.99th=[  424]
-   bw (  KiB/s): min=1048416, max=1048416, per=99.38%, avg=1048416.00, stdev= 0.00, samples=1
-   iops        : min=65526, max=65526, avg=65526.00, stdev= 0.00, samples=1
+   bw (  MiB/s): min= 1031, max= 1031, per=99.95%, avg=1031.75, stdev= 0.00, samples=1
+   iops        : min=66032, max=66032, avg=66032.00, stdev= 0.00, samples=1
   lat (usec)   : 20=99.97%, 50=0.02%, 100=0.01%, 500=0.01%
   lat (msec)   : 4=0.01%
-  cpu          : usr=2.11%, sys=15.81%, ctx=65538, majf=0, minf=11
+  cpu          : usr=3.33%, sys=14.53%, ctx=65538, majf=0, minf=13
   IO depths    : 1=100.0%, 2=0.0%, 4=0.0%, 8=0.0%, 16=0.0%, 32=0.0%, >=64=0.0%
      submit    : 0=0.0%, 4=100.0%, 8=0.0%, 16=0.0%, 32=0.0%, 64=0.0%, >=64=0.0%
      complete  : 0=0.0%, 4=100.0%, 8=0.0%, 16=0.0%, 32=0.0%, 64=0.0%, >=64=0.0%
@@ -319,29 +318,29 @@ fio_direct_write_test: (groupid=0, jobs=1): err= 0: pid=290639: Sat Jun 17 15:23
      latency   : target=0, window=0, percentile=100.00%, depth=1
 
 Run status group 0 (all jobs):
-  WRITE: bw=1030MiB/s (1080MB/s), 1030MiB/s-1030MiB/s (1080MB/s-1080MB/s), io=1024MiB (1074MB), run=994-994msec
+  WRITE: bw=1032MiB/s (1082MB/s), 1032MiB/s-1032MiB/s (1082MB/s-1082MB/s), io=1024MiB (1074MB), run=992-992msec
 
 Disk stats (read/write):
-  nvme0n1: ios=80/59192, merge=0/0, ticks=4/772, in_queue=776, util=91.29%
+  nvme0n1: ios=80/59312, merge=0/0, ticks=4/773, in_queue=777, util=91.69%
 fio_direct_read_test: (g=0): rw=read, bs=(R) 16.0KiB-16.0KiB, (W) 16.0KiB-16.0KiB, (T) 16.0KiB-16.0KiB, ioengine=psync, iodepth=1
 fio-3.16
 Starting 1 process
 
-fio_direct_read_test: (groupid=0, jobs=1): err= 0: pid=290665: Sat Jun 17 15:23:19 2023
-  read: IOPS=70.6k, BW=1103MiB/s (1157MB/s)(1024MiB/928msec)
-    clat (usec): min=12, max=2174, avg=13.91, stdev= 8.87
-     lat (usec): min=12, max=2174, avg=13.94, stdev= 8.87
+fio_direct_read_test: (groupid=0, jobs=1): err= 0: pid=298008: Sun Jun 18 16:08:55 2023
+  read: IOPS=70.2k, BW=1096MiB/s (1150MB/s)(1024MiB/934msec)
+    clat (usec): min=12, max=2189, avg=14.03, stdev=12.28
+     lat (usec): min=12, max=2189, avg=14.05, stdev=12.28
     clat percentiles (nsec):
-     |  1.00th=[12224],  5.00th=[12224], 10.00th=[12224], 20.00th=[12224],
-     | 30.00th=[12352], 40.00th=[12480], 50.00th=[12608], 60.00th=[12608],
-     | 70.00th=[12864], 80.00th=[17792], 90.00th=[18048], 95.00th=[18304],
-     | 99.00th=[18560], 99.50th=[18816], 99.90th=[19584], 99.95th=[20096],
-     | 99.99th=[71168]
-   bw (  MiB/s): min= 1105, max= 1105, per=100.00%, avg=1105.28, stdev= 0.00, samples=1
-   iops        : min=70738, max=70738, avg=70738.00, stdev= 0.00, samples=1
-  lat (usec)   : 20=99.95%, 50=0.02%, 100=0.02%, 250=0.01%
+     |  1.00th=[12224],  5.00th=[12224], 10.00th=[12352], 20.00th=[12352],
+     | 30.00th=[12480], 40.00th=[12608], 50.00th=[12608], 60.00th=[12736],
+     | 70.00th=[12992], 80.00th=[17792], 90.00th=[18048], 95.00th=[18048],
+     | 99.00th=[18560], 99.50th=[19072], 99.90th=[20352], 99.95th=[21632],
+     | 99.99th=[67072]
+   bw (  MiB/s): min= 1096, max= 1096, per=100.00%, avg=1096.71, stdev= 0.00, samples=1
+   iops        : min=70189, max=70189, avg=70189.00, stdev= 0.00, samples=1
+  lat (usec)   : 20=99.86%, 50=0.13%, 100=0.01%, 250=0.01%
   lat (msec)   : 4=0.01%
-  cpu          : usr=4.31%, sys=16.72%, ctx=65537, majf=0, minf=16
+  cpu          : usr=3.11%, sys=17.90%, ctx=65537, majf=0, minf=17
   IO depths    : 1=100.0%, 2=0.0%, 4=0.0%, 8=0.0%, 16=0.0%, 32=0.0%, >=64=0.0%
      submit    : 0=0.0%, 4=100.0%, 8=0.0%, 16=0.0%, 32=0.0%, 64=0.0%, >=64=0.0%
      complete  : 0=0.0%, 4=100.0%, 8=0.0%, 16=0.0%, 32=0.0%, 64=0.0%, >=64=0.0%
@@ -349,28 +348,28 @@ fio_direct_read_test: (groupid=0, jobs=1): err= 0: pid=290665: Sat Jun 17 15:23:
      latency   : target=0, window=0, percentile=100.00%, depth=1
 
 Run status group 0 (all jobs):
-   READ: bw=1103MiB/s (1157MB/s), 1103MiB/s-1103MiB/s (1157MB/s-1157MB/s), io=1024MiB (1074MB), run=928-928msec
+   READ: bw=1096MiB/s (1150MB/s), 1096MiB/s-1096MiB/s (1150MB/s-1150MB/s), io=1024MiB (1074MB), run=934-934msec
 
 Disk stats (read/write):
-  nvme0n1: ios=63552/2, merge=0/8, ticks=771/1, in_queue=772, util=90.49%
+  nvme0n1: ios=63073/0, merge=0/0, ticks=773/0, in_queue=773, util=90.49%
 fio_direct_write_test: (g=0): rw=write, bs=(R) 32.0KiB-32.0KiB, (W) 32.0KiB-32.0KiB, (T) 32.0KiB-32.0KiB, ioengine=psync, iodepth=1
 fio-3.16
 Starting 1 process
 
-fio_direct_write_test: (groupid=0, jobs=1): err= 0: pid=290685: Sat Jun 17 15:23:20 2023
-  write: IOPS=46.7k, BW=1461MiB/s (1532MB/s)(1024MiB/701msec); 0 zone resets
-    clat (nsec): min=20228, max=72907, avg=20938.29, stdev=611.37
-     lat (nsec): min=20388, max=73017, avg=21131.27, stdev=619.54
+fio_direct_write_test: (groupid=0, jobs=1): err= 0: pid=298028: Sun Jun 18 16:08:56 2023
+  write: IOPS=46.8k, BW=1463MiB/s (1534MB/s)(1024MiB/700msec); 0 zone resets
+    clat (nsec): min=20228, max=56847, avg=20893.08, stdev=421.04
+     lat (nsec): min=20378, max=57007, avg=21079.44, stdev=428.18
     clat percentiles (nsec):
      |  1.00th=[20352],  5.00th=[20864], 10.00th=[20864], 20.00th=[20864],
      | 30.00th=[20864], 40.00th=[20864], 50.00th=[20864], 60.00th=[20864],
-     | 70.00th=[20864], 80.00th=[20864], 90.00th=[21120], 95.00th=[21120],
-     | 99.00th=[21888], 99.50th=[23424], 99.90th=[25728], 99.95th=[29312],
-     | 99.99th=[51456]
-   bw (  MiB/s): min= 1464, max= 1464, per=100.00%, avg=1464.12, stdev= 0.00, samples=1
-   iops        : min=46852, max=46852, avg=46852.00, stdev= 0.00, samples=1
-  lat (usec)   : 50=99.99%, 100=0.01%
-  cpu          : usr=2.00%, sys=11.43%, ctx=32768, majf=0, minf=11
+     | 70.00th=[20864], 80.00th=[20864], 90.00th=[20864], 95.00th=[21120],
+     | 99.00th=[21632], 99.50th=[22144], 99.90th=[23424], 99.95th=[24704],
+     | 99.99th=[40704]
+   bw (  MiB/s): min= 1467, max= 1467, per=100.00%, avg=1467.31, stdev= 0.00, samples=1
+   iops        : min=46954, max=46954, avg=46954.00, stdev= 0.00, samples=1
+  lat (usec)   : 50=100.00%, 100=0.01%
+  cpu          : usr=5.87%, sys=7.58%, ctx=32768, majf=0, minf=12
   IO depths    : 1=100.0%, 2=0.0%, 4=0.0%, 8=0.0%, 16=0.0%, 32=0.0%, >=64=0.0%
      submit    : 0=0.0%, 4=100.0%, 8=0.0%, 16=0.0%, 32=0.0%, 64=0.0%, >=64=0.0%
      complete  : 0=0.0%, 4=100.0%, 8=0.0%, 16=0.0%, 32=0.0%, 64=0.0%, >=64=0.0%
@@ -378,28 +377,28 @@ fio_direct_write_test: (groupid=0, jobs=1): err= 0: pid=290685: Sat Jun 17 15:23
      latency   : target=0, window=0, percentile=100.00%, depth=1
 
 Run status group 0 (all jobs):
-  WRITE: bw=1461MiB/s (1532MB/s), 1461MiB/s-1461MiB/s (1532MB/s-1532MB/s), io=1024MiB (1074MB), run=701-701msec
+  WRITE: bw=1463MiB/s (1534MB/s), 1463MiB/s-1463MiB/s (1534MB/s-1534MB/s), io=1024MiB (1074MB), run=700-700msec
 
 Disk stats (read/write):
-  nvme1n1: ios=48/30224, merge=0/0, ticks=3/576, in_queue=578, util=86.98%
+  nvme1n1: ios=48/30224, merge=0/0, ticks=2/575, in_queue=578, util=87.63%
 fio_direct_read_test: (g=0): rw=read, bs=(R) 32.0KiB-32.0KiB, (W) 32.0KiB-32.0KiB, (T) 32.0KiB-32.0KiB, ioengine=psync, iodepth=1
 fio-3.16
 Starting 1 process
 
-fio_direct_read_test: (groupid=0, jobs=1): err= 0: pid=290705: Sat Jun 17 15:23:21 2023
-  read: IOPS=48.2k, BW=1506MiB/s (1579MB/s)(1024MiB/680msec)
-    clat (nsec): min=7764, max=48792, avg=20481.94, stdev=1709.63
-     lat (nsec): min=7794, max=49022, avg=20506.91, stdev=1709.78
+fio_direct_read_test: (groupid=0, jobs=1): err= 0: pid=298048: Sun Jun 18 16:08:57 2023
+  read: IOPS=48.5k, BW=1517MiB/s (1591MB/s)(1024MiB/675msec)
+    clat (nsec): min=18144, max=47669, avg=20320.26, stdev=1711.30
+     lat (nsec): min=18174, max=47890, avg=20346.98, stdev=1711.57
     clat percentiles (nsec):
-     |  1.00th=[18816],  5.00th=[18816], 10.00th=[18816], 20.00th=[18816],
-     | 30.00th=[19072], 40.00th=[19584], 50.00th=[19840], 60.00th=[19840],
-     | 70.00th=[22656], 80.00th=[22912], 90.00th=[22912], 95.00th=[22912],
-     | 99.00th=[23168], 99.50th=[23168], 99.90th=[24192], 99.95th=[24448],
-     | 99.99th=[30848]
-   bw (  MiB/s): min= 1507, max= 1507, per=100.00%, avg=1507.38, stdev= 0.00, samples=1
-   iops        : min=48236, max=48236, avg=48236.00, stdev= 0.00, samples=1
-  lat (usec)   : 10=0.01%, 20=66.25%, 50=33.74%
-  cpu          : usr=4.57%, sys=9.87%, ctx=32768, majf=0, minf=19
+     |  1.00th=[18560],  5.00th=[18560], 10.00th=[18816], 20.00th=[18816],
+     | 30.00th=[18816], 40.00th=[19584], 50.00th=[19584], 60.00th=[19584],
+     | 70.00th=[22656], 80.00th=[22656], 90.00th=[22656], 95.00th=[22656],
+     | 99.00th=[22912], 99.50th=[23424], 99.90th=[24192], 99.95th=[24192],
+     | 99.99th=[26240]
+   bw (  MiB/s): min= 1518, max= 1518, per=100.00%, avg=1518.81, stdev= 0.00, samples=1
+   iops        : min=48602, max=48602, avg=48602.00, stdev= 0.00, samples=1
+  lat (usec)   : 20=66.29%, 50=33.71%
+  cpu          : usr=3.26%, sys=10.68%, ctx=32768, majf=0, minf=18
   IO depths    : 1=100.0%, 2=0.0%, 4=0.0%, 8=0.0%, 16=0.0%, 32=0.0%, >=64=0.0%
      submit    : 0=0.0%, 4=100.0%, 8=0.0%, 16=0.0%, 32=0.0%, 64=0.0%, >=64=0.0%
      complete  : 0=0.0%, 4=100.0%, 8=0.0%, 16=0.0%, 32=0.0%, 64=0.0%, >=64=0.0%
@@ -407,30 +406,29 @@ fio_direct_read_test: (groupid=0, jobs=1): err= 0: pid=290705: Sat Jun 17 15:23:
      latency   : target=0, window=0, percentile=100.00%, depth=1
 
 Run status group 0 (all jobs):
-   READ: bw=1506MiB/s (1579MB/s), 1506MiB/s-1506MiB/s (1579MB/s-1579MB/s), io=1024MiB (1074MB), run=680-680msec
+   READ: bw=1517MiB/s (1591MB/s), 1517MiB/s-1517MiB/s (1591MB/s-1591MB/s), io=1024MiB (1074MB), run=675-675msec
 
 Disk stats (read/write):
-  nvme1n1: ios=31120/0, merge=0/0, ticks=582/0, in_queue=582, util=87.52%
+  nvme1n1: ios=31393/0, merge=0/0, ticks=583/0, in_queue=583, util=86.86%
 fio_direct_write_test: (g=0): rw=write, bs=(R) 32.0KiB-32.0KiB, (W) 32.0KiB-32.0KiB, (T) 32.0KiB-32.0KiB, ioengine=psync, iodepth=1
 fio-3.16
 Starting 1 process
 
-fio_direct_write_test: (groupid=0, jobs=1): err= 0: pid=290727: Sat Jun 17 15:23:22 2023
-  write: IOPS=47.7k, BW=1491MiB/s (1563MB/s)(1024MiB/687msec); 0 zone resets
-    clat (usec): min=19, max=3648, avg=20.58, stdev=43.71
-     lat (usec): min=19, max=3649, avg=20.70, stdev=43.71
+fio_direct_write_test: (groupid=0, jobs=1): err= 0: pid=298068: Sun Jun 18 16:08:59 2023
+  write: IOPS=47.9k, BW=1497MiB/s (1570MB/s)(1024MiB/684msec); 0 zone resets
+    clat (usec): min=19, max=3543, avg=20.49, stdev=40.89
+     lat (usec): min=19, max=3543, avg=20.60, stdev=40.89
     clat percentiles (usec):
      |  1.00th=[   20],  5.00th=[   20], 10.00th=[   20], 20.00th=[   20],
-     | 30.00th=[   20], 40.00th=[   20], 50.00th=[   20], 60.00th=[   21],
-     | 70.00th=[   21], 80.00th=[   21], 90.00th=[   21], 95.00th=[   21],
-     | 99.00th=[   21], 99.50th=[   22], 99.90th=[   31], 99.95th=[   55],
-     | 99.99th=[ 3490]
-   bw (  MiB/s): min= 1485, max= 1485, per=99.65%, avg=1485.38, stdev= 0.00, samples=1
-   iops        : min=47532, max=47532, avg=47532.00, stdev= 0.00, samples=1
-  lat (usec)   : 20=81.63%, 50=18.31%, 100=0.02%, 250=0.01%, 500=0.01%
-  lat (usec)   : 750=0.01%
+     | 30.00th=[   20], 40.00th=[   20], 50.00th=[   20], 60.00th=[   20],
+     | 70.00th=[   20], 80.00th=[   21], 90.00th=[   21], 95.00th=[   21],
+     | 99.00th=[   22], 99.50th=[   24], 99.90th=[   26], 99.95th=[   39],
+     | 99.99th=[ 3523]
+   bw (  MiB/s): min= 1494, max= 1494, per=99.83%, avg=1494.50, stdev= 0.00, samples=1
+   iops        : min=47824, max=47824, avg=47824.00, stdev= 0.00, samples=1
+  lat (usec)   : 20=84.55%, 50=15.41%, 100=0.02%, 500=0.01%
   lat (msec)   : 4=0.02%
-  cpu          : usr=2.62%, sys=11.52%, ctx=32770, majf=0, minf=11
+  cpu          : usr=3.51%, sys=10.54%, ctx=32770, majf=0, minf=11
   IO depths    : 1=100.0%, 2=0.0%, 4=0.0%, 8=0.0%, 16=0.0%, 32=0.0%, >=64=0.0%
      submit    : 0=0.0%, 4=100.0%, 8=0.0%, 16=0.0%, 32=0.0%, 64=0.0%, >=64=0.0%
      complete  : 0=0.0%, 4=100.0%, 8=0.0%, 16=0.0%, 32=0.0%, 64=0.0%, >=64=0.0%
@@ -438,55 +436,58 @@ fio_direct_write_test: (groupid=0, jobs=1): err= 0: pid=290727: Sat Jun 17 15:23
      latency   : target=0, window=0, percentile=100.00%, depth=1
 
 Run status group 0 (all jobs):
-  WRITE: bw=1491MiB/s (1563MB/s), 1491MiB/s-1491MiB/s (1563MB/s-1563MB/s), io=1024MiB (1074MB), run=687-687msec
+  WRITE: bw=1497MiB/s (1570MB/s), 1497MiB/s-1497MiB/s (1570MB/s-1570MB/s), io=1024MiB (1074MB), run=684-684msec
 
 Disk stats (read/write):
-  nvme0n1: ios=80/31111, merge=0/93, ticks=5/735, in_queue=741, util=89.72%
-fio_direct_read_test: (g=0): rw=read, bs=(R) 324KiB-324KiB, (W) 324KiB-324KiB, (T) 324KiB-324KiB, ioengine=psync, iodepth=1
+  nvme0n1: ios=80/31159, merge=0/1, ticks=5/582, in_queue=588, util=89.19%
+fio_direct_read_test: (g=0): rw=read, bs=(R) 32.0KiB-32.0KiB, (W) 32.0KiB-32.0KiB, (T) 32.0KiB-32.0KiB, ioengine=psync, iodepth=1
 fio-3.16
 Starting 1 process
 
-fio_direct_read_test: (groupid=0, jobs=1): err= 0: pid=290753: Sat Jun 17 15:23:23 2023
-  read: IOPS=9548, BW=3021MiB/s (3168MB/s)(1024MiB/339msec)
-    clat (usec): min=102, max=436, avg=104.35, stdev= 6.41
-     lat (usec): min=102, max=436, avg=104.38, stdev= 6.42
-    clat percentiles (usec):
-     |  1.00th=[  103],  5.00th=[  103], 10.00th=[  103], 20.00th=[  104],
-     | 30.00th=[  104], 40.00th=[  104], 50.00th=[  104], 60.00th=[  104],
-     | 70.00th=[  104], 80.00th=[  104], 90.00th=[  105], 95.00th=[  111],
-     | 99.00th=[  113], 99.50th=[  114], 99.90th=[  116], 99.95th=[  210],
-     | 99.99th=[  437]
-  lat (usec)   : 250=99.97%, 500=0.03%
-  cpu          : usr=0.00%, sys=6.51%, ctx=3238, majf=0, minf=93
+fio_direct_read_test: (groupid=0, jobs=1): err= 0: pid=298094: Sun Jun 18 16:09:00 2023
+  read: IOPS=49.1k, BW=1533MiB/s (1607MB/s)(1024MiB/668msec)
+    clat (usec): min=16, max=2187, avg=20.09, stdev=12.30
+     lat (usec): min=16, max=2187, avg=20.12, stdev=12.30
+    clat percentiles (nsec):
+     |  1.00th=[17280],  5.00th=[17536], 10.00th=[17536], 20.00th=[17536],
+     | 30.00th=[17792], 40.00th=[17792], 50.00th=[20352], 60.00th=[22144],
+     | 70.00th=[22144], 80.00th=[22400], 90.00th=[22400], 95.00th=[22656],
+     | 99.00th=[22912], 99.50th=[24192], 99.90th=[25472], 99.95th=[27264],
+     | 99.99th=[87552]
+   bw (  MiB/s): min= 1534, max= 1534, per=100.00%, avg=1534.69, stdev= 0.00, samples=1
+   iops        : min=49110, max=49110, avg=49110.00, stdev= 0.00, samples=1
+  lat (usec)   : 20=49.95%, 50=50.03%, 100=0.02%, 500=0.01%
+  lat (msec)   : 4=0.01%
+  cpu          : usr=2.70%, sys=13.04%, ctx=32769, majf=0, minf=20
   IO depths    : 1=100.0%, 2=0.0%, 4=0.0%, 8=0.0%, 16=0.0%, 32=0.0%, >=64=0.0%
      submit    : 0=0.0%, 4=100.0%, 8=0.0%, 16=0.0%, 32=0.0%, 64=0.0%, >=64=0.0%
      complete  : 0=0.0%, 4=100.0%, 8=0.0%, 16=0.0%, 32=0.0%, 64=0.0%, >=64=0.0%
-     issued rwts: total=3237,0,0,0 short=0,0,0,0 dropped=0,0,0,0
+     issued rwts: total=32768,0,0,0 short=0,0,0,0 dropped=0,0,0,0
      latency   : target=0, window=0, percentile=100.00%, depth=1
 
 Run status group 0 (all jobs):
-   READ: bw=3021MiB/s (3168MB/s), 3021MiB/s-3021MiB/s (3168MB/s-3168MB/s), io=1024MiB (1074MB), run=339-339msec
+   READ: bw=1533MiB/s (1607MB/s), 1533MiB/s-1533MiB/s (1607MB/s-1607MB/s), io=1024MiB (1074MB), run=668-668msec
 
 Disk stats (read/write):
-  nvme0n1: ios=2842/0, merge=0/0, ticks=255/0, in_queue=256, util=61.04%
+  nvme0n1: ios=31850/0, merge=0/0, ticks=579/0, in_queue=580, util=87.05%
 fio_direct_write_test: (g=0): rw=write, bs=(R) 64.0KiB-64.0KiB, (W) 64.0KiB-64.0KiB, (T) 64.0KiB-64.0KiB, ioengine=psync, iodepth=1
 fio-3.16
 Starting 1 process
 
-fio_direct_write_test: (groupid=0, jobs=1): err= 0: pid=290773: Sat Jun 17 15:23:24 2023
-  write: IOPS=31.2k, BW=1950MiB/s (2045MB/s)(1024MiB/525msec); 0 zone resets
-    clat (usec): min=30, max=796, avg=31.39, stdev= 8.80
-     lat (usec): min=30, max=797, avg=31.75, stdev= 8.81
-    clat percentiles (usec):
-     |  1.00th=[   31],  5.00th=[   31], 10.00th=[   32], 20.00th=[   32],
-     | 30.00th=[   32], 40.00th=[   32], 50.00th=[   32], 60.00th=[   32],
-     | 70.00th=[   32], 80.00th=[   32], 90.00th=[   32], 95.00th=[   32],
-     | 99.00th=[   34], 99.50th=[   35], 99.90th=[   48], 99.95th=[   69],
-     | 99.99th=[  799]
-   bw (  MiB/s): min= 1952, max= 1952, per=100.00%, avg=1952.25, stdev= 0.00, samples=1
-   iops        : min=31236, max=31236, avg=31236.00, stdev= 0.00, samples=1
-  lat (usec)   : 50=99.91%, 100=0.07%, 500=0.01%, 1000=0.01%
-  cpu          : usr=1.91%, sys=8.59%, ctx=16384, majf=0, minf=11
+fio_direct_write_test: (groupid=0, jobs=1): err= 0: pid=298114: Sun Jun 18 16:09:01 2023
+  write: IOPS=31.5k, BW=1969MiB/s (2065MB/s)(1024MiB/520msec); 0 zone resets
+    clat (usec): min=30, max=104, avg=31.08, stdev= 1.14
+     lat (usec): min=30, max=104, avg=31.43, stdev= 1.15
+    clat percentiles (nsec):
+     |  1.00th=[30848],  5.00th=[30848], 10.00th=[30848], 20.00th=[30848],
+     | 30.00th=[30848], 40.00th=[31104], 50.00th=[31104], 60.00th=[31104],
+     | 70.00th=[31104], 80.00th=[31104], 90.00th=[31104], 95.00th=[31360],
+     | 99.00th=[32384], 99.50th=[33024], 99.90th=[38144], 99.95th=[49920],
+     | 99.99th=[98816]
+   bw (  MiB/s): min= 1976, max= 1976, per=100.00%, avg=1976.62, stdev= 0.00, samples=1
+   iops        : min=31626, max=31626, avg=31626.00, stdev= 0.00, samples=1
+  lat (usec)   : 50=99.95%, 100=0.04%, 250=0.01%
+  cpu          : usr=2.50%, sys=7.51%, ctx=16384, majf=0, minf=11
   IO depths    : 1=100.0%, 2=0.0%, 4=0.0%, 8=0.0%, 16=0.0%, 32=0.0%, >=64=0.0%
      submit    : 0=0.0%, 4=100.0%, 8=0.0%, 16=0.0%, 32=0.0%, 64=0.0%, >=64=0.0%
      complete  : 0=0.0%, 4=100.0%, 8=0.0%, 16=0.0%, 32=0.0%, 64=0.0%, >=64=0.0%
@@ -494,28 +495,26 @@ fio_direct_write_test: (groupid=0, jobs=1): err= 0: pid=290773: Sat Jun 17 15:23
      latency   : target=0, window=0, percentile=100.00%, depth=1
 
 Run status group 0 (all jobs):
-  WRITE: bw=1950MiB/s (2045MB/s), 1950MiB/s-1950MiB/s (2045MB/s-2045MB/s), io=1024MiB (1074MB), run=525-525msec
+  WRITE: bw=1969MiB/s (2065MB/s), 1969MiB/s-1969MiB/s (2065MB/s-2065MB/s), io=1024MiB (1074MB), run=520-520msec
 
 Disk stats (read/write):
-  nvme1n1: ios=0/12360, merge=0/0, ticks=0/359, in_queue=359, util=80.81%
+  nvme1n1: ios=0/12480, merge=0/0, ticks=0/362, in_queue=362, util=80.81%
 fio_direct_read_test: (g=0): rw=read, bs=(R) 64.0KiB-64.0KiB, (W) 64.0KiB-64.0KiB, (T) 64.0KiB-64.0KiB, ioengine=psync, iodepth=1
 fio-3.16
 Starting 1 process
 
-fio_direct_read_test: (groupid=0, jobs=1): err= 0: pid=290793: Sat Jun 17 15:23:25 2023
-  read: IOPS=32.6k, BW=2040MiB/s (2139MB/s)(1024MiB/502msec)
-    clat (usec): min=25, max=238, avg=30.31, stdev= 2.36
-     lat (usec): min=25, max=238, avg=30.34, stdev= 2.36
-    clat percentiles (nsec):
-     |  1.00th=[28544],  5.00th=[28544], 10.00th=[28544], 20.00th=[28800],
-     | 30.00th=[28800], 40.00th=[29568], 50.00th=[29568], 60.00th=[29568],
-     | 70.00th=[32640], 80.00th=[32640], 90.00th=[32640], 95.00th=[32640],
-     | 99.00th=[33024], 99.50th=[33536], 99.90th=[34560], 99.95th=[36608],
-     | 99.99th=[51968]
-   bw (  MiB/s): min= 2046, max= 2046, per=100.00%, avg=2046.12, stdev= 0.00, samples=1
-   iops        : min=32738, max=32738, avg=32738.00, stdev= 0.00, samples=1
+fio_direct_read_test: (groupid=0, jobs=1): err= 0: pid=298134: Sun Jun 18 16:09:02 2023
+  read: IOPS=32.8k, BW=2048MiB/s (2147MB/s)(1024MiB/500msec)
+    clat (usec): min=28, max=150, avg=30.21, stdev= 2.05
+     lat (usec): min=28, max=150, avg=30.24, stdev= 2.05
+    clat percentiles (usec):
+     |  1.00th=[   29],  5.00th=[   29], 10.00th=[   29], 20.00th=[   29],
+     | 30.00th=[   29], 40.00th=[   30], 50.00th=[   30], 60.00th=[   30],
+     | 70.00th=[   33], 80.00th=[   33], 90.00th=[   33], 95.00th=[   33],
+     | 99.00th=[   33], 99.50th=[   34], 99.90th=[   35], 99.95th=[   35],
+     | 99.99th=[  115]
   lat (usec)   : 50=99.98%, 100=0.01%, 250=0.01%
-  cpu          : usr=0.00%, sys=10.58%, ctx=16384, majf=0, minf=28
+  cpu          : usr=1.80%, sys=8.62%, ctx=16384, majf=0, minf=28
   IO depths    : 1=100.0%, 2=0.0%, 4=0.0%, 8=0.0%, 16=0.0%, 32=0.0%, >=64=0.0%
      submit    : 0=0.0%, 4=100.0%, 8=0.0%, 16=0.0%, 32=0.0%, 64=0.0%, >=64=0.0%
      complete  : 0=0.0%, 4=100.0%, 8=0.0%, 16=0.0%, 32=0.0%, 64=0.0%, >=64=0.0%
@@ -523,29 +522,29 @@ fio_direct_read_test: (groupid=0, jobs=1): err= 0: pid=290793: Sat Jun 17 15:23:
      latency   : target=0, window=0, percentile=100.00%, depth=1
 
 Run status group 0 (all jobs):
-   READ: bw=2040MiB/s (2139MB/s), 2040MiB/s-2040MiB/s (2139MB/s-2139MB/s), io=1024MiB (1074MB), run=502-502msec
+   READ: bw=2048MiB/s (2147MB/s), 2048MiB/s-2048MiB/s (2147MB/s-2147MB/s), io=1024MiB (1074MB), run=500-500msec
 
 Disk stats (read/write):
-  nvme1n1: ios=12942/0, merge=0/0, ticks=366/0, in_queue=367, util=80.65%
+  nvme1n1: ios=12998/0, merge=0/0, ticks=367/0, in_queue=366, util=80.65%
 fio_direct_write_test: (g=0): rw=write, bs=(R) 64.0KiB-64.0KiB, (W) 64.0KiB-64.0KiB, (T) 64.0KiB-64.0KiB, ioengine=psync, iodepth=1
 fio-3.16
 Starting 1 process
 
-fio_direct_write_test: (groupid=0, jobs=1): err= 0: pid=290813: Sat Jun 17 15:23:26 2023
-  write: IOPS=31.8k, BW=1984MiB/s (2081MB/s)(1024MiB/516msec); 0 zone resets
-    clat (usec): min=28, max=4135, avg=30.95, stdev=66.66
-     lat (usec): min=28, max=4135, avg=31.15, stdev=66.66
+fio_direct_write_test: (groupid=0, jobs=1): err= 0: pid=298154: Sun Jun 18 16:09:02 2023
+  write: IOPS=31.9k, BW=1992MiB/s (2089MB/s)(1024MiB/514msec); 0 zone resets
+    clat (usec): min=28, max=4125, avg=30.88, stdev=64.26
+     lat (usec): min=28, max=4126, avg=31.08, stdev=64.26
     clat percentiles (usec):
      |  1.00th=[   30],  5.00th=[   30], 10.00th=[   30], 20.00th=[   30],
      | 30.00th=[   30], 40.00th=[   30], 50.00th=[   30], 60.00th=[   30],
      | 70.00th=[   30], 80.00th=[   30], 90.00th=[   30], 95.00th=[   31],
-     | 99.00th=[   32], 99.50th=[   33], 99.90th=[   38], 99.95th=[  529],
+     | 99.00th=[   32], 99.50th=[   36], 99.90th=[   44], 99.95th=[   83],
      | 99.99th=[ 4113]
-   bw (  MiB/s): min= 1986, max= 1986, per=100.00%, avg=1986.62, stdev= 0.00, samples=1
-   iops        : min=31786, max=31786, avg=31786.00, stdev= 0.00, samples=1
-  lat (usec)   : 50=99.91%, 100=0.02%, 250=0.01%, 750=0.02%
-  lat (msec)   : 4=0.01%, 10=0.02%
-  cpu          : usr=3.69%, sys=6.41%, ctx=16385, majf=0, minf=11
+   bw (  MiB/s): min= 1994, max= 1994, per=100.00%, avg=1994.75, stdev= 0.00, samples=1
+   iops        : min=31916, max=31916, avg=31916.00, stdev= 0.00, samples=1
+  lat (usec)   : 50=99.92%, 100=0.03%, 750=0.02%
+  lat (msec)   : 10=0.02%
+  cpu          : usr=1.36%, sys=8.97%, ctx=16385, majf=0, minf=12
   IO depths    : 1=100.0%, 2=0.0%, 4=0.0%, 8=0.0%, 16=0.0%, 32=0.0%, >=64=0.0%
      submit    : 0=0.0%, 4=100.0%, 8=0.0%, 16=0.0%, 32=0.0%, 64=0.0%, >=64=0.0%
      complete  : 0=0.0%, 4=100.0%, 8=0.0%, 16=0.0%, 32=0.0%, 64=0.0%, >=64=0.0%
@@ -553,29 +552,29 @@ fio_direct_write_test: (groupid=0, jobs=1): err= 0: pid=290813: Sat Jun 17 15:23
      latency   : target=0, window=0, percentile=100.00%, depth=1
 
 Run status group 0 (all jobs):
-  WRITE: bw=1984MiB/s (2081MB/s), 1984MiB/s-1984MiB/s (2081MB/s-2081MB/s), io=1024MiB (1074MB), run=516-516msec
+  WRITE: bw=1992MiB/s (2089MB/s), 1992MiB/s-1992MiB/s (2089MB/s-2089MB/s), io=1024MiB (1074MB), run=514-514msec
 
 Disk stats (read/write):
-  nvme0n1: ios=80/12720, merge=0/2, ticks=4/366, in_queue=371, util=83.37%
+  nvme0n1: ios=80/12736, merge=0/0, ticks=4/365, in_queue=370, util=83.37%
 fio_direct_read_test: (g=0): rw=read, bs=(R) 64.0KiB-64.0KiB, (W) 64.0KiB-64.0KiB, (T) 64.0KiB-64.0KiB, ioengine=psync, iodepth=1
 fio-3.16
 Starting 1 process
 
-fio_direct_read_test: (groupid=0, jobs=1): err= 0: pid=290839: Sat Jun 17 15:23:26 2023
+fio_direct_read_test: (groupid=0, jobs=1): err= 0: pid=298184: Sun Jun 18 16:09:03 2023
   read: IOPS=30.0k, BW=1936MiB/s (2030MB/s)(1024MiB/529msec)
-    clat (usec): min=28, max=2246, avg=32.01, stdev=17.63
-     lat (usec): min=28, max=2246, avg=32.04, stdev=17.63
+    clat (usec): min=27, max=2193, avg=32.00, stdev=17.42
+     lat (usec): min=27, max=2193, avg=32.03, stdev=17.42
     clat percentiles (usec):
      |  1.00th=[   32],  5.00th=[   32], 10.00th=[   32], 20.00th=[   32],
      | 30.00th=[   32], 40.00th=[   32], 50.00th=[   32], 60.00th=[   32],
-     | 70.00th=[   32], 80.00th=[   33], 90.00th=[   33], 95.00th=[   33],
-     | 99.00th=[   34], 99.50th=[   34], 99.90th=[   36], 99.95th=[  126],
-     | 99.99th=[  310]
-   bw (  MiB/s): min= 1936, max= 1936, per=100.00%, avg=1936.62, stdev= 0.00, samples=1
-   iops        : min=30986, max=30986, avg=30986.00, stdev= 0.00, samples=1
-  lat (usec)   : 50=99.93%, 250=0.05%, 500=0.01%
+     | 70.00th=[   32], 80.00th=[   32], 90.00th=[   33], 95.00th=[   33],
+     | 99.00th=[   34], 99.50th=[   34], 99.90th=[   35], 99.95th=[  124],
+     | 99.99th=[  355]
+   bw (  MiB/s): min= 1935, max= 1935, per=99.98%, avg=1935.38, stdev= 0.00, samples=1
+   iops        : min=30966, max=30966, avg=30966.00, stdev= 0.00, samples=1
+  lat (usec)   : 50=99.94%, 100=0.01%, 250=0.03%, 500=0.02%
   lat (msec)   : 4=0.01%
-  cpu          : usr=0.00%, sys=10.98%, ctx=16385, majf=0, minf=27
+  cpu          : usr=2.08%, sys=8.33%, ctx=16387, majf=0, minf=27
   IO depths    : 1=100.0%, 2=0.0%, 4=0.0%, 8=0.0%, 16=0.0%, 32=0.0%, >=64=0.0%
      submit    : 0=0.0%, 4=100.0%, 8=0.0%, 16=0.0%, 32=0.0%, 64=0.0%, >=64=0.0%
      complete  : 0=0.0%, 4=100.0%, 8=0.0%, 16=0.0%, 32=0.0%, 64=0.0%, >=64=0.0%
@@ -586,79 +585,143 @@ Run status group 0 (all jobs):
    READ: bw=1936MiB/s (2030MB/s), 1936MiB/s-1936MiB/s (2030MB/s-2030MB/s), io=1024MiB (1074MB), run=529-529msec
 
 Disk stats (read/write):
-  nvme0n1: ios=12339/2, merge=0/7, ticks=370/0, in_queue=370, util=80.96%
+  nvme0n1: ios=12399/84, merge=0/2, ticks=370/7, in_queue=377, util=80.96%
 fio_direct_write_test: (g=0): rw=write, bs=(R) 128KiB-128KiB, (W) 128KiB-128KiB, (T) 128KiB-128KiB, ioengine=psync, iodepth=1
 fio-3.16
 Starting 1 process
 
-fio_direct_write_test: (groupid=0, jobs=1): err= 0: pid=290859: Sat Jun 17 15:23:27 2023
-  write: IOPS=19.1k, BW=2393MiB/s (2509MB/s)(1024MiB/428msec); 0 zone resets
-    clat (usec): min=50, max=120, avg=51.32, stdev= 1.34
-     lat (usec): min=51, max=121, avg=51.93, stdev= 1.35
+fio_direct_write_test: (groupid=0, jobs=1): err= 0: pid=298204: Sun Jun 18 16:09:05 2023
+  write: IOPS=19.1k, BW=2381MiB/s (2497MB/s)(2048MiB/860msec); 0 zone resets
+    clat (usec): min=51, max=169, avg=51.58, stdev= 1.54
+     lat (usec): min=51, max=170, avg=52.18, stdev= 1.55
     clat percentiles (usec):
-     |  1.00th=[   51],  5.00th=[   51], 10.00th=[   51], 20.00th=[   51],
+     |  1.00th=[   52],  5.00th=[   52], 10.00th=[   52], 20.00th=[   52],
      | 30.00th=[   52], 40.00th=[   52], 50.00th=[   52], 60.00th=[   52],
      | 70.00th=[   52], 80.00th=[   52], 90.00th=[   52], 95.00th=[   52],
-     | 99.00th=[   53], 99.50th=[   53], 99.90th=[   60], 99.95th=[   76],
-     | 99.99th=[  122]
+     | 99.00th=[   53], 99.50th=[   55], 99.90th=[   62], 99.95th=[   76],
+     | 99.99th=[  113]
+   bw (  MiB/s): min= 2389, max= 2389, per=100.00%, avg=2389.50, stdev= 0.00, samples=1
+   iops        : min=19116, max=19116, avg=19116.00, stdev= 0.00, samples=1
   lat (usec)   : 100=99.96%, 250=0.04%
-  cpu          : usr=1.41%, sys=5.85%, ctx=8193, majf=0, minf=11
+  cpu          : usr=1.05%, sys=6.52%, ctx=16385, majf=0, minf=10
   IO depths    : 1=100.0%, 2=0.0%, 4=0.0%, 8=0.0%, 16=0.0%, 32=0.0%, >=64=0.0%
      submit    : 0=0.0%, 4=100.0%, 8=0.0%, 16=0.0%, 32=0.0%, 64=0.0%, >=64=0.0%
      complete  : 0=0.0%, 4=100.0%, 8=0.0%, 16=0.0%, 32=0.0%, 64=0.0%, >=64=0.0%
-     issued rwts: total=0,8192,0,0 short=0,0,0,0 dropped=0,0,0,0
+     issued rwts: total=0,16384,0,0 short=0,0,0,0 dropped=0,0,0,0
      latency   : target=0, window=0, percentile=100.00%, depth=1
 
 Run status group 0 (all jobs):
-  WRITE: bw=2393MiB/s (2509MB/s), 2393MiB/s-2393MiB/s (2509MB/s-2509MB/s), io=1024MiB (1074MB), run=428-428msec
+  WRITE: bw=2381MiB/s (2497MB/s), 2381MiB/s-2381MiB/s (2497MB/s-2497MB/s), io=2048MiB (2147MB), run=860-860msec
 
 Disk stats (read/write):
-  nvme1n1: ios=35/7565, merge=0/0, ticks=4/370, in_queue=374, util=80.81%
+  nvme1n1: ios=48/12285, merge=0/0, ticks=6/602, in_queue=608, util=87.10%
 fio_direct_read_test: (g=0): rw=read, bs=(R) 128KiB-128KiB, (W) 128KiB-128KiB, (T) 128KiB-128KiB, ioengine=psync, iodepth=1
 fio-3.16
 Starting 1 process
 
-fio_direct_read_test: (groupid=0, jobs=1): err= 0: pid=290879: Sat Jun 17 15:23:28 2023
-  read: IOPS=19.5k, BW=2432MiB/s (2550MB/s)(1024MiB/421msec)
-    clat (usec): min=45, max=3122, avg=51.06, stdev=34.10
-     lat (usec): min=45, max=3122, avg=51.09, stdev=34.10
-    clat percentiles (usec):
-     |  1.00th=[   48],  5.00th=[   49], 10.00th=[   49], 20.00th=[   49],
-     | 30.00th=[   49], 40.00th=[   49], 50.00th=[   49], 60.00th=[   52],
-     | 70.00th=[   52], 80.00th=[   52], 90.00th=[   53], 95.00th=[   57],
-     | 99.00th=[   57], 99.50th=[   58], 99.90th=[   64], 99.95th=[   72],
-     | 99.99th=[ 3130]
-  lat (usec)   : 50=51.18%, 100=48.79%, 500=0.01%
-  lat (msec)   : 4=0.01%
-  cpu          : usr=0.00%, sys=6.90%, ctx=8192, majf=0, minf=44
+fio_direct_read_test: (groupid=0, jobs=1): err= 0: pid=298224: Sun Jun 18 16:09:06 2023
+  read: IOPS=19.4k, BW=2427MiB/s (2544MB/s)(2048MiB/844msec)
+    clat (nsec): min=37731, max=82134, avg=51201.50, stdev=2318.00
+     lat (nsec): min=37751, max=82375, avg=51223.37, stdev=2318.47
+    clat percentiles (nsec):
+     |  1.00th=[48896],  5.00th=[48896], 10.00th=[48896], 20.00th=[49408],
+     | 30.00th=[49408], 40.00th=[49408], 50.00th=[49408], 60.00th=[52480],
+     | 70.00th=[52480], 80.00th=[52992], 90.00th=[52992], 95.00th=[56576],
+     | 99.00th=[56576], 99.50th=[57088], 99.90th=[58112], 99.95th=[58112],
+     | 99.99th=[73216]
+   bw (  MiB/s): min= 2429, max= 2429, per=100.00%, avg=2429.50, stdev= 0.00, samples=1
+   iops        : min=19436, max=19436, avg=19436.00, stdev= 0.00, samples=1
+  lat (usec)   : 50=51.73%, 100=48.27%
+  cpu          : usr=0.83%, sys=7.00%, ctx=16384, majf=0, minf=43
   IO depths    : 1=100.0%, 2=0.0%, 4=0.0%, 8=0.0%, 16=0.0%, 32=0.0%, >=64=0.0%
      submit    : 0=0.0%, 4=100.0%, 8=0.0%, 16=0.0%, 32=0.0%, 64=0.0%, >=64=0.0%
      complete  : 0=0.0%, 4=100.0%, 8=0.0%, 16=0.0%, 32=0.0%, 64=0.0%, >=64=0.0%
-     issued rwts: total=8192,0,0,0 short=0,0,0,0 dropped=0,0,0,0
+     issued rwts: total=16384,0,0,0 short=0,0,0,0 dropped=0,0,0,0
      latency   : target=0, window=0, percentile=100.00%, depth=1
 
 Run status group 0 (all jobs):
-   READ: bw=2432MiB/s (2550MB/s), 2432MiB/s-2432MiB/s (2550MB/s-2550MB/s), io=1024MiB (1074MB), run=421-421msec
+   READ: bw=2427MiB/s (2544MB/s), 2427MiB/s-2427MiB/s (2544MB/s-2544MB/s), io=2048MiB (2147MB), run=844-844msec
 
 Disk stats (read/write):
-  nvme1n1: ios=7694/0, merge=0/0, ticks=372/0, in_queue=372, util=80.65%
+  nvme1n1: ios=12535/0, merge=0/0, ticks=610/0, in_queue=610, util=86.98%
 fio_direct_write_test: (g=0): rw=write, bs=(R) 128KiB-128KiB, (W) 128KiB-128KiB, (T) 128KiB-128KiB, ioengine=psync, iodepth=1
 fio-3.16
 Starting 1 process
 
-fio_direct_write_test: (groupid=0, jobs=1): err= 0: pid=290899: Sat Jun 17 15:23:29 2023
-  write: IOPS=19.5k, BW=2438MiB/s (2557MB/s)(1024MiB/420msec); 0 zone resets
-    clat (usec): min=47, max=4591, avg=50.54, stdev=100.68
-     lat (usec): min=47, max=4591, avg=50.91, stdev=100.68
+fio_direct_write_test: (groupid=0, jobs=1): err= 0: pid=298244: Sun Jun 18 16:09:07 2023
+  write: IOPS=19.5k, BW=2438MiB/s (2557MB/s)(2048MiB/840msec); 0 zone resets
+    clat (usec): min=47, max=6351, avg=50.62, stdev=114.06
+     lat (usec): min=47, max=6351, avg=50.99, stdev=114.06
     clat percentiles (usec):
      |  1.00th=[   48],  5.00th=[   48], 10.00th=[   48], 20.00th=[   48],
      | 30.00th=[   48], 40.00th=[   48], 50.00th=[   48], 60.00th=[   48],
-     | 70.00th=[   49], 80.00th=[   49], 90.00th=[   49], 95.00th=[   49],
-     | 99.00th=[   50], 99.50th=[   50], 99.90th=[  125], 99.95th=[  758],
-     | 99.99th=[ 4621]
-  lat (usec)   : 50=99.56%, 100=0.33%, 250=0.01%, 750=0.04%, 1000=0.01%
+     | 70.00th=[   48], 80.00th=[   48], 90.00th=[   48], 95.00th=[   48],
+     | 99.00th=[   49], 99.50th=[   50], 99.90th=[  273], 99.95th=[ 4621],
+     | 99.99th=[ 4883]
+   bw (  MiB/s): min= 2421, max= 2421, per=99.31%, avg=2421.25, stdev= 0.00, samples=1
+   iops        : min=19370, max=19370, avg=19370.00, stdev= 0.00, samples=1
+  lat (usec)   : 50=99.72%, 100=0.16%, 250=0.01%, 500=0.01%, 750=0.04%
   lat (msec)   : 10=0.05%
-  cpu          : usr=1.19%, sys=5.73%, ctx=8193, majf=0, minf=12
+  cpu          : usr=1.43%, sys=5.48%, ctx=16385, majf=0, minf=11
+  IO depths    : 1=100.0%, 2=0.0%, 4=0.0%, 8=0.0%, 16=0.0%, 32=0.0%, >=64=0.0%
+     submit    : 0=0.0%, 4=100.0%, 8=0.0%, 16=0.0%, 32=0.0%, 64=0.0%, >=64=0.0%
+     complete  : 0=0.0%, 4=100.0%, 8=0.0%, 16=0.0%, 32=0.0%, 64=0.0%, >=64=0.0%
+     issued rwts: total=0,16384,0,0 short=0,0,0,0 dropped=0,0,0,0
+     latency   : target=0, window=0, percentile=100.00%, depth=1
+
+Run status group 0 (all jobs):
+  WRITE: bw=2438MiB/s (2557MB/s), 2438MiB/s-2438MiB/s (2557MB/s-2557MB/s), io=2048MiB (2147MB), run=840-840msec
+
+Disk stats (read/write):
+  nvme0n1: ios=80/12671, merge=0/0, ticks=5/611, in_queue=617, util=89.19%
+fio_direct_read_test: (g=0): rw=read, bs=(R) 128KiB-128KiB, (W) 128KiB-128KiB, (T) 128KiB-128KiB, ioengine=psync, iodepth=1
+fio-3.16
+Starting 1 process
+
+fio_direct_read_test: (groupid=0, jobs=1): err= 0: pid=298270: Sun Jun 18 16:09:09 2023
+  read: IOPS=19.8k, BW=2470MiB/s (2590MB/s)(2048MiB/829msec)
+    clat (usec): min=45, max=2199, avg=50.30, stdev=22.07
+     lat (usec): min=45, max=2199, avg=50.33, stdev=22.07
+    clat percentiles (usec):
+     |  1.00th=[   50],  5.00th=[   50], 10.00th=[   50], 20.00th=[   50],
+     | 30.00th=[   50], 40.00th=[   50], 50.00th=[   50], 60.00th=[   50],
+     | 70.00th=[   50], 80.00th=[   50], 90.00th=[   51], 95.00th=[   51],
+     | 99.00th=[   53], 99.50th=[   53], 99.90th=[   59], 99.95th=[  104],
+     | 99.99th=[ 1844]
+   bw (  MiB/s): min= 2463, max= 2463, per=99.72%, avg=2463.50, stdev= 0.00, samples=1
+   iops        : min=19708, max=19708, avg=19708.00, stdev= 0.00, samples=1
+  lat (usec)   : 50=59.37%, 100=40.58%, 250=0.04%
+  lat (msec)   : 2=0.01%, 4=0.01%
+  cpu          : usr=0.36%, sys=7.85%, ctx=16385, majf=0, minf=44
+  IO depths    : 1=100.0%, 2=0.0%, 4=0.0%, 8=0.0%, 16=0.0%, 32=0.0%, >=64=0.0%
+     submit    : 0=0.0%, 4=100.0%, 8=0.0%, 16=0.0%, 32=0.0%, 64=0.0%, >=64=0.0%
+     complete  : 0=0.0%, 4=100.0%, 8=0.0%, 16=0.0%, 32=0.0%, 64=0.0%, >=64=0.0%
+     issued rwts: total=16384,0,0,0 short=0,0,0,0 dropped=0,0,0,0
+     latency   : target=0, window=0, percentile=100.00%, depth=1
+
+Run status group 0 (all jobs):
+   READ: bw=2470MiB/s (2590MB/s), 2470MiB/s-2470MiB/s (2590MB/s-2590MB/s), io=2048MiB (2147MB), run=829-829msec
+
+Disk stats (read/write):
+  nvme0n1: ios=12817/0, merge=0/0, ticks=612/0, in_queue=612, util=87.05%
+fio_direct_write_test: (g=0): rw=write, bs=(R) 256KiB-256KiB, (W) 256KiB-256KiB, (T) 256KiB-256KiB, ioengine=psync, iodepth=1
+fio-3.16
+Starting 1 process
+
+fio_direct_write_test: (groupid=0, jobs=1): err= 0: pid=298290: Sun Jun 18 16:09:10 2023
+  write: IOPS=10.5k, BW=2622MiB/s (2750MB/s)(2048MiB/781msec); 0 zone resets
+    clat (usec): min=91, max=169, avg=93.87, stdev= 3.33
+     lat (usec): min=92, max=170, avg=95.01, stdev= 3.33
+    clat percentiles (usec):
+     |  1.00th=[   92],  5.00th=[   92], 10.00th=[   92], 20.00th=[   92],
+     | 30.00th=[   92], 40.00th=[   92], 50.00th=[   92], 60.00th=[   92],
+     | 70.00th=[   97], 80.00th=[   98], 90.00th=[   98], 95.00th=[   98],
+     | 99.00th=[   99], 99.50th=[  100], 99.90th=[  120], 99.95th=[  153],
+     | 99.99th=[  169]
+   bw (  MiB/s): min= 2624, max= 2624, per=100.00%, avg=2624.25, stdev= 0.00, samples=1
+   iops        : min=10497, max=10497, avg=10497.00, stdev= 0.00, samples=1
+  lat (usec)   : 100=99.54%, 250=0.46%
+  cpu          : usr=2.18%, sys=3.21%, ctx=8193, majf=0, minf=11
   IO depths    : 1=100.0%, 2=0.0%, 4=0.0%, 8=0.0%, 16=0.0%, 32=0.0%, >=64=0.0%
      submit    : 0=0.0%, 4=100.0%, 8=0.0%, 16=0.0%, 32=0.0%, 64=0.0%, >=64=0.0%
      complete  : 0=0.0%, 4=100.0%, 8=0.0%, 16=0.0%, 32=0.0%, 64=0.0%, >=64=0.0%
@@ -666,26 +729,28 @@ fio_direct_write_test: (groupid=0, jobs=1): err= 0: pid=290899: Sat Jun 17 15:23
      latency   : target=0, window=0, percentile=100.00%, depth=1
 
 Run status group 0 (all jobs):
-  WRITE: bw=2438MiB/s (2557MB/s), 2438MiB/s-2438MiB/s (2557MB/s-2557MB/s), io=1024MiB (1074MB), run=420-420msec
+  WRITE: bw=2622MiB/s (2750MB/s), 2622MiB/s-2622MiB/s (2750MB/s-2750MB/s), io=2048MiB (2147MB), run=781-781msec
 
 Disk stats (read/write):
-  nvme0n1: ios=80/7792, merge=0/0, ticks=5/376, in_queue=381, util=83.37%
-fio_direct_read_test: (g=0): rw=read, bs=(R) 128KiB-128KiB, (W) 128KiB-128KiB, (T) 128KiB-128KiB, ioengine=psync, iodepth=1
+  nvme1n1: ios=48/6773, merge=0/0, ticks=8/615, in_queue=622, util=87.52%
+fio_direct_read_test: (g=0): rw=read, bs=(R) 256KiB-256KiB, (W) 256KiB-256KiB, (T) 256KiB-256KiB, ioengine=psync, iodepth=1
 fio-3.16
 Starting 1 process
 
-fio_direct_read_test: (groupid=0, jobs=1): err= 0: pid=290925: Sat Jun 17 15:23:30 2023
-  read: IOPS=19.8k, BW=2473MiB/s (2594MB/s)(1024MiB/414msec)
-    clat (usec): min=46, max=333, avg=50.13, stdev= 3.58
-     lat (usec): min=46, max=333, avg=50.16, stdev= 3.59
+fio_direct_read_test: (groupid=0, jobs=1): err= 0: pid=298310: Sun Jun 18 16:09:11 2023
+  read: IOPS=11.2k, BW=2805MiB/s (2942MB/s)(2048MiB/730msec)
+    clat (usec): min=70, max=125, avg=88.81, stdev= 2.44
+     lat (usec): min=70, max=126, avg=88.84, stdev= 2.44
     clat percentiles (usec):
-     |  1.00th=[   49],  5.00th=[   50], 10.00th=[   50], 20.00th=[   50],
-     | 30.00th=[   50], 40.00th=[   50], 50.00th=[   50], 60.00th=[   50],
-     | 70.00th=[   50], 80.00th=[   51], 90.00th=[   51], 95.00th=[   51],
-     | 99.00th=[   52], 99.50th=[   52], 99.90th=[   56], 99.95th=[   65],
-     | 99.99th=[  334]
-  lat (usec)   : 50=41.11%, 100=58.84%, 250=0.04%, 500=0.01%
-  cpu          : usr=1.21%, sys=6.54%, ctx=8193, majf=0, minf=44
+     |  1.00th=[   85],  5.00th=[   85], 10.00th=[   85], 20.00th=[   87],
+     | 30.00th=[   87], 40.00th=[   89], 50.00th=[   89], 60.00th=[   91],
+     | 70.00th=[   91], 80.00th=[   91], 90.00th=[   92], 95.00th=[   92],
+     | 99.00th=[   92], 99.50th=[   92], 99.90th=[   94], 99.95th=[   94],
+     | 99.99th=[  127]
+   bw (  MiB/s): min= 2808, max= 2808, per=100.00%, avg=2808.00, stdev= 0.00, samples=1
+   iops        : min=11232, max=11232, avg=11232.00, stdev= 0.00, samples=1
+  lat (usec)   : 100=99.99%, 250=0.01%
+  cpu          : usr=0.00%, sys=6.04%, ctx=8192, majf=0, minf=75
   IO depths    : 1=100.0%, 2=0.0%, 4=0.0%, 8=0.0%, 16=0.0%, 32=0.0%, >=64=0.0%
      submit    : 0=0.0%, 4=100.0%, 8=0.0%, 16=0.0%, 32=0.0%, 64=0.0%, >=64=0.0%
      complete  : 0=0.0%, 4=100.0%, 8=0.0%, 16=0.0%, 32=0.0%, 64=0.0%, >=64=0.0%
@@ -693,116 +758,67 @@ fio_direct_read_test: (groupid=0, jobs=1): err= 0: pid=290925: Sat Jun 17 15:23:
      latency   : target=0, window=0, percentile=100.00%, depth=1
 
 Run status group 0 (all jobs):
-   READ: bw=2473MiB/s (2594MB/s), 2473MiB/s-2473MiB/s (2594MB/s-2594MB/s), io=1024MiB (1074MB), run=414-414msec
+   READ: bw=2805MiB/s (2942MB/s), 2805MiB/s-2805MiB/s (2942MB/s-2942MB/s), io=2048MiB (2147MB), run=730-730msec
 
 Disk stats (read/write):
-  nvme0n1: ios=7914/0, merge=0/0, ticks=376/0, in_queue=376, util=80.96%
+  nvme1n1: ios=7245/0, merge=0/0, ticks=617/0, in_queue=617, util=86.98%
 fio_direct_write_test: (g=0): rw=write, bs=(R) 256KiB-256KiB, (W) 256KiB-256KiB, (T) 256KiB-256KiB, ioengine=psync, iodepth=1
 fio-3.16
 Starting 1 process
 
-fio_direct_write_test: (groupid=0, jobs=1): err= 0: pid=290945: Sat Jun 17 15:23:31 2023
-  write: IOPS=10.5k, BW=2626MiB/s (2753MB/s)(1024MiB/390msec); 0 zone resets
-    clat (usec): min=91, max=169, avg=93.73, stdev= 3.67
-     lat (usec): min=91, max=170, avg=94.84, stdev= 3.67
+fio_direct_write_test: (groupid=0, jobs=1): err= 0: pid=298330: Sun Jun 18 16:09:12 2023
+  write: IOPS=10.8k, BW=2713MiB/s (2844MB/s)(2048MiB/755msec); 0 zone resets
+    clat (usec): min=84, max=4898, avg=91.10, stdev=151.55
+     lat (usec): min=85, max=4898, avg=91.84, stdev=151.55
     clat percentiles (usec):
-     |  1.00th=[   92],  5.00th=[   92], 10.00th=[   92], 20.00th=[   92],
-     | 30.00th=[   92], 40.00th=[   92], 50.00th=[   92], 60.00th=[   92],
-     | 70.00th=[   98], 80.00th=[   98], 90.00th=[   98], 95.00th=[   99],
-     | 99.00th=[   99], 99.50th=[  100], 99.90th=[  112], 99.95th=[  155],
-     | 99.99th=[  169]
-  lat (usec)   : 100=99.61%, 250=0.39%
-  cpu          : usr=0.00%, sys=5.14%, ctx=4096, majf=0, minf=12
-  IO depths    : 1=100.0%, 2=0.0%, 4=0.0%, 8=0.0%, 16=0.0%, 32=0.0%, >=64=0.0%
-     submit    : 0=0.0%, 4=100.0%, 8=0.0%, 16=0.0%, 32=0.0%, 64=0.0%, >=64=0.0%
-     complete  : 0=0.0%, 4=100.0%, 8=0.0%, 16=0.0%, 32=0.0%, 64=0.0%, >=64=0.0%
-     issued rwts: total=0,4096,0,0 short=0,0,0,0 dropped=0,0,0,0
-     latency   : target=0, window=0, percentile=100.00%, depth=1
-
-Run status group 0 (all jobs):
-  WRITE: bw=2626MiB/s (2753MB/s), 2626MiB/s-2626MiB/s (2753MB/s-2753MB/s), io=1024MiB (1074MB), run=390-390msec
-
-Disk stats (read/write):
-  nvme1n1: ios=0/1522, merge=0/0, ticks=0/138, in_queue=138, util=60.41%
-fio_direct_read_test: (g=0): rw=read, bs=(R) 256KiB-256KiB, (W) 256KiB-256KiB, (T) 256KiB-256KiB, ioengine=psync, iodepth=1
-fio-3.16
-Starting 1 process
-
-fio_direct_read_test: (groupid=0, jobs=1): err= 0: pid=290965: Sat Jun 17 15:23:31 2023
-  read: IOPS=11.4k, BW=2844MiB/s (2983MB/s)(1024MiB/360msec)
-    clat (usec): min=75, max=152, avg=87.60, stdev= 2.61
-     lat (usec): min=75, max=152, avg=87.63, stdev= 2.61
-    clat percentiles (usec):
-     |  1.00th=[   84],  5.00th=[   84], 10.00th=[   84], 20.00th=[   86],
-     | 30.00th=[   86], 40.00th=[   88], 50.00th=[   88], 60.00th=[   90],
-     | 70.00th=[   90], 80.00th=[   90], 90.00th=[   90], 95.00th=[   90],
-     | 99.00th=[   91], 99.50th=[   92], 99.90th=[   92], 99.95th=[   93],
-     | 99.99th=[  153]
-  lat (usec)   : 100=99.98%, 250=0.02%
-  cpu          : usr=0.00%, sys=5.01%, ctx=4096, majf=0, minf=75
-  IO depths    : 1=100.0%, 2=0.0%, 4=0.0%, 8=0.0%, 16=0.0%, 32=0.0%, >=64=0.0%
-     submit    : 0=0.0%, 4=100.0%, 8=0.0%, 16=0.0%, 32=0.0%, 64=0.0%, >=64=0.0%
-     complete  : 0=0.0%, 4=100.0%, 8=0.0%, 16=0.0%, 32=0.0%, 64=0.0%, >=64=0.0%
-     issued rwts: total=4096,0,0,0 short=0,0,0,0 dropped=0,0,0,0
-     latency   : target=0, window=0, percentile=100.00%, depth=1
-
-Run status group 0 (all jobs):
-   READ: bw=2844MiB/s (2983MB/s), 2844MiB/s-2844MiB/s (2983MB/s-2983MB/s), io=1024MiB (1074MB), run=360-360msec
-
-Disk stats (read/write):
-  nvme1n1: ios=1660/0, merge=0/0, ticks=140/0, in_queue=140, util=60.16%
-fio_direct_write_test: (g=0): rw=write, bs=(R) 256KiB-256KiB, (W) 256KiB-256KiB, (T) 256KiB-256KiB, ioengine=psync, iodepth=1
-fio-3.16
-Starting 1 process
-
-fio_direct_write_test: (groupid=0, jobs=1): err= 0: pid=290985: Sat Jun 17 15:23:32 2023
-  write: IOPS=10.9k, BW=2716MiB/s (2848MB/s)(1024MiB/377msec); 0 zone resets
-    clat (usec): min=84, max=4854, avg=90.92, stdev=150.49
-     lat (usec): min=85, max=4855, avg=91.67, stdev=150.49
-    clat percentiles (usec):
-     |  1.00th=[   86],  5.00th=[   86], 10.00th=[   86], 20.00th=[   86],
+     |  1.00th=[   85],  5.00th=[   86], 10.00th=[   86], 20.00th=[   86],
      | 30.00th=[   86], 40.00th=[   86], 50.00th=[   86], 60.00th=[   86],
-     | 70.00th=[   86], 80.00th=[   86], 90.00th=[   86], 95.00th=[   86],
-     | 99.00th=[   88], 99.50th=[   88], 99.90th=[  807], 99.95th=[ 4883],
+     | 70.00th=[   86], 80.00th=[   86], 90.00th=[   86], 95.00th=[   87],
+     | 99.00th=[   89], 99.50th=[   92], 99.90th=[ 2245], 99.95th=[ 4817],
      | 99.99th=[ 4883]
-  lat (usec)   : 100=99.78%, 250=0.02%, 1000=0.10%
-  lat (msec)   : 10=0.10%
-  cpu          : usr=1.86%, sys=2.93%, ctx=4097, majf=0, minf=11
+   bw (  MiB/s): min= 2719, max= 2719, per=100.00%, avg=2719.50, stdev= 0.00, samples=1
+   iops        : min=10878, max=10878, avg=10878.00, stdev= 0.00, samples=1
+  lat (usec)   : 100=99.71%, 250=0.09%, 750=0.10%
+  lat (msec)   : 4=0.01%, 10=0.10%
+  cpu          : usr=2.12%, sys=2.79%, ctx=8194, majf=0, minf=12
   IO depths    : 1=100.0%, 2=0.0%, 4=0.0%, 8=0.0%, 16=0.0%, 32=0.0%, >=64=0.0%
      submit    : 0=0.0%, 4=100.0%, 8=0.0%, 16=0.0%, 32=0.0%, 64=0.0%, >=64=0.0%
      complete  : 0=0.0%, 4=100.0%, 8=0.0%, 16=0.0%, 32=0.0%, 64=0.0%, >=64=0.0%
-     issued rwts: total=0,4096,0,0 short=0,0,0,0 dropped=0,0,0,0
+     issued rwts: total=0,8192,0,0 short=0,0,0,0 dropped=0,0,0,0
      latency   : target=0, window=0, percentile=100.00%, depth=1
 
 Run status group 0 (all jobs):
-  WRITE: bw=2716MiB/s (2848MB/s), 2716MiB/s-2716MiB/s (2848MB/s-2848MB/s), io=1024MiB (1074MB), run=377-377msec
+  WRITE: bw=2713MiB/s (2844MB/s), 2713MiB/s-2713MiB/s (2844MB/s-2844MB/s), io=2048MiB (2147MB), run=755-755msec
 
 Disk stats (read/write):
-  nvme0n1: ios=80/1595, merge=0/3, ticks=4/144, in_queue=149, util=65.86%
+  nvme0n1: ios=80/7033, merge=0/5, ticks=5/622, in_queue=627, util=88.65%
 fio_direct_read_test: (g=0): rw=read, bs=(R) 256KiB-256KiB, (W) 256KiB-256KiB, (T) 256KiB-256KiB, ioengine=psync, iodepth=1
 fio-3.16
 Starting 1 process
 
-fio_direct_read_test: (groupid=0, jobs=1): err= 0: pid=291011: Sat Jun 17 15:23:33 2023
-  read: IOPS=11.4k, BW=2860MiB/s (2999MB/s)(1024MiB/358msec)
-    clat (usec): min=82, max=380, avg=86.87, stdev= 5.10
-     lat (usec): min=82, max=380, avg=86.90, stdev= 5.10
+fio_direct_read_test: (groupid=0, jobs=1): err= 0: pid=298356: Sun Jun 18 16:09:13 2023
+  read: IOPS=11.4k, BW=2852MiB/s (2991MB/s)(2048MiB/718msec)
+    clat (usec): min=83, max=2264, avg=87.25, stdev=25.40
+     lat (usec): min=83, max=2264, avg=87.27, stdev=25.41
     clat percentiles (usec):
      |  1.00th=[   86],  5.00th=[   87], 10.00th=[   87], 20.00th=[   87],
      | 30.00th=[   87], 40.00th=[   87], 50.00th=[   87], 60.00th=[   87],
      | 70.00th=[   87], 80.00th=[   87], 90.00th=[   88], 95.00th=[   88],
-     | 99.00th=[   89], 99.50th=[   89], 99.90th=[  119], 99.95th=[  163],
-     | 99.99th=[  379]
-  lat (usec)   : 100=99.83%, 250=0.15%, 500=0.02%
-  cpu          : usr=0.00%, sys=5.32%, ctx=4097, majf=0, minf=77
+     | 99.00th=[   89], 99.50th=[   89], 99.90th=[  178], 99.95th=[  302],
+     | 99.99th=[ 2278]
+   bw (  MiB/s): min= 2848, max= 2848, per=99.86%, avg=2848.50, stdev= 0.00, samples=1
+   iops        : min=11394, max=11394, avg=11394.00, stdev= 0.00, samples=1
+  lat (usec)   : 100=99.85%, 250=0.07%, 500=0.04%, 750=0.02%
+  lat (msec)   : 4=0.01%
+  cpu          : usr=0.00%, sys=6.42%, ctx=8194, majf=0, minf=76
   IO depths    : 1=100.0%, 2=0.0%, 4=0.0%, 8=0.0%, 16=0.0%, 32=0.0%, >=64=0.0%
      submit    : 0=0.0%, 4=100.0%, 8=0.0%, 16=0.0%, 32=0.0%, 64=0.0%, >=64=0.0%
      complete  : 0=0.0%, 4=100.0%, 8=0.0%, 16=0.0%, 32=0.0%, 64=0.0%, >=64=0.0%
-     issued rwts: total=4096,0,0,0 short=0,0,0,0 dropped=0,0,0,0
+     issued rwts: total=8192,0,0,0 short=0,0,0,0 dropped=0,0,0,0
      latency   : target=0, window=0, percentile=100.00%, depth=1
 
 Run status group 0 (all jobs):
-   READ: bw=2860MiB/s (2999MB/s), 2860MiB/s-2860MiB/s (2999MB/s-2999MB/s), io=1024MiB (1074MB), run=358-358msec
+   READ: bw=2852MiB/s (2991MB/s), 2852MiB/s-2852MiB/s (2991MB/s-2991MB/s), io=2048MiB (2147MB), run=718-718msec
 
 Disk stats (read/write):
-  nvme0n1: ios=1704/0, merge=0/0, ticks=143/0, in_queue=143, util=62.65%
+  nvme0n1: ios=7409/2, merge=0/4, ticks=619/1, in_queue=620, util=88.65%
