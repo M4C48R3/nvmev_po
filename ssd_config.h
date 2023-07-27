@@ -237,35 +237,35 @@ static_assert((ZONE_SIZE % DIES_PER_ZONE) == 0);
 #define MDTS (6)
 #define CELL_MODE (CELL_MODE_TLC)
 
-#define SSD_PARTITIONS (4)
-#define NAND_CHANNELS (4)
-#define LUNS_PER_NAND_CH (2)
-#define PLNS_PER_LUN (1)
-#define FLASH_PAGE_SIZE KB(16)
-#define ONESHOT_PAGE_SIZE (FLASH_PAGE_SIZE * 3)
-#define BLKS_PER_PLN (0)
-#define BLK_SIZE (8172) 
+#define SSD_PARTITIONS (1)
+#define NAND_CHANNELS (4) // Flash Channels: 4
+#define LUNS_PER_NAND_CH (4) // 16 dies per chip (4 LUNS/CH * 4 CHANNEL/CHIP = 16 LUNS/CHIP)
+#define PLNS_PER_LUN (1) // must be 1 (see ./conv_ftl.c:120)
+#define FLASH_PAGE_SIZE KB(48)
+#define ONESHOT_PAGE_SIZE (FLASH_PAGE_SIZE)
+#define BLKS_PER_PLN (0) // Plane Size: 448 Blocks
+#define BLK_SIZE KB(1344*48/16) // Block Size: 1344 pages, but is that blk-size or line-size? (/16 is for line-size)
 static_assert((ONESHOT_PAGE_SIZE % FLASH_PAGE_SIZE) == 0);
 
 #define MAX_CH_XFER_SIZE KB(16) /* to overlap with pcie transfer */
 #define WRITE_UNIT_SIZE (512)
 
 #define NAND_CHANNEL_BANDWIDTH (2400ull) //MB/s
-#define PCIE_BANDWIDTH (3360ull) //MB/s
+#define PCIE_BANDWIDTH (3500ull) //MB/s
 
-#define NAND_4KB_READ_LATENCY_LSB (4067 - 0) //ns
-#define NAND_4KB_READ_LATENCY_MSB (1284 + 0) //ns
-#define NAND_4KB_READ_LATENCY_CSB (0) //not used
-#define NAND_READ_LATENCY_LSB (3911 - 0)
-#define NAND_READ_LATENCY_MSB (827 + 0)
-#define NAND_READ_LATENCY_CSB (0) //not used
-#define NAND_PROG_LATENCY (88663)
+#define NAND_4KB_READ_LATENCY_LSB (9448 - 0) //ns
+#define NAND_4KB_READ_LATENCY_MSB (8830 + 0) //ns
+#define NAND_4KB_READ_LATENCY_CSB (7574) //not used
+#define NAND_READ_LATENCY_LSB (6787 - 0)
+#define NAND_READ_LATENCY_MSB (8026 + 0)
+#define NAND_READ_LATENCY_CSB (7515) //not used
+#define NAND_PROG_LATENCY (86521)
 #define NAND_ERASE_LATENCY (0)
 
-#define FW_4KB_READ_LATENCY (2352)
-#define FW_READ_LATENCY (1122)
-#define FW_WBUF_LATENCY0 (5551)
-#define FW_WBUF_LATENCY1 (75)
+#define FW_4KB_READ_LATENCY (7493)
+#define FW_READ_LATENCY (2979)
+#define FW_WBUF_LATENCY0 (6239)
+#define FW_WBUF_LATENCY1 (1456)
 #define FW_CH_XFER_LATENCY (0)
 #define OP_AREA_PERCENT (0.1)
 
