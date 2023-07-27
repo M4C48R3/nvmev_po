@@ -37,14 +37,15 @@ for current_iter in range(repeats):
 
             if m[0] == 'randread': # RR should be done after SW
                 # print("doing SW before RR...")
-                os.system(f"sh -c \"sudo fio --minimal --filename=/dev/nvme0n1 --direct=1 --rw=write --ioengine=psync --bs=256k"
-                          f"--iodepth=1 --size=4G --name=RR_prep --offset={fio_offset}G --output=/dev/null\"")
+                cmd = f"sh -c \"sudo fio --minimal --filename=/dev/nvme0n1 --direct=1 --rw=write --ioengine=psync --bs=256k " \
+                f"--iodepth=1 --size=4G --name=RR_prep --offset={fio_offset}G --output=/dev/null\""
+                os.system(cmd)
 
             bs = 4 * (4**i)
             dic[m[0]][f"{bs}"] = 0
 
             with open('output/temp.txt', 'a') as f, stdout_redirected(f):
-                cmd = f"sh -c \"sudo fio --minimal --filename=/dev/nvme0n1 --direct=1 --rw={m[0]} --ioengine=psync --bs={bs}k"
+                cmd = f"sh -c \"sudo fio --minimal --filename=/dev/nvme0n1 --direct=1 --rw={m[0]} --ioengine=psync --bs={bs}k " \
                 f"--iodepth=1 --size=4G --name=fio_seq_{m[1]}_test --offset={fio_offset}G\""
                 os.system(cmd)
 
