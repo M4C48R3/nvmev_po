@@ -8,11 +8,11 @@ import os
 from common import stdout_redirected
 import json
 import math
-import global_values
-
+import global_values as gv
+import copy
 def get_params(values) -> float:
     ## 0: --rw= argument and dictionary key / 1: code for finding through 'in' / 2: index / 3: number of lines read from temp.txt so far
-    modlist = [['read', 'SR', 0,0], ['write', 'SW', 1,0], ['randread', 'RR', 2,0], ['randwrite', 'RW', 3,0]]
+    modlist = copy.deepcopy(gv.modlist)
 
     if len(values) != 11:
         print("ERROR! 11 values must be given.")
@@ -21,7 +21,7 @@ def get_params(values) -> float:
     values = [math.floor(v) for v in values]
     for val in values:
         if val <= 0:
-            return 100
+            return 1000
     
     try:
         with open("output/ours_hynix.json") as f:
@@ -54,24 +54,22 @@ def get_params(values) -> float:
     for m in modlist:
         m[3] = 0
         ours[m[0]] = {}
-        for i in range(0, 4): # TODO: change to 7
+        for bs in gv.bslist:
             # format before read/write
             os.system("sh -c \"./make_all.sh\"")
 
             # in case of RR, do SW beforehand
             if m[0] == 'randread':
                 print("doing SW before RR...")
-                cmd = f"sh -c \"sudo fio --minimal --filename=/dev/nvme1n1 --direct=1 --rw=write --ioengine=psync --bs=256k " \
-                f"--iodepth=1 --size=2G --name=RR_prep --output=/dev/null\""
+                cmd = f"sh -c \"sudo fio --minimal --filename={gv.virtdevname} --direct=1 --rw=write --ioengine=psync --bs=256k " \
+                f"--iodepth=1 --size=4G --name=RR_prep --output=/dev/null\""
                 os.system(cmd)
                           
-
-            bs = 4 * (4**i)
             ours[m[0]][f"{bs}"] = 0
 
             with open('output/temp.txt', 'a') as f, stdout_redirected(f):
-                cmd = f"sh -c \"sudo fio --minimal --filename=/dev/nvme1n1 --direct=1 --rw={m[0]} --ioengine=psync --bs={bs}k " \
-                f"--iodepth=1 --size=2G --name=fio_seq_{m[1]}_test\""
+                cmd = f"sh -c \"sudo fio --minimal --filename={gv.virtdevname} --direct=1 --rw={m[0]} --ioengine=psync --bs={bs}k " \
+                f"--iodepth=1 --size=4G --name=fio_seq_{m[1]}_test\""
                 os.system(cmd)
     
     
@@ -81,8 +79,8 @@ def get_params(values) -> float:
             linesplit = line.split(";")
             for m in modlist:
                 if m[1] in linesplit[2]:
-                    sn = 56 if (m[2] % 2) else 15
-                    bs = 4 * (4 ** m[3])
+                    sn = 56 if (m[1] in ["RW", "SW"]) else 15 # write completion latency is in position 56, read completion latency in 15
+                    bs = gv.bs_from_index(m[3])
                     m[3] += 1
                     ours[m[0]][f"{bs}"] = float(linesplit[sn])
 
@@ -92,9 +90,8 @@ def get_params(values) -> float:
     f = open("output/real_hynix.json")
     real = json.load(f)
     for m in modlist:
-        for i in range(0, 4): # TODO: change to 7
-            bs = f"{4 * 4 ** i}"
-            diff += abs(real[m[0]][bs] - ours[m[0]][bs]) / real[m[0]][bs]
+        for bs in gv.bslist:
+            diff += abs(real[m[0]][f"{bs}"] - ours[m[0]][f"{bs}"]) / real[m[0]][f"{bs}"]
     # diff /= 8
 
     with open("output/ours_hynix.json", "w") as f:

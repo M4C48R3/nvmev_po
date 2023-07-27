@@ -1,52 +1,41 @@
 import os
 from common import stdout_redirected
 import json
-import time
-
+import global_values as gv
+import copy
 
 dic = {}
 ## 0: --rw= argument / 1: code / 2: index / 3: number of lines read from temp.txt so far
-modlist = [['read', 'SR', 0,0], ['write', 'SW', 1,0], ['randread', 'RR', 2,0], ['randwrite', 'RW', 3,0]]
-
-repeats = 1
-latencies = [[], [], [], []]
+modlist = copy.deepcopy(gv.modlist)
+def printv(x):
+    gv.printv(x)
+repeats = 2
+latencies = [[] for dummy in modlist]
 
 
 for current_iter in range(repeats):
     with open('output/temp.txt', 'w') as f: pass # empty file
 
-    # for mode in ['read', 'write']:
-    #     dic[mode] = {}
-    #     for i in range(0, 4):
-    #         bs = 4 * 4 ** i
-    #         dic[mode][f"{bs}"] = 0
-    #         os.system("sh -c \"sudo nvme format /dev/nvme0n1\"")
-    #         with open('output/temp.txt', 'a') as f, stdout_redirected(f):
-    #             cmd = f"sudo fio --minimal --filename=\"/dev/nvme0n1\" --direct=1 --rw={mode} --ioengine=psync --bs={bs}k --iodepth=1 --size=4G --name=fio_seq_{mode}_test"
-    #             shell_cmd = f"sh -c \"{cmd}\""
-    #             os.system(shell_cmd)
-
-    #     # RR의 경우, SW를 하고 진행한다.
-
     for m in modlist:
         m[3] = 0 # reset the number of read lines (pertaining to that mode) in temp.txt
         dic[m[0]] = {}
-        for i in range(0,4):
-            os.system("sh -c \"sudo nvme format /dev/nvme0n1 -f\"")
-            fio_offset = (time.time_ns() % 100) * 8 # offset is set randomly so that one region does not degrade quickly as a result of repeated writes and reads
+        for bs in gv.bslist:
+            os.system(f"sh -c \"sudo nvme format {gv.realdevname} -f >/dev/null\"")
+            # offset is set randomly so that one region does not degrade quickly as a result of repeated writes and reads
+            # fio_offset = (time.time_ns() % 100) * 8
 
             if m[0] == 'randread': # RR should be done after SW
-                # print("doing SW before RR...")
-                cmd = f"sh -c \"sudo fio --minimal --filename=/dev/nvme0n1 --direct=1 --rw=write --ioengine=psync --bs=256k " \
-                f"--iodepth=1 --size=4G --name=RR_prep --offset={fio_offset}G --output=/dev/null\""
+                printv("doing SW before RR...")
+                cmd = f"sh -c \"sudo fio --minimal --filename={gv.realdevname} --direct=1 --rw=write --ioengine=psync --bs=256k " \
+                f"--iodepth=1 --size=32G --name=RR_prep --output=/dev/null\""
                 os.system(cmd)
 
-            bs = 4 * (4**i)
             dic[m[0]][f"{bs}"] = 0
 
+            printv(f"Doing {m[0]} with bs = {bs}KB...")
             with open('output/temp.txt', 'a') as f, stdout_redirected(f):
-                cmd = f"sh -c \"sudo fio --minimal --filename=/dev/nvme0n1 --direct=1 --rw={m[0]} --ioengine=psync --bs={bs}k " \
-                f"--iodepth=1 --size=4G --name=fio_seq_{m[1]}_test --offset={fio_offset}G\""
+                cmd = f"sh -c \"sudo fio --minimal --filename={gv.realdevname} --direct=1 --rw={m[0]} --ioengine=psync --bs={bs}k " \
+                f"--iodepth=1 --size=32G --name=fio_seq_{m[1]}_test\""
                 os.system(cmd)
 
     
@@ -55,12 +44,12 @@ for current_iter in range(repeats):
             linesplit = line.split(";")
             for m in modlist:
                 if m[1] in linesplit[2]:
-                        sn = 56 if (m[2] % 2) else 15  # m[2] % 2 != 0: write
+                        sn = 56 if (m[1] in ["RW", "SW"]) else 15 # write completion latency is in position 56, read completion latency in 15
                         if current_iter == 0:
-                            latencies[m[2]].append(float(linesplit[sn]))
+                            latencies[m[2]].append(float(linesplit[sn])) # first write: list is empty
                         else:
-                            latencies[m[2]][m[3]] += float(linesplit[sn])
-                            m[3] += 1
+                            latencies[m[2]][m[3]] += float(linesplit[sn]) # list is not empty, add value and move position
+                            m[3] += 1 # position to write next value
 
 
     # latencies = [[], []]
@@ -72,19 +61,23 @@ for current_iter in range(repeats):
     #             latencies[1].append(float(line.split(";")[56]))
 
     # print this iteration
-    print (f"Iteration {current_iter}")
+    print (f"Iteration {current_iter} (Average so far)")
+    print ("BS: ", end="")
+    for bs in gv.bslist:
+        print(bs, end=", ")
+    print("")
     for m in modlist:
             print(m[1],end=": ")
-            for j in range(0,4):
-                print(latencies[m[2]][j], end=", ")
+            for j in range(gv.bscount):
+                print(latencies[m[2]][j] / (current_iter + 1), end=", ")
             print("")
                 
 
 
 with open("output/real_hynix.json", 'w') as f:
     for m in modlist:
-        for i in range(0, 4):
-            bs = 4 * 4 ** i
+        for i in range(gv.bscount):
+            bs = gv.bs_from_index(i)
             dic[m[0]][f"{bs}"] = latencies[m[2]][i] / repeats
 
     print(dic)

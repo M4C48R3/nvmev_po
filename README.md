@@ -1,3 +1,8 @@
+# NVMeVirt Parameter Optimization Tool
+WARNING: get_real_hynix.py formats the device it tries to measure. Make sure you do not end up formatting your data.
+get_real_hynix.py is used to get latency values of device to measure.
+Afterwards, nelder_mead_configuration.py can be used to optimize latency parameters using Nelder-Mead method.
+
 # NVMeVirt
 
 ## Introduction

@@ -21,7 +21,7 @@ class NpEncoder(json.JSONEncoder):
       return obj.tolist()
     return json.JSONEncoder.default(self, obj)
 
-ITERATION = 1
+ITERATION = 2
 PRINT_OPTION = False
 
 
