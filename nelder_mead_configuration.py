@@ -1,12 +1,12 @@
 import numpy as np
 from typing import *
 import get_params
-# import scipy.optimize
+import scipy.optimize
 from scipy.stats import loguniform
 import copy
-import random
 import json
 import time
+import skopt
 
 #SAMPLE_INITIAL_INPUTS = np.array([[1,2,6,3,8], [7,2,5,4,3], [1,7,4,11,6]], dtype = np.float64)
 SAMPLE_INITIAL_INPUTS = np.random.randint(0, 20, size=(15,14)).astype(np.float64)
@@ -21,12 +21,12 @@ class NpEncoder(json.JSONEncoder):
       return obj.tolist()
     return json.JSONEncoder.default(self, obj)
 
-ITERATION = 2
+ITERATION = 700
 PRINT_OPTION = False
 
 
 #good = '2000-2000-2000-1500-1500-1500-100000-3000-2000-5000-500'
-good = '6000-7000-8000-5000-6000-7000-60000-5000-5000-5000-1000'
+good = '60000-60000-60000-50000-50000-50000-10000-1500-1500-2000-500'
 INPUT_CENTRIC = list(map(int, good.split('-')))
 # INPUT_CENTRIC = [73000, 73000, 73000, 73000, 695000, 21500, 30490, 4000, 460]
 initial_variance = 0.3
@@ -169,9 +169,9 @@ def simplex_generator(input_centric):
 
 #generates initial simplex and keeps write variables fixed
 def simplex_generator(input_centric):
-  FULL_SIMPLEX_PROVIDED = "./output/simplex/1690358782.json" # put file to load
+  FULL_SIMPLEX_PROVIDED = "./output/simplex/1690789123 copy.json" # put file to load (./output/simplex/1690358782.json), if not, set to 0
   RANDOMIZE = True
-  STORE = False
+  STORE = True
   STOREFILENAME = f"./output/simplex/{int(time.time())}.json"
 
   if FULL_SIMPLEX_PROVIDED:
@@ -189,7 +189,7 @@ def simplex_generator(input_centric):
     add = copy.deepcopy(input_centric)
     if RANDOMIZE:
       for j in range(insize):
-        add[j] *= loguniform.rvs(0.45, 2.25, size=1)[0] - 1
+        add[j] *= loguniform.rvs(0.25, 4, size=1)[0] - 1
     else:
       for j in range(insize):
         if i == j:
@@ -208,20 +208,25 @@ def simplex_generator(input_centric):
 
 
 if __name__ == '__main__':
-  # result = scipy.optimize.minimize(
-  #     fun=get_params.get_params, 
-  #     x0=np.array([3000,3000,3000,2000,2000,2000,300000,5000,3000,6000,1000]),
-  #     tol=5e-3,
-  #     method='Nelder-Mead')
+  # low and high of each variable for x0
+  x0_lowhigh = [[1e4,15e4],[1e4,15e4],[1e4,15e4],[1e4,15e4],[1e4,15e4],[1e4,15e4],[10,1e4],[10,5e3],[10,5e3],[10,5e3],[10,2e3]]
+  skopt_dim = [skopt.space.space.Integer(x0[0], x0[1], prior="log-uniform") for x0 in x0_lowhigh]
+#   result = scipy.optimize.minimize(
+#       fun=get_params.get_params, 
+#       x0=np.array([40434,72400,48901,79832,86190,42862,2118,2047,2902,128,23]),
+#       method='BFGS',\
+#       options={"disp":True,"maxiter":ITERATION,"return_all":True, "eps":10})
+  res = skopt.optimizer.gp_minimize(
+    func=get_params.get_params, dimensions=skopt_dim,
+    initial_point_generator="hammersly", n_calls=ITERATION, verbose=True, random_state=490247212
+  )
+  print(res)
 
-  #configs = SAMPLE_INITIAL_INPUTS
-  configs = simplex_generator(INPUT_CENTRIC)
-  fs = None
-  for iter in range(ITERATION):
-    print("iteration", iter)
-    configs, best_config, best_metric = Nelder_Mead(configs, get_params.get_params)
-    print(best_metric, best_config)
-    print("variance", simplex_variance(configs))
-
-  
-
+#   #configs = SAMPLE_INITIAL_INPUTS
+#   configs = simplex_generator(INPUT_CENTRIC)
+#   fs = None
+#   for iter in range(ITERATION):
+#     print("iteration", iter)
+#     configs, best_config, best_metric = Nelder_Mead(configs, get_params.get_params)
+#     print(best_metric, best_config)
+#     print("variance", simplex_variance(configs))

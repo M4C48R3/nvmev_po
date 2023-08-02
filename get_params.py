@@ -60,16 +60,16 @@ def get_params(values) -> float:
 
             # in case of RR, do SW beforehand
             if m[0] == 'randread':
-                print("doing SW before RR...")
+                gv.printv("doing SW before RR...")
                 cmd = f"sh -c \"sudo fio --minimal --filename={gv.virtdevname} --direct=1 --rw=write --ioengine=psync --bs=256k " \
-                f"--iodepth=1 --size=4G --name=RR_prep --output=/dev/null\""
+                f"--iodepth=1 --size={gv.virtfiosize} --name=RR_prep --output=/dev/null\""
                 os.system(cmd)
                           
             ours[m[0]][f"{bs}"] = 0
 
             with open('output/temp.txt', 'a') as f, stdout_redirected(f):
                 cmd = f"sh -c \"sudo fio --minimal --filename={gv.virtdevname} --direct=1 --rw={m[0]} --ioengine=psync --bs={bs}k " \
-                f"--iodepth=1 --size=4G --name=fio_seq_{m[1]}_test\""
+                f"--iodepth=1 --size={gv.virtfiosize} --name=fio_seq_{m[1]}_test\""
                 os.system(cmd)
     
     
@@ -91,8 +91,9 @@ def get_params(values) -> float:
     real = json.load(f)
     for m in modlist:
         for bs in gv.bslist:
-            diff += abs(real[m[0]][f"{bs}"] - ours[m[0]][f"{bs}"]) / real[m[0]][f"{bs}"]
-    # diff /= 8
+            diff += abs(real[m[0]][f"{bs}"] - ours[m[0]][f"{bs}"]) * math.log2(bs) / real[m[0]][f"{bs}"]
+            # log2(bs): different weights, more weight for larger block size as this does not seem to be getting large block reads right
+    diff /= (modlist.__len__() * gv.bscount) # average error rate
 
     with open("output/ours_hynix.json", "w") as f:
         cache[key]['perf'] = diff
@@ -118,5 +119,5 @@ if __name__ == '__main__':
     # RR: 70.62 82.16 111.58 193.91
     # RW: 21.58 28.48  61.99 134.47
     #arr=[1900,2100,2300,1500,1700,1900,5e4,2000,2000,3000,1000]
-    arr=[6e3,7e3,8e3,5e3,6e3,7e3,60e3,5e3,5e3,5e3,1e3]
+    arr=[3e4,3e4,3e4,3e4,3e4,3e4,1e4,2e3,2e3,2e3,500]
     get_params(arr)

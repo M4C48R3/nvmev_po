@@ -169,8 +169,8 @@ sphinx_*/
 # Rust analyzer configuration
 /rust-project.json
 
-nohup.out
-__pycache__/*
+nohup*
+__pycache__
 # copied files (for backup, in case mistakes with open resulting in contents being erased completely)
 output/**/*copy*
 output/temp.txt

@@ -27,7 +27,7 @@ for current_iter in range(repeats):
             if m[0] == 'randread': # RR should be done after SW
                 printv("doing SW before RR...")
                 cmd = f"sh -c \"sudo fio --minimal --filename={gv.realdevname} --direct=1 --rw=write --ioengine=psync --bs=256k " \
-                f"--iodepth=1 --size=32G --name=RR_prep --output=/dev/null\""
+                f"--iodepth=1 --size={gv.realfiosize} --name=RR_prep --output=/dev/null\""
                 os.system(cmd)
 
             dic[m[0]][f"{bs}"] = 0
@@ -35,7 +35,7 @@ for current_iter in range(repeats):
             printv(f"Doing {m[0]} with bs = {bs}KB...")
             with open('output/temp.txt', 'a') as f, stdout_redirected(f):
                 cmd = f"sh -c \"sudo fio --minimal --filename={gv.realdevname} --direct=1 --rw={m[0]} --ioengine=psync --bs={bs}k " \
-                f"--iodepth=1 --size=32G --name=fio_seq_{m[1]}_test\""
+                f"--iodepth=1 --size={gv.realfiosize} --name=fio_seq_{m[1]}_test\""
                 os.system(cmd)
 
     
