@@ -27,3 +27,4 @@ realdevname = "/dev/nvme0n1" # device name of actual device to measure
 virtdevname = "/dev/nvme1n1" # device name of virtual device created by NVMeVirt
 realfiosize = "32G" # size of fio test for real devices. should include G at the end
 virtfiosize = "4G" # size of fio test for virtual devices. should include G at the end
+latency_multiple_cellpos = [1, 1.5, 1.8] # multiplied factor for latency of LSB, MSB, CSB

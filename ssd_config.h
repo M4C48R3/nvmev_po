@@ -241,8 +241,8 @@ static_assert((ZONE_SIZE % DIES_PER_ZONE) == 0);
 #define NAND_CHANNELS (16) // 1. Flash Channels: 4; 2. 16
 #define LUNS_PER_NAND_CH (8) // 1. 16 dies per chip (4 LUNS/CH * 4 CHANNEL/CHIP = 16 LUNS/CHIP); 2. normally 2 but PLNS_PER_LUN should be 1 to not result in a segmentation fault, compensated by this
 #define PLNS_PER_LUN (1) // must be 1 (see ./conv_ftl.c:120)
-#define FLASH_PAGE_SIZE KB(48)
-#define ONESHOT_PAGE_SIZE (FLASH_PAGE_SIZE)
+#define FLASH_PAGE_SIZE KB(16)
+#define ONESHOT_PAGE_SIZE (3*FLASH_PAGE_SIZE)
 #define BLKS_PER_PLN (0) // 2TB / (66MB block * 16 * 8 = 8448MB line) = 248
 #define BLK_SIZE KB(67584/128) // Block Size: 1344 pages, but is that blk-size or line-size? (/16 is for line-size)
 static_assert((ONESHOT_PAGE_SIZE % FLASH_PAGE_SIZE) == 0);
@@ -251,21 +251,21 @@ static_assert((ONESHOT_PAGE_SIZE % FLASH_PAGE_SIZE) == 0);
 #define WRITE_UNIT_SIZE (512)
 
 #define NAND_CHANNEL_BANDWIDTH (2400ull) //MB/s
-#define PCIE_BANDWIDTH (3500ull) //MB/s
+#define PCIE_BANDWIDTH (14000ull) //MB/s
 
-#define NAND_4KB_READ_LATENCY_LSB (10000 - 0) //ns
-#define NAND_4KB_READ_LATENCY_MSB (150000 + 0) //ns
-#define NAND_4KB_READ_LATENCY_CSB (10000) //not used
-#define NAND_READ_LATENCY_LSB (103338 - 0)
-#define NAND_READ_LATENCY_MSB (10000 + 0)
-#define NAND_READ_LATENCY_CSB (150000) //not used
-#define NAND_PROG_LATENCY (760)
+#define NAND_4KB_READ_LATENCY_LSB (31647 - 0) //ns
+#define NAND_4KB_READ_LATENCY_MSB (47470 + 0) //ns
+#define NAND_4KB_READ_LATENCY_CSB (56964) //not used
+#define NAND_READ_LATENCY_LSB (35446 - 0)
+#define NAND_READ_LATENCY_MSB (53170 + 0)
+#define NAND_READ_LATENCY_CSB (63804) //not used
+#define NAND_PROG_LATENCY (534)
 #define NAND_ERASE_LATENCY (0)
 
-#define FW_4KB_READ_LATENCY (10)
-#define FW_READ_LATENCY (5000)
-#define FW_WBUF_LATENCY0 (21)
-#define FW_WBUF_LATENCY1 (10)
+#define FW_4KB_READ_LATENCY (128)
+#define FW_READ_LATENCY (3000)
+#define FW_WBUF_LATENCY0 (0)
+#define FW_WBUF_LATENCY1 (245)
 #define FW_CH_XFER_LATENCY (0)
 #define OP_AREA_PERCENT (0.1)
 

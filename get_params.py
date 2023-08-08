@@ -10,17 +10,25 @@ import json
 import math
 import global_values as gv
 import copy
-def get_params(values) -> float:
+def get_params(values_) -> float:
     ## 0: --rw= argument and dictionary key / 1: code for finding through 'in' / 2: index / 3: number of lines read from temp.txt so far
     modlist = copy.deepcopy(gv.modlist)
+    #values = copy.deepcopy(values_)
 
-    if len(values) != 11:
-        print("ERROR! 11 values must be given.")
+    # reduced to 7 values, given ratios of LSB/MSB/CSB latencies
+    if len(values_) != 7:
+        print("ERROR! 7 values must be given.")
         return
-    
+    values = [0 for dummy in range(11)]
+    for i in range(3):
+        values[i] = values_[0] * gv.latency_multiple_cellpos[i] # 4KB read latency (LSB,MSB,CSB)
+        values[i+3] = values_[0] * values_[1] * gv.latency_multiple_cellpos[i] # read latency (LSB,MSB,CSB)
+    for i in range(6,11):
+        values[i] = values_[i-4]
+
     values = [math.floor(v) for v in values]
     for val in values:
-        if val <= 0:
+        if val < 0:
             return 1000
     
     try:
@@ -91,7 +99,7 @@ def get_params(values) -> float:
     real = json.load(f)
     for m in modlist:
         for bs in gv.bslist:
-            diff += abs(real[m[0]][f"{bs}"] - ours[m[0]][f"{bs}"]) * math.log2(bs) / real[m[0]][f"{bs}"]
+            diff += abs(real[m[0]][f"{bs}"] - ours[m[0]][f"{bs}"]) / real[m[0]][f"{bs}"]
             # log2(bs): different weights, more weight for larger block size as this does not seem to be getting large block reads right
     diff /= (modlist.__len__() * gv.bscount) # average error rate
 
@@ -119,5 +127,6 @@ if __name__ == '__main__':
     # RR: 70.62 82.16 111.58 193.91
     # RW: 21.58 28.48  61.99 134.47
     #arr=[1900,2100,2300,1500,1700,1900,5e4,2000,2000,3000,1000]
-    arr=[3e4,3e4,3e4,3e4,3e4,3e4,1e4,2e3,2e3,2e3,500]
+    # 7 values for 4KB read latency, (read latency / 4KB read latency), prog latency, 4KB read FW, read FW, WBUF latency 0, WBUF latency 1
+    arr=[4e4, 1.00, 15e3, 2e3, 100, 100, 500]
     get_params(arr)
