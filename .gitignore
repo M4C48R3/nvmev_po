@@ -175,3 +175,4 @@ __pycache__
 output/**/*copy*
 output/temp.txt
 output/checkpoints/*
+output/multiple_res/**

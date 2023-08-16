@@ -9,7 +9,7 @@ dic = {}
 modlist = copy.deepcopy(gv.modlist)
 def printv(x):
     gv.printv(x)
-repeats = 2
+repeats = 4
 latencies = [[] for dummy in modlist]
 
 

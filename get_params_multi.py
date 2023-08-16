@@ -10,6 +10,8 @@ import json
 import math
 import global_values as gv
 import copy
+import numpy as np
+
 def get_params(values_) -> float:
     ## 0: --rw= argument and dictionary key / 1: code for finding through 'in' / 2: index / 3: number of lines read from temp.txt so far
     modlist = copy.deepcopy(gv.modlist)
@@ -32,7 +34,7 @@ def get_params(values_) -> float:
             return 1000
     
     try:
-        with open("output/ours_hynix.json") as f:
+        with open("output/ours_hynix_multiple.json") as f:
             cache = json.load(f)
     except:
         cache = {}
@@ -94,20 +96,22 @@ def get_params(values_) -> float:
 
     # print(ours)
 
-    diff = 0
+    diff = np.zeros(modlist.__len__() * gv.bscount)
     f = open("output/real_hynix.json")
     real = json.load(f)
+    diff_position = 0
     for m in modlist:
         for bs in gv.bslist:
-            diff += abs(real[m[0]][f"{bs}"] - ours[m[0]][f"{bs}"]) / real[m[0]][f"{bs}"]
+            diff[diff_position] = abs(real[m[0]][f"{bs}"] - ours[m[0]][f"{bs}"]) / real[m[0]][f"{bs}"]
+            diff_position += 1
             # log2(bs): different weights, more weight for larger block size as this does not seem to be getting large block reads right
-    diff /= (modlist.__len__() * gv.bscount) # average error rate
+    # diff /= (modlist.__len__() * gv.bscount) # average error rate
 
-    with open("output/ours_hynix.json", "w") as f:
-        cache[key]['perf'] = diff
+    with open("output/ours_hynix_multiple.json", "w") as f:
+        cache[key]['perf'] = diff.tolist()
         cache[key]['vals'] = ours
         json.dump(cache, f)
-    print(f"{diff}")
+    print(diff)
     return diff
 
 
@@ -128,6 +132,5 @@ if __name__ == '__main__':
     # RW: 21.58 28.48  61.99 134.47
     #arr=[1900,2100,2300,1500,1700,1900,5e4,2000,2000,3000,1000]
     # 7 values for 4KB read latency, (read latency / 4KB read latency), prog latency, 4KB read FW, read FW, WBUF latency 0, WBUF latency 1
-    # arr=[3e4, 1.00, 20e3, 2e3, 1e3, 1e3, 500]
-    arr = [80000,1.2,5000,1000,100,100,100]
+    arr=[4e4, 1.00, 15e3, 2e3, 100, 100, 500]
     get_params(arr)
