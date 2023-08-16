@@ -16,7 +16,8 @@ def first_non_digit(string: str, startidx: int, endidx_: int = -1) -> int:
             break
     return retv
 
-bslist = [4,8,16,32,64,128,256]
+bslist = (4,8,16,32,64,128,256)
+#bslist = (4,16,64,256)
 bscount = bslist.__len__()
 ## 0: --rw= argument and dictionary key / 1: code for finding through 'in' / 2: index / 3: number of lines read from temp.txt so far
 modlist = [['randread', 'RR', 0,0], ['randwrite', 'RW', 1,0]]
