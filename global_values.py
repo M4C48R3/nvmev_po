@@ -1,3 +1,5 @@
+import datetime
+
 VERBOSE = True
 def printv(x):
     if VERBOSE:
@@ -16,6 +18,14 @@ def first_non_digit(string: str, startidx: int, endidx_: int = -1) -> int:
             break
     return retv
 
+t = datetime.datetime.utcnow() + datetime.timedelta(hours=9) # adding 9h for KST
+TIME_STRING = t.strftime("%y%m%dT%H%M") # e.g. 17 Aug 2023 11:45 KST => 230817T1145
+def update_time_string():
+    global TIME_STRING
+    t = datetime.datetime.utcnow() + datetime.timedelta(hours=9)
+    TIME_STRING = t.strftime("%y%m%dT%H%M")
+    
+
 bslist = (4,8,16,32,64,128,256)
 #bslist = (4,16,64,256)
 bscount = bslist.__len__()
@@ -30,3 +40,4 @@ virtdevname = "/dev/nvme1n1" # device name of virtual device created by NVMeVirt
 realfiosize = "32G" # size of fio test for real devices. should include G at the end
 virtfiosize = "3G" # size of fio test for virtual devices. should include G at the end
 latency_multiple_cellpos = [1, 1.5, 1.8] # multiplied factor for latency of LSB, MSB, CSB
+

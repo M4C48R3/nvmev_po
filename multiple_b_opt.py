@@ -6,14 +6,12 @@ from scipy.stats import loguniform
 import copy
 import global_values
 import json
-import datetime
 import skopt
 import mobopt
 
 #SAMPLE_INITIAL_INPUTS = np.array([[1,2,6,3,8], [7,2,5,4,3], [1,7,4,11,6]], dtype = np.float64)
 SAMPLE_INITIAL_INPUTS = np.random.randint(0, 20, size=(15,14)).astype(np.float64)
-t = datetime.datetime.utcnow() + datetime.timedelta(hours=9) # adding 9h for KST
-TIME_STRING = t.strftime("%y%m%dT%H%M")
+TIME_STRING = global_values.TIME_STRING
 class NpEncoder(json.JSONEncoder):
 	def default(self, obj):
 		if isinstance(obj, np.integer):
@@ -47,20 +45,22 @@ if __name__ == '__main__':
 
 	checkpoint_file = f"./output/multiple_res/checkpoint_{TIME_STRING} (SN570).npz" # change identifier based on real_hynix
 	checkpoint_saver = [skopt.callbacks.CheckpointSaver(checkpoint_file)] # set to None to disable checkpointing
-	LOAD = 0 # put file to load (./output/multiple_res/checkpoint 1691380588.pkl), if not loading a previous result from a file, set to 0
-
+	LOAD = "./output/multiple_res/checkpoint_230816T1759 (SN570).npz" # put file to load (./output/multiple_res/checkpoint 1691380588.pkl), if not loading a previous result from a file, set to 0
+	# LOAD = "./output/multiple_res/FF_D07_I0050_NI10_P0.10_Q0.50opt_progress.npz"
 	optimizer = mobopt.MOBayesianOpt(target=get_params.get_params, pbounds=pbounds,
 				  NObj=(global_values.bscount * global_values.modlist.__len__()), max_or_min='min',
 					n_restarts_optimizer=10,
-					Filename="./output/multiple_res/opt_progress",
+					Filename=f"./output/multiple_res/opt_progress_{TIME_STRING}",
 					verbose=True, Picture=False)
-	
+
 	if LOAD:
-		optimizer.ReadSpace(filename=LOAD)
+		previous_points = np.load(LOAD, allow_pickle=True)
+		optimizer.initialize(init_points=0, Points=previous_points['X'], Y=previous_points['F'])
+		#optimizer.ReadSpace(filename=LOAD)
 	else:
 		optimizer.initialize(init_points=10)
 
-	res = optimizer.maximize(n_iter=50, SaveInterval=5)
+	res = optimizer.maximize(n_iter=60, SaveInterval=5, n_pts=128, FrontSampling=[32, 64, 128])
 	
 	optimizer.WriteSpace(filename=checkpoint_file)
 	print(res)
