@@ -16,14 +16,14 @@ def get_params(values_) -> float:
     #values = copy.deepcopy(values_)
 
     # reduced to 7 values, given ratios of LSB/MSB/CSB latencies
-    if len(values_) != 7:
+    if len(values_) != 9:
         print("ERROR! 7 values must be given.")
         return
     values = [0 for dummy in range(11)]
     for i in range(3):
         values[i] = values_[0] * gv.latency_multiple_cellpos[i] # 4KB read latency (LSB,MSB,CSB)
         values[i+3] = values_[0] * values_[1] * gv.latency_multiple_cellpos[i] # read latency (LSB,MSB,CSB)
-    for i in range(6,11):
+    for i in range(6,13):
         values[i] = values_[i-4]
 
     values = [math.floor(v) for v in values]

@@ -210,21 +210,20 @@ def simplex_generator(input_centric):
 
 if __name__ == '__main__':
 	# low and high of each variable for x0
-	# 7 values for: 4KB read latency, (read latency / 4KB read latency), prog latency,
-	# 4KB read FW, read FW, WBUF latency 0 (constant), WBUF latency 1 (per page)
-	# x0_lowhigh = [[1e4,12e4,"uniform"],[0.6, 1.65,"log-uniform"],[0,35e3,"uniform"],
-	# 							[0,3e3,"uniform"],[0,3e3,"uniform"],[0,4e3,"uniform"],[0,1e3,"uniform"]]
-	x0_lowhigh = [[1e3,25e4,"uniform"],[0.4, 2.5,"log-uniform"],[0,5e5,"uniform"],
-								[0,8e3,"uniform"],[0,8e3,"uniform"],[0,1e4,"uniform"],[0,1.5e3,"uniform"]]
+	# 9 values for: 4KB read latency, (read latency / 4KB read latency), prog latency,
+	# 4KB read FW, read FW, WBUF latency 0 (constant), WBUF latency 1 (per page),
+	# channel transfer latency, erase latency
+	x0_lowhigh = [[15e3,60e3,"uniform"],[0.9, 1.4,"uniform"],[0,6e5,"uniform"],
+								[0,8e3,"uniform"],[0,8e3,"uniform"],[0,2e3,"uniform"],[0,600,"uniform"],[0,1e4,"uniform"],[0,15e5,"uniform"]]
 	skopt_dim = [skopt.space.space.Real(x0[0], x0[1], prior=x0[2]) for x0 in x0_lowhigh]
 
-	checkpoint_file = f"./output/checkpoints/checkpoint_{TIME_STRING} (SN570).pkl" # change identifier based on real_hynix
+	checkpoint_file = f"./output/checkpoints/checkpoint_{TIME_STRING} (FADU).pkl" # change identifier based on real_hynix
 	checkpoint_saver = [skopt.callbacks.CheckpointSaver(checkpoint_file)] # set to None to disable checkpointing
 	LOAD = 0 # put file to load (./output/checkpoints/checkpoint 1691380588.pkl), if not loading a previous result from a file, set to 0
 	res = skopt.load(LOAD) if LOAD else None
 	res = skopt.optimizer.gp_minimize(
 		func=get_params.get_params, dimensions=skopt_dim,
-		initial_point_generator="hammersly", n_calls=180, n_random_starts=20,
+		initial_point_generator="hammersly", n_calls=90, n_random_starts=15,
 		verbose=True, callback=checkpoint_saver,
 		x0=res.x_iters if LOAD else None, y0=res.func_vals if LOAD else None
 	)
