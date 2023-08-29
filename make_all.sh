@@ -9,4 +9,12 @@ echo "Remove previously installed nvmev module"
 sudo rmmod nvmev
 
 echo "insert module"
-sudo insmod nvmev.ko memmap_start=16G memmap_size=24G cpus=1,2,3
+
+if [ $(hostname -f) = "star3" ]
+then
+    # star3 server
+    sudo insmod nvmev.ko memmap_start=128G memmap_size=32G cpus=1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16
+else
+    # desktop
+    sudo insmod nvmev.ko memmap_start=16G memmap_size=24G cpus=1,2,3
+fi

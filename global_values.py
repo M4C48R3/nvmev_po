@@ -1,4 +1,5 @@
 import datetime
+import os
 
 VERBOSE = True
 def printv(x):
@@ -35,9 +36,38 @@ modlist = [['randread', 'RR', 0,0], ['randwrite', 'RW', 1,0]]
 #modlist = [['read', 'SR', 0,0], ['write', 'SW', 1,0], ['randread', 'RR', 2,0], ['randwrite', 'RW', 3,0]]
 def bs_from_index(i):
     return bslist[i]
-realdevname = "/dev/nvme0n1" # device name of actual device to measure
-virtdevname = "/dev/nvme1n1" # device name of virtual device created by NVMeVirt
+
+
+realdevname = "/dev/nvme2n1" # device name of actual device to measure
+virtdevname = "/dev/nvme7n1" # device name of virtual device created by NVMeVirt
 realfiosize = "32G" # size of fio test for real devices. should include G at the end
-virtfiosize = "3G" # size of fio test for virtual devices. should include G at the end
+virt_timebased = True
+if virt_timebased:
+    # without time_based, fio runtime is *at most* runtime.
+    # add time_based to make fio *always* run for runtime.
+    virt_test_size = "--runtime=40 --size=3G" #"--time_based=1" 
+else:
+    # size_based config
+    # size of fio test for virtual devices. should include G at the end
+    virt_test_size = "--size=3G" 
+
+
 latency_multiple_cellpos = [1, 1.5, 1.8] # multiplied factor for latency of LSB, MSB, CSB
 
+# format prints warning and waits 10 seconds from version 1.10 onwards. "-f" option skips the warning, but it results in an error for version 1.9 and below. 
+def whether_to_f():
+    versionstring = os.popen("nvme version").read()
+    # this gives "nvme version vmaj.vmin\n". Parsing below.
+    vp = versionstring.find("version ") + len("version ") # points to the first digit of version
+    dotp = versionstring.find(".", vp)
+    newlinep = versionstring.find("\n", dotp)
+    vmaj = int(versionstring[vp:dotp])
+    vmin = int(versionstring[dotp+1:newlinep])
+    if vmaj > 1:
+        return "-f"
+    elif vmaj == 1 and vmin >= 10:
+        return "-f"
+    else:
+        return ""
+
+forceformat = whether_to_f()

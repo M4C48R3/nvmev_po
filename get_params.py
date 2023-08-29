@@ -70,14 +70,14 @@ def get_params(values_) -> float:
             if m[0] == 'randread':
                 gv.printv("doing SW before RR...")
                 cmd = f"sh -c \"sudo fio --minimal --filename={gv.virtdevname} --direct=1 --rw=write --ioengine=psync --bs=256k " \
-                f"--iodepth=1 --size={gv.virtfiosize} --name=RR_prep --output=/dev/null\""
+                f"--iodepth=1 {gv.virt_test_size} --name=RR_prep --output=/dev/null\""
                 os.system(cmd)
                           
             ours[m[0]][f"{bs}"] = 0
 
             with open('output/temp.txt', 'a') as f, stdout_redirected(f):
                 cmd = f"sh -c \"sudo fio --minimal --filename={gv.virtdevname} --direct=1 --rw={m[0]} --ioengine=psync --bs={bs}k " \
-                f"--iodepth=1 --size={gv.virtfiosize} --name=fio_seq_{m[1]}_test\""
+                f"--iodepth=1 {gv.virt_test_size} --name=fio_seq_{m[1]}_test\""
                 os.system(cmd)
     
     
