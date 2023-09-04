@@ -117,7 +117,7 @@ static void init_lines(struct conv_ftl *conv_ftl)
 	int i;
 
 	lm->tt_lines = spp->blks_per_pl;
-	//NVMEV_ASSERT(lm->tt_lines == spp->tt_lines);
+	NVMEV_ASSERT(lm->tt_lines == spp->tt_lines);
 	lm->lines = vmalloc(sizeof(struct line) * lm->tt_lines);
 
 	INIT_LIST_HEAD(&lm->free_line_list);

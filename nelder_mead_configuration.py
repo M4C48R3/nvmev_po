@@ -213,8 +213,8 @@ if __name__ == '__main__':
 	# 9 values for: 4KB read latency, (read latency / 4KB read latency), prog latency,
 	# 4KB read FW, read FW, WBUF latency 0 (constant), WBUF latency 1 (per page),
 	# channel transfer latency, erase latency
-	x0_lowhigh = [[15e3,60e3,"uniform"],[0.9, 1.4,"uniform"],[0,6e5,"uniform"],
-								[0,8e3,"uniform"],[0,8e3,"uniform"],[0,2e3,"uniform"],[0,600,"uniform"],[0,1e4,"uniform"],[0,15e5,"uniform"]]
+	x0_lowhigh = [[15e3,45e3,"uniform"],[0.9, 1.4,"uniform"],[8e5,12e5,"uniform"],
+								[0,8e3,"uniform"],[0,8e3,"uniform"],[0,2e3,"uniform"],[0,600,"uniform"],[0,7e3,"uniform"],[1e6,3e6,"uniform"]]
 	skopt_dim = [skopt.space.space.Real(x0[0], x0[1], prior=x0[2]) for x0 in x0_lowhigh]
 
 	checkpoint_file = f"./output/checkpoints/checkpoint_{TIME_STRING} (FADU).pkl" # change identifier based on real_hynix
@@ -223,7 +223,7 @@ if __name__ == '__main__':
 	res = skopt.load(LOAD) if LOAD else None
 	res = skopt.optimizer.gp_minimize(
 		func=get_params.get_params, dimensions=skopt_dim,
-		initial_point_generator="hammersly", n_calls=90, n_random_starts=15,
+		initial_point_generator="hammersly", n_calls=120, n_random_starts=15,
 		verbose=True, callback=checkpoint_saver,
 		x0=res.x_iters if LOAD else None, y0=res.func_vals if LOAD else None
 	)

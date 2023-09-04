@@ -56,6 +56,7 @@ latency_multiple_cellpos = [1, 1.5, 1.8] # multiplied factor for latency of LSB,
 
 # format prints warning and waits 10 seconds from version 1.10 onwards. "-f" option skips the warning, but it results in an error for version 1.9 and below. 
 def whether_to_f():
+    # return "" # uncomment this line to disable -f option and see the warning for higher versions
     versionstring = os.popen("nvme version").read()
     # this gives "nvme version vmaj.vmin\n". Parsing below.
     vp = versionstring.find("version ") + len("version ") # points to the first digit of version
