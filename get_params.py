@@ -21,7 +21,7 @@ def get_params(values_) -> float:
 		print("ERROR! There must be 7 to 9 values.")
 		return
 	vcount = len(values_) + 4
-	values = [0 for dummy in vcount]
+	values = [0] * vcount
 	for i in range(3):
 		values[i] = values_[0] * gv.latency_multiple_cellpos[i] # 4KB read latency (LSB,MSB,CSB)
 		values[i+3] = values_[0] * values_[1] * gv.latency_multiple_cellpos[i] # read latency (LSB,MSB,CSB)
