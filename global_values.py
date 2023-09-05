@@ -37,9 +37,17 @@ modlist = [['randread', 'RR', 0,0], ['randwrite', 'RW', 1,0]]
 def bs_from_index(i):
     return bslist[i]
 
+hostname = os.popen("hostname -f").read().strip()
+if hostname == "star3":
+    realdevname = "/dev/nvme2n1" # device name of actual device to measure
+    virtdevname = "/dev/nvme7n1" # device name of virtual device created by NVMeVirt
+elif hostname == "streaming":
+    realdevname = None # device name of actual device to measure
+    virtdevname = "/dev/nvme0n1" # device name of virtual device created by NVMeVirt
+else:
+    raise Exception("Unknown hostname: " + hostname)
 
-realdevname = "/dev/nvme2n1" # device name of actual device to measure
-virtdevname = "/dev/nvme7n1" # device name of virtual device created by NVMeVirt
+
 realfiosize = "32G" # size of fio test for real devices. should include G at the end
 virt_timebased = True
 if virt_timebased:

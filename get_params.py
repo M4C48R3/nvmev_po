@@ -42,7 +42,7 @@ def get_params(values_) -> float:
 	# cache is a dict, and if input is the same, it will return the same output. time is added to make sure that the keys do not collide
 	# cache now serves as a history of inputs and outputs, not returning the same output twice
 	values.append(unixtime())
-	key = tuple(values)
+	key = str(values)
 	print(key)
 	cache[key] = {}
 	values.pop() # remove time from values

@@ -237,35 +237,36 @@ static_assert((ZONE_SIZE % DIES_PER_ZONE) == 0);
 #define MDTS (6)
 #define CELL_MODE (CELL_MODE_TLC)
 
-#define SSD_PARTITIONS (1)
-#define NAND_CHANNELS (4) // 1. Flash Channels: 4; 2. 16
-#define LUNS_PER_NAND_CH (16) // 1. 16 dies per chip (4 LUNS/CH * 4 CHANNEL/CHIP = 16 LUNS/CHIP); 2. normally 2 but PLNS_PER_LUN should be 1 to not result in a segmentation fault, compensated by this
-#define PLNS_PER_LUN (1) // must be 1 (see ./conv_ftl.c:120)
-#define FLASH_PAGE_SIZE KB(16)
-#define ONESHOT_PAGE_SIZE (3*FLASH_PAGE_SIZE)
+#define SSD_PARTITIONS (1) // 1. = SN570 (no longer doing this); 2. = FADU
+#define NAND_CHANNELS (16) // 1. Flash Channels: 4; 2. 16
+#define LUNS_PER_NAND_CH (2) // 1. 16 dies per chip (4 LUNS/CH * 4 CHANNEL/CHIP = 16 LUNS/CHIP); 2. 2
+#define PLNS_PER_LUN (1) // must be 1 (see ./conv_ftl.c:120, and trace backwards)
+#define FLASH_PAGE_SIZE KB(16) // 4 planes per LUN (known) -> but PLNS_PER_LUN should be 1 to not result in a segmentation fault, compensated by this (16KB * 4)
+// this is because pages within a die are interleaved, so we need to read all pages in a die at the same position. this is seen as a single page for the emulator, though is actually 4 pages
+#define ONESHOT_PAGE_SIZE (FLASH_PAGE_SIZE*3)
 #define BLKS_PER_PLN (0) // 2TB / (66MB block * 16 * 8 = 8448MB line) = 248
-#define BLK_SIZE KB(1344*48/64) // Block Size: 1344 pages, but is that blk-size or line-size? (/16 is for line-size)
+#define BLK_SIZE KB(67584/32) // Block Size: 1344 pages, but is that blk-size or line-size? (/16 is for line-size)
 static_assert((ONESHOT_PAGE_SIZE % FLASH_PAGE_SIZE) == 0);
 
 #define MAX_CH_XFER_SIZE KB(16) /* to overlap with pcie transfer */
 #define WRITE_UNIT_SIZE (512)
 
-#define NAND_CHANNEL_BANDWIDTH (2400ull) //MB/s
-#define PCIE_BANDWIDTH (3500ull) //MB/s
+#define NAND_CHANNEL_BANDWIDTH (512ull) //MB/s
+#define PCIE_BANDWIDTH (7168ull) //MB/s
 
-#define NAND_4KB_READ_LATENCY_LSB (105028 - 0) //ns
-#define NAND_4KB_READ_LATENCY_MSB (157542 + 0) //ns
-#define NAND_4KB_READ_LATENCY_CSB (189050) //not used
-#define NAND_READ_LATENCY_LSB (208450 - 0)
-#define NAND_READ_LATENCY_MSB (312676 + 0)
-#define NAND_READ_LATENCY_CSB (375211) //not used
-#define NAND_PROG_LATENCY (0)
-#define NAND_ERASE_LATENCY (0)
+#define NAND_4KB_READ_LATENCY_LSB (15000) //ns
+#define NAND_4KB_READ_LATENCY_MSB (22500)
+#define NAND_4KB_READ_LATENCY_CSB (27000)
+#define NAND_READ_LATENCY_LSB (13500 - 0)
+#define NAND_READ_LATENCY_MSB (20250 + 0)
+#define NAND_READ_LATENCY_CSB (24300)
+#define NAND_PROG_LATENCY (800000)
+#define NAND_ERASE_LATENCY (1000000)
 
-#define FW_4KB_READ_LATENCY (7969)
-#define FW_READ_LATENCY (880)
-#define FW_WBUF_LATENCY0 (9992)
-#define FW_WBUF_LATENCY1 (1456)
+#define FW_4KB_READ_LATENCY (0)
+#define FW_READ_LATENCY (0)
+#define FW_WBUF_LATENCY0 (0)
+#define FW_WBUF_LATENCY1 (0)
 #define FW_CH_XFER_LATENCY (0)
 #define OP_AREA_PERCENT (0.1)
 
