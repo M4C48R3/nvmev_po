@@ -213,8 +213,8 @@ if __name__ == '__main__':
 	# 9 values for: 4KB read latency, (read latency / 4KB read latency), prog latency,
 	# 4KB read FW, read FW, WBUF latency 0 (constant), WBUF latency 1 (per page),
 	# channel transfer latency, erase latency
-	x0_lowhigh = [[15e3,45e3,"uniform"],[0.9, 1.4,"uniform"],[8e5,12e5,"uniform"],
-								[0,8e3,"uniform"],[0,8e3,"uniform"],[0,2e3,"uniform"],[0,600,"uniform"],[0,7e3,"uniform"],[1e6,3e6,"uniform"]]
+	x0_lowhigh = [[10e3,40e3,"uniform"],[0.9, 1.4,"uniform"],[1e5,1e6,"uniform"],
+								[0,15e3,"uniform"],[0,15e3,"uniform"],[0,2e3,"uniform"],[0,600,"uniform"],[0,7e3,"uniform"],[1e5,2e6,"uniform"]]
 	skopt_dim = [skopt.space.space.Real(x0[0], x0[1], prior=x0[2]) for x0 in x0_lowhigh]
 
 	checkpoint_file = f"./output/checkpoints/checkpoint_{TIME_STRING} (FADU).pkl" # change identifier based on real_hynix
