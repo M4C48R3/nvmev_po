@@ -241,7 +241,7 @@ static_assert((ZONE_SIZE % DIES_PER_ZONE) == 0);
 #define NAND_CHANNELS (16) // 1. Flash Channels: 4; 2. 16
 #define LUNS_PER_NAND_CH (2) // 1. 16 dies per chip (4 LUNS/CH * 4 CHANNEL/CHIP = 16 LUNS/CHIP); 2. 2
 #define PLNS_PER_LUN (1) // must be 1 (see ./conv_ftl.c:120, and trace backwards)
-#define FLASH_PAGE_SIZE KB(16) // 4 planes per LUN (known) -> but PLNS_PER_LUN should be 1 to not result in a segmentation fault, compensated by this (16KB * 4)
+#define FLASH_PAGE_SIZE KB(64) // 4 planes per LUN (known) -> but PLNS_PER_LUN should be 1 to not result in a segmentation fault, compensated by this (16KB * 4)
 // this is because pages within a die are interleaved, so we need to read all pages in a die at the same position. this is seen as a single page for the emulator, though is actually 4 pages
 #define ONESHOT_PAGE_SIZE (FLASH_PAGE_SIZE*3)
 #define BLKS_PER_PLN (0) // 2TB / (66MB block * 16 * 8 = 8448MB line) = 248
@@ -251,8 +251,8 @@ static_assert((ONESHOT_PAGE_SIZE % FLASH_PAGE_SIZE) == 0);
 #define MAX_CH_XFER_SIZE KB(16) /* to overlap with pcie transfer */
 #define WRITE_UNIT_SIZE (512)
 
-#define NAND_CHANNEL_BANDWIDTH (600ull) //MB/s
-#define PCIE_BANDWIDTH (7168ull) //MB/s
+#define NAND_CHANNEL_BANDWIDTH (800ull) //MB/s
+#define PCIE_BANDWIDTH (7000ull) //MB/s
 
 #define NAND_4KB_READ_LATENCY_LSB ($1) //ns
 #define NAND_4KB_READ_LATENCY_MSB ($2)
