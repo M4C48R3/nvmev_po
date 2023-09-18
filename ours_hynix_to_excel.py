@@ -28,7 +28,7 @@ f.close()
 savef = open("./output/simulation_results_table.txt", "w")
 
 # save data table
-labels = ["4K LSB", "4K MSB", "4K CSB", "LSB", "MSB", "CSB", "PROG", "4K READ FW", "READ FW", "WBUF FW 0", "WBUF FW 1", "CH XFER LAT", "ERASE", "UNIX TIME", "EXCEL TIME", "OVERALL PERF"]
+labels = ["4K LSB", "4K MSB", "4K CSB", "LSB", "MSB", "CSB", "PROG", "4K READ FW", "READ FW", "WBUF FW 0", "WBUF FW 1", "CH XFER LAT", "ERASE", "CHANNEL BW", "UNIX TIME", "EXCEL TIME", "OVERALL PERF"]
 actualdata = [""] * len(labels)
 actualdata[-1] = "ACTUAL"
 for j in jobs:

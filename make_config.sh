@@ -251,7 +251,7 @@ static_assert((ONESHOT_PAGE_SIZE % FLASH_PAGE_SIZE) == 0);
 #define MAX_CH_XFER_SIZE KB(16) /* to overlap with pcie transfer */
 #define WRITE_UNIT_SIZE (512)
 
-#define NAND_CHANNEL_BANDWIDTH (800ull) //MB/s
+#define NAND_CHANNEL_BANDWIDTH (${14:-1000}ull) //MB/s
 #define PCIE_BANDWIDTH (7000ull) //MB/s
 
 #define NAND_4KB_READ_LATENCY_LSB ($1) //ns

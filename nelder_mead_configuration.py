@@ -207,22 +207,42 @@ def simplex_generator(input_centric):
 		f.close()
 	return simplex
 
+def make_array_then_gp(inputs:np.ndarray):
+	inputs_added = [0] * 10
+	inputs_added[0] = inputs[0] # 4KB read latency
+	inputs_added[1] = inputs[1] # (read latency / 4KB read latency)
+	inputs_added[2] = 1.9e6 # prog latency
+	inputs_added[3] = inputs[2] # 4KB read FW
+	inputs_added[4] = inputs[3] # read FW
+	inputs_added[5] = inputs[4] # WBUF FW 0
+	inputs_added[6] = inputs[5] # WBUF FW 1
+	inputs_added[7] = inputs[6] # channel transfer latency
+	inputs_added[8] = 3e6 # erase latency
+	inputs_added[9] = inputs[7] # channel bandwidth
+
+	return get_params.get_params(inputs_added)
+
 
 if __name__ == '__main__':
 	# low and high of each variable for x0
-	# 9 values for: 4KB read latency, (read latency / 4KB read latency), prog latency,
+	# up to 10 for 4KB read lat, (readlat/4KBread), PROGLAT, 4KBrFW, rFW, WBUF0, WBUF1, {CHXFERLAT, ERASELAT, CHBW}
+	# values in {} are optional
+	# Here, given values are:
+	# 4KB read latency, (read latency / 4KB read latency)
 	# 4KB read FW, read FW, WBUF latency 0 (constant), WBUF latency 1 (per page),
-	# channel transfer latency, erase latency
-	x0_lowhigh = [[8e3,35e3,"uniform"],[0.9, 1.4,"uniform"],[6e4,1e6,"uniform"],
-								[0,15e3,"uniform"],[0,15e3,"uniform"],[0,2e3,"uniform"],[0,600,"uniform"],[0,7e3,"uniform"],[6e4,2e6,"uniform"]]
+	# channel transfer latency, channel bandwidth
+	# prog latency is set at 1.9e6 and erase latency 3e6
+	x0_lowhigh = [[6e3,50e3,"uniform"],[0.8, 1.4,"uniform"],
+					[0,25e3,"uniform"],[0,25e3,"uniform"],[0,1e4,"uniform"],[0,700,"uniform"],
+					[0,4e3,"uniform"],[800,3000,"uniform"]]
 	skopt_dim = [skopt.space.space.Real(x0[0], x0[1], prior=x0[2]) for x0 in x0_lowhigh]
 
 	checkpoint_file = f"./output/checkpoints/checkpoint_{TIME_STRING} (FADU).pkl" # change identifier based on real_hynix
 	checkpoint_saver = [skopt.callbacks.CheckpointSaver(checkpoint_file)] # set to None to disable checkpointing
-	LOAD = 0 # put file to load (./output/checkpoints/checkpoint 1691380588.pkl), if not loading a previous result from a file, set to 0
+	LOAD = "output/checkpoints/checkpoint_230915T1648 (FADU).pkl" # put file to load (./output/checkpoints/checkpoint 1691380588.pkl), if not loading a previous result from a file, set to 0
 	res = skopt.load(LOAD) if LOAD else None
 	res = skopt.optimizer.gp_minimize(
-		func=get_params.get_params, dimensions=skopt_dim,
+		func=make_array_then_gp, dimensions=skopt_dim,
 		initial_point_generator="hammersly", n_calls=60, n_random_starts=10,
 		verbose=True, callback=checkpoint_saver,
 		x0=res.x_iters if LOAD else None, y0=res.func_vals if LOAD else None
@@ -237,3 +257,23 @@ if __name__ == '__main__':
 #     configs, best_config, best_metric = Nelder_Mead(configs, get_params.get_params)
 #     print(best_metric, best_config)
 #     print("variance", simplex_variance(configs))
+
+	# # low and high of each variable for x0
+	# # 9 values for: 4KB read latency, (read latency / 4KB read latency), prog latency,
+	# # 4KB read FW, read FW, WBUF latency 0 (constant), WBUF latency 1 (per page),
+	# # channel transfer latency, erase latency
+	# x0_lowhigh = [[8e3,35e3,"uniform"],[0.9, 1.4,"uniform"],[6e4,1e6,"uniform"],
+	# 							[0,15e3,"uniform"],[0,15e3,"uniform"],[0,2e3,"uniform"],[0,600,"uniform"],[0,7e3,"uniform"],[6e4,2e6,"uniform"]]
+	# skopt_dim = [skopt.space.space.Real(x0[0], x0[1], prior=x0[2]) for x0 in x0_lowhigh]
+
+	# checkpoint_file = f"./output/checkpoints/checkpoint_{TIME_STRING} (FADU).pkl" # change identifier based on real_hynix
+	# checkpoint_saver = [skopt.callbacks.CheckpointSaver(checkpoint_file)] # set to None to disable checkpointing
+	# LOAD = 0 # put file to load (./output/checkpoints/checkpoint 1691380588.pkl), if not loading a previous result from a file, set to 0
+	# res = skopt.load(LOAD) if LOAD else None
+	# res = skopt.optimizer.gp_minimize(
+	# 	func=get_params.get_params, dimensions=skopt_dim,
+	# 	initial_point_generator="hammersly", n_calls=60, n_random_starts=10,
+	# 	verbose=True, callback=checkpoint_saver,
+	# 	x0=res.x_iters if LOAD else None, y0=res.func_vals if LOAD else None
+	# )
+	# print(res)

@@ -16,9 +16,10 @@ def get_params(values_) -> float:
 	modlist = copy.deepcopy(gv.modlist)
 	#values = copy.deepcopy(values_)
 
-	# reduced to 7 to 9 values, given ratios of LSB/MSB/CSB latencies. FW_CH_XFER_LATENCY (values[11], ${12:-0} in make_config) and ERASE_LATENCY (values[12], ${13:-0} in make_config) are defaulted to zero if unspecified.
-	if len(values_) < 7 or len(values_) > 9:
-		print("ERROR! There must be 7 to 9 values.")
+	# reduced to 7 to 10 values, given ratios of LSB/MSB/CSB latencies. FW_CH_XFER_LATENCY (values[11], ${12:-0} in make_config) and ERASE_LATENCY (values[12], ${13:-0} in make_config), are defaulted to zero if unspecified.
+	# CHANNEL_BANDWIDTH (values[13], ${14:-1000}) is defaulted to 1000 if unspecified
+	if len(values_) < 7 or len(values_) > 10:
+		print("ERROR! There must be 7 to 10 values.")
 		return
 	vcount = len(values_) + 4
 	values = [0] * vcount
@@ -80,7 +81,7 @@ def get_params(values_) -> float:
 
 			with open('output/temp.txt', 'a') as f, stdout_redirected(f):
 				cmd = f"sh -c \"sudo fio --minimal --filename={gv.virtdevname} --direct=1 --rw={m[0]} --ioengine=psync --bs={bs}k " \
-				f"--iodepth=1 {gv.virt_test_size} --name=fio_seq_{m[1]}_test\""
+				f"--iodepth=1 {gv.virt_test_size} {gv.virt_timebased} --name=fio_seq_{m[1]}_test\""
 				os.system(cmd)
 	
 	
@@ -130,11 +131,13 @@ if __name__ == '__main__':
 	# RR: 70.62 82.16 111.58 193.91
 	# RW: 21.58 28.48  61.99 134.47
 	#arr=[1900,2100,2300,1500,1700,1900,5e4,2000,2000,3000,1000]
-	# 7 values for 4KB read latency, (read latency / 4KB read latency), prog latency, 4KB read FW, read FW, WBUF latency 0, WBUF latency 1
-	# Possibly 2 more, FW_CH_XFER_LATENCY (values[11], ${12:-0} in make_config) and ERASE_LATENCY (values[12], ${13:-0} in make_config) are defaulted to zero if unspecified.
+
 	# arr=[3e4, 1.00, 20e3, 2e3, 1e3, 1e3, 500]
 	# avg read latency = 41us = 1.433 ((1 + 1.5 + 1.8) / 3) * 24e3 (ns) * 1.2 (assumed 4KB read optimization factor)
 	
 	#35000, 52500, 63000, 31500, 47250, 56700, 60000, 0, 0, 0, 0, 0, 2000000
-	arr = [0,0,0,0,0,0,0,0,0]
+	arr = [30e3, 1, 1.9e6,		# 7 values for 4KB read latency, (read latency / 4KB read latency), prog latency,
+		10e3, 15e3, 5300, 130,	# 4KB read FW, read FW, WBUF latency 0, WBUF latency 1
+		1900, 2.5e6,			# Possibly 3 more, FW_CH_XFER_LATENCY (values[11], ${12:-0} in make_config) and ERASE_LATENCY (values[12], ${13:-0} in make_config) are defaulted to zero if unspecified.
+		2400]					# finally, NAND_CHANNEL_BANDWIDTH is defaulted to 1000 if unspecified
 	get_params(arr)
