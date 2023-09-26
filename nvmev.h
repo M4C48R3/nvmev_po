@@ -9,8 +9,6 @@
 
 #include "nvme.h"
 
-#define max(a,b) (((a)>(b))?(a):(b))
-#define min(a,b) (((a)>(b))?(b):(a))
 #define CONFIG_NVMEV_IO_WORKER_BY_SQ
 #undef CONFIG_NVMEV_FAST_X86_IRQ_HANDLING
 

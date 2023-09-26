@@ -352,6 +352,9 @@ static void remove_rmap(struct conv_ftl *conv_ftl)
 
 static void conv_init_ftl(struct conv_ftl *conv_ftl, struct convparams *cpp, struct ssd *ssd)
 {
+	#ifdef RANDOM_MAP_LINESTART
+	int i;
+	#endif
 	/*copy convparams*/
 	conv_ftl->cp = *cpp;
 
@@ -373,10 +376,10 @@ static void conv_init_ftl(struct conv_ftl *conv_ftl, struct convparams *cpp, str
 	NVMEV_INFO("initialize write pointer\n");
 	#ifdef RANDOM_MAP_LINESTART
 	/* set random start positions by line */
-	srand(0);
-	conv_ftl->line_starts = vmalloc(sizeof(int) * conv_ftl->ssd->sp.tt_lines);
-	for (int i=0; i<conv_ftl->ssd->sp.tt_lines; i++){
-		conv_ftl->line_starts[i] = rand() % conv_ftl->ssd->sp.nchs;
+	conv_ftl->line_starts = vmalloc(sizeof(u32) * conv_ftl->ssd->sp.tt_lines);
+	get_random_bytes(conv_ftl->line_starts, sizeof(u32) * conv_ftl->ssd->sp.tt_lines);
+	for (i=0; i<conv_ftl->ssd->sp.tt_lines; i++){
+		conv_ftl->line_starts[i] %= (u32)(conv_ftl->ssd->sp.nchs);
 	}
 	#endif
 	prepare_write_pointer(conv_ftl, USER_IO);
