@@ -9,6 +9,8 @@
 
 #include "nvme.h"
 
+#define max(a,b) (((a)>(b))?(a):(b))
+#define min(a,b) (((a)>(b))?(b):(a))
 #define CONFIG_NVMEV_IO_WORKER_BY_SQ
 #undef CONFIG_NVMEV_FAST_X86_IRQ_HANDLING
 
@@ -285,5 +287,6 @@ void NVMEV_IO_PROC_INIT(struct nvmev_dev *nvmev_vdev);
 void NVMEV_IO_PROC_FINAL(struct nvmev_dev *nvmev_vdev);
 int nvmev_proc_io_sq(int qid, int new_db, int old_db);
 void nvmev_proc_io_cq(int qid, int new_db, int old_db);
+
 
 #endif /* _LIB_NVMEV_H */

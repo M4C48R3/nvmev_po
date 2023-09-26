@@ -6,6 +6,7 @@
 #include "nvmev.h"
 #include "conv_ftl.h"
 
+
 void schedule_internal_operation(int sqid, unsigned long long nsecs_target,
 			      struct buffer *write_buffer, unsigned int buffs_to_release);
 
@@ -206,7 +207,7 @@ static void prepare_write_pointer(struct conv_ftl *conv_ftl, uint32_t io_type)
 	/* wp->curline is always our next-to-write super-block */
 	*wp = (struct write_pointer) {
 		.curline = curline,
-		.ch = 0,
+		.ch = conv_ftl->line_starts[curline->id],
 		.lun = 0,
 		.pg = 0,
 		.blk = curline->id,
@@ -231,11 +232,23 @@ static void advance_write_pointer(struct conv_ftl *conv_ftl, uint32_t io_type)
 
 	wpp->pg -= spp->pgs_per_oneshotpg;
 	check_addr(wpp->ch, spp->nchs);
+
+	#ifdef RANDOM_MAP_LINESTART
+	wpp->ch = (wpp->ch + 1) % spp->nchs;
+	// if the next channel is not the same as the start, advance and return with the first page of the next channel
+	if (wpp->ch != conv_ftl->line_starts[wpp->blk])
+		goto out;
+	#else
 	wpp->ch++;
 	if (wpp->ch != spp->nchs)
 		goto out;
+	#endif
 
-	wpp->ch = 0;
+	#ifdef RANDOM_MAP_LINESTART
+	wpp->ch = conv_ftl->line_starts[wpp->blk];
+	#else
+	wpp->ch=0;
+	#endif
 	check_addr(wpp->lun, spp->luns_per_ch);
 	wpp->lun++;
 	/* in this case, we should go to next lun */
@@ -271,11 +284,16 @@ static void advance_write_pointer(struct conv_ftl *conv_ftl, uint32_t io_type)
 
 	wpp->blk = wpp->curline->id;
 	check_addr(wpp->blk, spp->blks_per_pl);
+	wpp->ch = conv_ftl->line_starts[wpp->blk];
 
 	/* make sure we are starting from page 0 in the super block */
 	NVMEV_ASSERT(wpp->pg == 0);
 	NVMEV_ASSERT(wpp->lun == 0);
+	#ifdef RANDOM_MAP_LINESTART
+	NVMEV_ASSERT(wpp->ch == conv_ftl->line_starts[wpp->blk]);
+	#else
 	NVMEV_ASSERT(wpp->ch == 0);
+	#endif
 	/* TODO: assume # of pl_per_lun is 1, fix later */
 	NVMEV_ASSERT(wpp->pl == 0);
 out:
@@ -353,6 +371,14 @@ static void conv_init_ftl(struct conv_ftl *conv_ftl, struct convparams *cpp, str
 
 	/* initialize write pointer, this is how we allocate new pages for writes */
 	NVMEV_INFO("initialize write pointer\n");
+	#ifdef RANDOM_MAP_LINESTART
+	/* set random start positions by line */
+	srand(0);
+	conv_ftl->line_starts = vmalloc(sizeof(int) * conv_ftl->ssd->sp.tt_lines);
+	for (int i=0; i<conv_ftl->ssd->sp.tt_lines; i++){
+		conv_ftl->line_starts[i] = rand() % conv_ftl->ssd->sp.nchs;
+	}
+	#endif
 	prepare_write_pointer(conv_ftl, USER_IO);
 	prepare_write_pointer(conv_ftl, GC_IO);
 
@@ -369,6 +395,9 @@ static void conv_remove_ftl(struct conv_ftl *conv_ftl)
 	remove_lines(conv_ftl);
 	remove_rmap(conv_ftl);
 	remove_maptbl(conv_ftl);
+	#ifdef RANDOM_MAP_LINESTART
+	vfree(conv_ftl->line_starts);
+	#endif
 }
 
 static void conv_init_params(struct convparams *cpp)

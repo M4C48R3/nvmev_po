@@ -136,7 +136,7 @@ if __name__ == '__main__':
 	# avg read latency = 41us = 1.433 ((1 + 1.5 + 1.8) / 3) * 24e3 (ns) * 1.2 (assumed 4KB read optimization factor)
 	
 	#35000, 52500, 63000, 31500, 47250, 56700, 60000, 0, 0, 0, 0, 0, 2000000
-	arr = [30e3, 1, 1.9e6,		# 7 values for 4KB read latency, (read latency / 4KB read latency), prog latency,
+	arr = [30e3, 1, 1.8e6,		# 7 values for 4KB read latency, (read latency / 4KB read latency), prog latency,
 		10e3, 15e3, 5300, 130,	# 4KB read FW, read FW, WBUF latency 0, WBUF latency 1
 		1900, 2.5e6,			# Possibly 3 more, FW_CH_XFER_LATENCY (values[11], ${12:-0} in make_config) and ERASE_LATENCY (values[12], ${13:-0} in make_config) are defaulted to zero if unspecified.
 		2400]					# finally, NAND_CHANNEL_BANDWIDTH is defaulted to 1000 if unspecified

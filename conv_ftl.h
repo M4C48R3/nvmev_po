@@ -4,6 +4,7 @@
 #define _NVMEVIRT_CONV_FTL_H
 
 #include <linux/types.h>
+#include <stdlib.h>
 #include "pqueue/pqueue.h"
 #include "ssd_config.h"
 #include "ssd.h"
@@ -61,6 +62,9 @@ struct conv_ftl {
 	struct convparams cp;
 	struct ppa *maptbl; /* page level mapping table */
 	uint64_t *rmap; /* reverse mapptbl, assume it's stored in OOB */
+	#ifdef RANDOM_MAP_LINESTART
+	int *line_starts; /* channel number of the start of each line (superblock), for write pointer. Write pointer for block i starts at channel line_starts[i] */
+	#endif
 	struct write_pointer wp;
 	struct write_pointer gc_wp;
 	struct line_mgmt lm;
