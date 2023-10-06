@@ -208,42 +208,53 @@ def simplex_generator(input_centric):
 	return simplex
 
 def make_array_then_gp(inputs:np.ndarray):
-	inputs_added = [0] * 10
-	inputs_added[0] = inputs[0] # 4KB read latency
-	inputs_added[1] = inputs[1] # (read latency / 4KB read latency)
-	inputs_added[2] = 1.9e6 # prog latency
-	inputs_added[3] = inputs[2] # 4KB read FW
-	inputs_added[4] = inputs[3] # read FW
-	inputs_added[5] = inputs[4] # WBUF FW 0
-	inputs_added[6] = inputs[5] # WBUF FW 1
-	inputs_added[7] = inputs[6] # channel transfer latency
-	inputs_added[8] = 3e6 # erase latency
-	inputs_added[9] = inputs[7] # channel bandwidth
+	inputs_modif = []
+	len(inputs)
+	for i in inputs:
+		inputs_modif.append(i)
+	
+	for i in (1,2,3,4): # these values are stored as log2(x), should be transformed 1 -> 2, 2 -> 4, 3 -> 8, 4 -> 16
+		inputs_modif[i] = 2 ** inputs_modif[i]
 
-	return get_params.get_params(inputs_added)
+	inputs_modif[10] *= inputs_modif[9] # (read latency / 4KB read latency) * 4KB read latency = read latency
+	inputs_modif[10] = int(inputs_modif[10])
+	inputs_modif[9] = int(inputs_modif[9])
+
+	return get_params.get_params(inputs_modif)
 
 
 if __name__ == '__main__':
-	# low and high of each variable for x0
-	# up to 10 for 4KB read lat, (readlat/4KBread), PROGLAT, 4KBrFW, rFW, WBUF0, WBUF1, {CHXFERLAT, ERASELAT, CHBW}
-	# values in {} are optional
-	# Here, given values are:
-	# 4KB read latency, (read latency / 4KB read latency)
-	# 4KB read FW, read FW, WBUF latency 0 (constant), WBUF latency 1 (per page),
-	# channel transfer latency, channel bandwidth
-	# prog latency is set at 1.9e6 and erase latency 3e6
-	x0_lowhigh = [[6e3,50e3,"uniform"],[0.8, 1.4,"uniform"],
-					[0,25e3,"uniform"],[0,25e3,"uniform"],[0,1e4,"uniform"],[0,700,"uniform"],
-					[0,4e3,"uniform"],[800,3000,"uniform"]]
-	skopt_dim = [skopt.space.space.Real(x0[0], x0[1], prior=x0[2]) for x0 in x0_lowhigh]
+
+	# parameter description [index in python] (index in make_config.sh, there argument 0 is the name of the script)
+	skopt_dim = [skopt.space.space.Integer(1,3), # Cell type (1: SLC, 2: MLC, 3: TLC) - [0] A1
+			  skopt.space.space.Integer(0,3), # SSD Partitions (FTL Instances), log2 (0->1, 1->2, 2->4, 3->8) - [1] A2
+			  skopt.space.space.Integer(0,5), # NAND Channels, log2 - [2] A3
+			  skopt.space.space.Integer(0,3), # NAND Dies per Channel, log2 - [3] A4
+			  skopt.space.space.Integer(2,7), # NAND page size in KB, log2 - [4] A5
+			  skopt.space.space.Integer(1,4), # Global WB size - [5] A6
+			  skopt.space.space.Integer(1024, 524288), # line size in KB - [6] A7
+			  skopt.space.space.Integer(400, 4000), # channel bandwidth in MB/s - [7] A8
+			  skopt.space.space.Integer(1000, 15000), # PCIe bandwidth in MB/s - [8] A9
+			  skopt.space.space.Integer(5000, 150000), # 4KB read latency in ns - [9] A10
+			  skopt.space.space.Real(0.9, 1.4), # read latency / 4KB read latency - [10] A11 / A10
+			  skopt.space.space.Real(0.25,1.5), # MSB, CSB multiplier for read latencies - [11] A12
+			  skopt.space.space.Integer(50000, 3000000), # prog latency in ns - [12] A13
+			  skopt.space.space.Integer(50000, 5000000), # erase latency in ns - [13] A14
+			  skopt.space.space.Integer(0,5000), # 4KB read FW - [14] A15
+			  skopt.space.space.Integer(0,10000), # read FW - [15] A16
+			  skopt.space.space.Integer(0,10000), # WBUF FW 0 (constant) - [16] A17
+			  skopt.space.space.Integer(0,1000), # WBUF FW 1 (per page) - [17] A18
+			  skopt.space.space.Integer(0,5000), # channel transfer latency - [18] A19
+			  skopt.space.space.Real(0.01, 0.2), # overprovisioning - [19] A20
+			  ]
 
 	checkpoint_file = f"./output/checkpoints/checkpoint_{TIME_STRING} (FADU).pkl" # change identifier based on real_hynix
 	checkpoint_saver = [skopt.callbacks.CheckpointSaver(checkpoint_file)] # set to None to disable checkpointing
-	LOAD = "output/checkpoints/checkpoint_230915T1648 (FADU).pkl" # put file to load (./output/checkpoints/checkpoint 1691380588.pkl), if not loading a previous result from a file, set to 0
+	LOAD = None # put file to load (./output/checkpoints/checkpoint 1691380588.pkl), if not loading a previous result from a file, set to 0
 	res = skopt.load(LOAD) if LOAD else None
 	res = skopt.optimizer.gp_minimize(
 		func=make_array_then_gp, dimensions=skopt_dim,
-		initial_point_generator="hammersly", n_calls=60, n_random_starts=10,
+		initial_point_generator="hammersly", n_calls=50, n_random_starts=15,
 		verbose=True, callback=checkpoint_saver,
 		x0=res.x_iters if LOAD else None, y0=res.func_vals if LOAD else None
 	)

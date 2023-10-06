@@ -3,8 +3,6 @@
 #ifndef _NVMEVIRT_SSD_CONFIG_H
 #define _NVMEVIRT_SSD_CONFIG_H
 
-#define RANDOM_MAP_LINESTART
-
 /* SSD Model */
 #define INTEL_OPTANE 0
 #define SAMSUNG_970PRO 1
@@ -231,6 +229,7 @@ static_assert((ZONE_SIZE % DIES_PER_ZONE) == 0);
 
 #elif (BASE_SSD == HYNIX)
 #define NR_NAMESPACES 1
+#define RANDOM_MAP_LINESTART
 
 #define NS_SSD_TYPE_0 SSD_TYPE_CONV
 #define NS_CAPACITY_0 (0)

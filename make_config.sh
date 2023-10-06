@@ -229,48 +229,52 @@ static_assert((ZONE_SIZE % DIES_PER_ZONE) == 0);
 
 #elif (BASE_SSD == HYNIX)
 #define NR_NAMESPACES 1
+// #define RANDOM_MAP_LINESTART
 
 #define NS_SSD_TYPE_0 SSD_TYPE_CONV
 #define NS_CAPACITY_0 (0)
 #define NS_SSD_TYPE_1 NS_SSD_TYPE_0
 #define NS_CAPACITY_1 (0)
 #define MDTS (6)
-#define CELL_MODE (CELL_MODE_TLC)
+#define CELL_MODE (${1}) // A1
 
-#define SSD_PARTITIONS (1) // 1. = SN570 (no longer doing this); 2. = FADU
-#define NAND_CHANNELS (16) // 1. Flash Channels: 4; 2. 16
-#define LUNS_PER_NAND_CH (2) // 1. 16 dies per chip (4 LUNS/CH * 4 CHANNEL/CHIP = 16 LUNS/CHIP); 2. 2
+#define SSD_PARTITIONS (${2}) // A2
+#define NAND_CHANNELS (${3}) // A3
+#define LUNS_PER_NAND_CH (${4}) // A4
 #define PLNS_PER_LUN (1) // must be 1 (see ./conv_ftl.c:120, and trace backwards)
-#define FLASH_PAGE_SIZE KB(64) // 4 planes per LUN (known) -> but PLNS_PER_LUN should be 1 to not result in a segmentation fault, compensated by this (16KB * 4)
+#define FLASH_PAGE_SIZE KB(${5}) // A5. multiple planes per LUN -> but PLNS_PER_LUN should be 1 to not result in a segmentation fault, compensated by this (e.g. 64KB for PLNS_PER_LUN=4, actual NAND page size=16KB)
 // this is because pages within a die are interleaved, so we need to read all pages in a die at the same position. this is seen as a single page for the emulator, though is actually 4 pages
-#define ONESHOT_PAGE_SIZE (FLASH_PAGE_SIZE*3)
-#define BLKS_PER_PLN (0) // 2TB / (66MB block * 16 * 8 = 8448MB line) = 248
-#define BLK_SIZE KB(67584/32) // Block Size: 1344 pages, but is that blk-size or line-size? (/16 is for line-size)
+#define ONESHOT_PAGE_SIZE (FLASH_PAGE_SIZE*${1}) // (FPS * cell type)
+#define BLKS_PER_PLN (0)
+#define PG_SIZE_IN_LINE (ONESHOT_PAGE_SIZE * NAND_CHANNELS * LUNS_PER_NAND_CH)
+#define BLK_SIZE ((KB(${7}) / PG_SIZE_IN_LINE) * PG_SIZE_IN_LINE) // should be multiple of ONESHOT_PAGE_SIZE * NAND_CHANNELS * LUNS_PER_NAND_CH. A7 is in unit of KB.
 static_assert((ONESHOT_PAGE_SIZE % FLASH_PAGE_SIZE) == 0);
 
 #define MAX_CH_XFER_SIZE KB(16) /* to overlap with pcie transfer */
 #define WRITE_UNIT_SIZE (512)
 
-#define NAND_CHANNEL_BANDWIDTH (${14:-1000}ull) //MB/s
-#define PCIE_BANDWIDTH (7000ull) //MB/s
+#define NAND_CHANNEL_BANDWIDTH (${8}ull) //MB/s
+#define PCIE_BANDWIDTH (${9}ull) //MB/s
 
-#define NAND_4KB_READ_LATENCY_LSB ($1) //ns
-#define NAND_4KB_READ_LATENCY_MSB ($2)
-#define NAND_4KB_READ_LATENCY_CSB ($3)
-#define NAND_READ_LATENCY_LSB ($4 - 0)
-#define NAND_READ_LATENCY_MSB ($5 + 0)
-#define NAND_READ_LATENCY_CSB ($6)
-#define NAND_PROG_LATENCY ($7)
-#define NAND_ERASE_LATENCY (${13:-0})
+#define NAND_4KB_READ_LATENCY_LSB (${10}) //ns, A10
+#define NAND_4KB_READ_LATENCY_MSB ((int)((1 + ${12}) * ${10})) //ns, (1+A12)*A10
+#define NAND_4KB_READ_LATENCY_CSB ((int)((1 + 2 * ${12}) * ${10})) //ns, (1+2*A12)*A10
+#define NAND_READ_LATENCY_LSB (${11}) // A11
+#define NAND_READ_LATENCY_MSB ((int)((1 + ${12}) * ${11})) // (1+A12)*A11
+#define NAND_READ_LATENCY_CSB ((int)((1 + 2 * ${12}) * ${11})) // (1+2*A12)*A11
+#define NAND_PROG_LATENCY (${13}) // A13 to A20 from here
+#define NAND_ERASE_LATENCY (${14})
 
-#define FW_4KB_READ_LATENCY ($8)
-#define FW_READ_LATENCY ($9)
-#define FW_WBUF_LATENCY0 (${10})
-#define FW_WBUF_LATENCY1 (${11})
-#define FW_CH_XFER_LATENCY (${12:-0})
-#define OP_AREA_PERCENT (0.1)
+#define FW_4KB_READ_LATENCY (${15})
+#define FW_READ_LATENCY (${16})
+#define FW_WBUF_LATENCY0 (${17})
+#define FW_WBUF_LATENCY1 (${18})
+#define FW_CH_XFER_LATENCY (${19})
+#define OP_AREA_PERCENT (${20})
 
-#define GLOBAL_WB_SIZE (NAND_CHANNELS * LUNS_PER_NAND_CH * ONESHOT_PAGE_SIZE * 2)
+#define GLOBAL_WB_SIZE (NAND_CHANNELS * LUNS_PER_NAND_CH * ONESHOT_PAGE_SIZE * ${6}) // A6
+static_assert((${20}) >= 0)
+static_assert((${6}) >= 1)
 #define WRITE_EARLY_COMPLETION 1
 #endif 
 ///////////////////////////////////////////////////////////////////////////
@@ -288,3 +292,5 @@ static_assert(NR_NAMESPACES <= 2);
 
 #endif
 " > ssd_config.h
+
+ 

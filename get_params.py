@@ -11,25 +11,17 @@ import math
 import global_values as gv
 import copy
 from time import time as unixtime
-def get_params(values_) -> float:
+def get_params(values) -> float:
 	## 0: --rw= argument and dictionary key / 1: code for finding through 'in' / 2: index / 3: number of lines read from temp.txt so far
 	modlist = copy.deepcopy(gv.modlist)
 	#values = copy.deepcopy(values_)
 
 	# reduced to 7 to 10 values, given ratios of LSB/MSB/CSB latencies. FW_CH_XFER_LATENCY (values[11], ${12:-0} in make_config) and ERASE_LATENCY (values[12], ${13:-0} in make_config), are defaulted to zero if unspecified.
 	# CHANNEL_BANDWIDTH (values[13], ${14:-1000}) is defaulted to 1000 if unspecified
-	if len(values_) < 7 or len(values_) > 10:
-		print("ERROR! There must be 7 to 10 values.")
-		return
-	vcount = len(values_) + 4
-	values = [0] * vcount
-	for i in range(3):
-		values[i] = values_[0] * gv.latency_multiple_cellpos[i] # 4KB read latency (LSB,MSB,CSB)
-		values[i+3] = values_[0] * values_[1] * gv.latency_multiple_cellpos[i] # read latency (LSB,MSB,CSB)
-	for i in range(6,vcount):
-		values[i] = values_[i-4]
+	if len(values) != 20:
+		print("ERROR! There must be 20 values, but only %d were given." % (len(values)))
+		raise Exception("Wrong number of values!\n")
 
-	values = [math.floor(v) for v in values]
 	for val in values:
 		if val < 0:
 			return 1000

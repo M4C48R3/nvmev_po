@@ -51,10 +51,10 @@ else:
 realfiosize = "32G" # size of fio test for real devices. should include G at the end
 
 # without time_based, fio runtime is *at most* runtime.
-# add --time_based=1 to make fio *always* run for runtime.
-# set to empty string to limit only by size
-virt_timebased = "--runtime=45"
-virt_test_size = "--size=8G" 
+# add --time_based=1 in virt_timebased to make fio *always* run for runtime.
+# set it to empty string to limit only by size
+virt_timebased = "--runtime=30"
+virt_test_size = "--size=6G" 
 
 
 latency_multiple_cellpos = [1, 1.5, 2] # multiplied factor for latency of LSB, MSB, CSB
