@@ -251,6 +251,49 @@ def remove_outofbound_points(loaded_cp, skopt_dim):
 
 	return x0_fit, y0_fit
 
+def remove_outofbound_points_json(loaded_cp, skopt_dim):
+	xsize = len(skopt_dim)
+	x0_fit = []
+	y0_fit = []
+	for k in loaded_cp.keys():
+		new_entry = []
+		# list of floats in string converted
+		for x in k.strip('[]').split(','):
+			new_entry.append(float(x.strip()))
+		
+		# check if out of bounds
+		j = 0
+		toadd = True
+		while j < xsize: # for each coordinate dimension
+			if new_entry[j] < skopt_dim[j].low or new_entry[j] > skopt_dim[j].high:
+				toadd = False
+				j = xsize
+			j += 1
+		if toadd:
+			x0_fit.append(new_entry)
+			y0_fit.append(loaded_cp[k]["perf"])
+
+
+	# x0_fit = []
+	# y0_fit = []
+	# ecount = len(loaded_cp.x_iters)
+	# xsize = len(skopt_dim)
+	# i = 0
+	# while i < ecount: # for each point
+	# 	j = 0
+	# 	toadd = True
+	# 	while j < xsize: # for each coordinate dimension
+	# 		if loaded_cp.x_iters[i][j] < skopt_dim[j].low or loaded_cp.x_iters[i][j] > skopt_dim[j].high:
+	# 			toadd = False 
+	# 			j = xsize
+	# 		j += 1
+	# 	if toadd:
+	# 		x0_fit.append(loaded_cp.x_iters[i])
+	# 		y0_fit.append(loaded_cp.func_vals[i])
+	# 	i += 1
+
+	return x0_fit, y0_fit
+
 if __name__ == '__main__':
 
 	# parameter description [index in python] (index in make_config.sh, there argument 0 is the name of the script)
@@ -281,10 +324,19 @@ if __name__ == '__main__':
 	checkpoint_saver = [skopt.callbacks.CheckpointSaver(checkpoint_file)] # set to None to disable checkpointing
 	LOAD = "output/checkpoints/checkpoint_231011T1600 (FADU).pkl" # put file to load (./output/checkpoints/checkpoint 1691380588.pkl), if not loading a previous result from a file, set to 0
 	# load checkpoint
-	loaded_cp = skopt.load(LOAD) if LOAD else None
-	loaded_x0, loadeD_y0 = None, None
-	if LOAD:
+	loaded_cp = None
+	if LOAD.endswith(".pkl"):
+		loaded_cp = skopt.load(LOAD)
+	elif LOAD.endswith(".json"):
+		f = open(LOAD, "r")
+		loaded_cp = json.load(f)		
+		f.close()
+
+	loaded_x0, loaded_y0 = None, None
+	if LOAD.endswith(".pkl"):
 		loaded_x0, loaded_y0 = remove_outofbound_points(loaded_cp, skopt_dim)
+	elif LOAD.endswith(".json"):
+		loaded_x0, loaded_y0 = remove_outofbound_points_json(loaded_cp, skopt_dim)
 	res = skopt.optimizer.gp_minimize(
 		func=make_array_then_gp, dimensions=skopt_dim,
 		initial_point_generator="hammersly", n_calls=100, n_random_starts=15,
