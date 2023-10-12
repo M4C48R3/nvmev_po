@@ -18,8 +18,8 @@ def get_params(values) -> float:
 
 	# reduced to 7 to 10 values, given ratios of LSB/MSB/CSB latencies. FW_CH_XFER_LATENCY (values[11], ${12:-0} in make_config) and ERASE_LATENCY (values[12], ${13:-0} in make_config), are defaulted to zero if unspecified.
 	# CHANNEL_BANDWIDTH (values[13], ${14:-1000}) is defaulted to 1000 if unspecified
-	if len(values) != 20:
-		print("ERROR! There must be 20 values, but only %d were given." % (len(values)))
+	if len(values) != 21:
+		print("ERROR! There must be 21 values, but only %d were given." % (len(values)))
 		raise Exception("Wrong number of values!\n")
 
 	for val in values:
@@ -66,8 +66,19 @@ def get_params(values) -> float:
 			if m[0] == 'randread':
 				gv.printv("doing SW before RR...")
 				cmd = f"sh -c \"sudo fio --minimal --filename={gv.virtdevname} --direct=1 --rw=write --ioengine=psync --bs=256k " \
-				f"--iodepth=1 {gv.virt_test_size} --name=RR_prep --output=/dev/null\""
-				os.system(cmd)
+				f"--iodepth=1 {gv.virt_test_size} --name=RR_prep --runtime=90\""
+				# --runtime=90 should not be limiting. if this actually takes 90 seconds, write is set to take too long (BW < 70 MB/s)
+				with open('output/temp_rr_prep.txt', 'w+') as f, stdout_redirected(f):
+					os.system(cmd)
+					f.seek(0)
+					write_result = f.read()
+				
+				write_result_split = write_result.split(";")
+				# write runtime = position 49, bandwidth (KB/s)= position 47
+				if int(write_result_split[49]) > 89000:
+					print("write is taking too long.")
+					return 10 + 500000 / int(write_result_split[47])
+
 						  
 			ours[m[0]][f"{bs}"] = 0
 

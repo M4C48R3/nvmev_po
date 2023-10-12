@@ -207,7 +207,11 @@ static void prepare_write_pointer(struct conv_ftl *conv_ftl, uint32_t io_type)
 	/* wp->curline is always our next-to-write super-block */
 	*wp = (struct write_pointer) {
 		.curline = curline,
+		#ifdef RANDOM_MAP_LINESTART
 		.ch = conv_ftl->line_starts[curline->id],
+		#else
+		.ch = 0,
+		#endif
 		.lun = 0,
 		.pg = 0,
 		.blk = curline->id,
@@ -284,12 +288,12 @@ static void advance_write_pointer(struct conv_ftl *conv_ftl, uint32_t io_type)
 
 	wpp->blk = wpp->curline->id;
 	check_addr(wpp->blk, spp->blks_per_pl);
-	wpp->ch = conv_ftl->line_starts[wpp->blk];
 
 	/* make sure we are starting from page 0 in the super block */
 	NVMEV_ASSERT(wpp->pg == 0);
 	NVMEV_ASSERT(wpp->lun == 0);
 	#ifdef RANDOM_MAP_LINESTART
+	wpp->ch = conv_ftl->line_starts[wpp->blk];
 	NVMEV_ASSERT(wpp->ch == conv_ftl->line_starts[wpp->blk]);
 	#else
 	NVMEV_ASSERT(wpp->ch == 0);

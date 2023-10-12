@@ -209,54 +209,87 @@ def simplex_generator(input_centric):
 
 def make_array_then_gp(inputs:np.ndarray):
 	inputs_modif = []
-	len(inputs)
 	for i in inputs:
 		inputs_modif.append(i)
-	
-	for i in (1,2,3,4): # these values are stored as log2(x), should be transformed 1 -> 2, 2 -> 4, 3 -> 8, 4 -> 16
+	if inputs_modif[2] < inputs_modif[1]: # if there are fewer channels than FTLs, set FTLs to channels
+		inputs_modif[1] = inputs_modif[2]
+	# MDTS = maximum data transfer size, unit 4KB, log2
+	# GLOBAL_WB_SIZE is set at NAND_CHANNELS * LUNS_PER_NAND_CH * ONESHOT_PAGE_SIZE
+	# or inputs[2] + [3] + [4]
+	# MDTS must be smaller than GLOBAL_WB_SIZE
+	mdts = -3
+	for i in (2,3,4,5):
+		mdts += inputs_modif[i]
+	if mdts > 6:
+		mdts = 6
+	inputs_modif.append(mdts)
+	for i in (1,2,3,4,5): # these values are stored as log2(x), should be transformed 1 -> 2, 2 -> 4, 3 -> 8, 4 -> 16
 		inputs_modif[i] = 2 ** inputs_modif[i]
-
 	inputs_modif[10] *= inputs_modif[9] # (read latency / 4KB read latency) * 4KB read latency = read latency
 	inputs_modif[10] = int(inputs_modif[10])
 	inputs_modif[9] = int(inputs_modif[9])
-
 	return get_params.get_params(inputs_modif)
 
+def remove_outofbound_points(loaded_cp, skopt_dim):
+	x0_fit = []
+	y0_fit = []
+	ecount = len(loaded_cp.x_iters)
+	xsize = len(skopt_dim)
+	i = 0
+	while i < ecount: # for each point
+		j = 0
+		toadd = True
+		while j < xsize: # for each coordinate dimension
+			if loaded_cp.x_iters[i][j] < skopt_dim[j].low or loaded_cp.x_iters[i][j] > skopt_dim[j].high:
+				toadd = False 
+				j = xsize
+			j += 1
+		if toadd:
+			x0_fit.append(loaded_cp.x_iters[i])
+			y0_fit.append(loaded_cp.func_vals[i])
+		i += 1
+
+	return x0_fit, y0_fit
 
 if __name__ == '__main__':
 
 	# parameter description [index in python] (index in make_config.sh, there argument 0 is the name of the script)
-	skopt_dim = [skopt.space.space.Integer(1,3), # Cell type (1: SLC, 2: MLC, 3: TLC) - [0] A1
-			  skopt.space.space.Integer(0,3), # SSD Partitions (FTL Instances), log2 (0->1, 1->2, 2->4, 3->8) - [1] A2
-			  skopt.space.space.Integer(0,5), # NAND Channels, log2 - [2] A3
+	skopt_dim = [skopt.space.space.Integer(2,3), # Cell type (1: SLC, 2: MLC, 3: TLC) - [0] A1
+			  skopt.space.space.Integer(0,2), # SSD Partitions (FTL Instances), log2 (0->1, 1->2, 2->4, 3->8) - [1] A2
+			  skopt.space.space.Integer(1,5), # NAND Channels, log2 - [2] A3. SSD with only one channel is unlikely
 			  skopt.space.space.Integer(0,3), # NAND Dies per Channel, log2 - [3] A4
 			  skopt.space.space.Integer(2,7), # NAND page size in KB, log2 - [4] A5
-			  skopt.space.space.Integer(1,4), # Global WB size - [5] A6
-			  skopt.space.space.Integer(1024, 524288), # line size in KB - [6] A7
+			  skopt.space.space.Integer(1,3), # Global WB size, log2 - [5] A6
+			  skopt.space.space.Real(2048, 262144, prior="log-uniform"), # line size in KB - [6] A7
 			  skopt.space.space.Integer(400, 4000), # channel bandwidth in MB/s - [7] A8
-			  skopt.space.space.Integer(1000, 15000), # PCIe bandwidth in MB/s - [8] A9
-			  skopt.space.space.Integer(5000, 150000), # 4KB read latency in ns - [9] A10
+			  skopt.space.space.Integer(5000, 10000), # PCIe bandwidth in MB/s - [8] A9
+			  skopt.space.space.Integer(5000, 90000), # 4KB read latency in ns - [9] A10
 			  skopt.space.space.Real(0.9, 1.4), # read latency / 4KB read latency - [10] A11 / A10
-			  skopt.space.space.Real(0.25,1.5), # MSB, CSB multiplier for read latencies - [11] A12
+			  skopt.space.space.Real(0.2 ,1.5), # MSB, CSB multiplier for read latencies - [11] A12
 			  skopt.space.space.Integer(50000, 3000000), # prog latency in ns - [12] A13
 			  skopt.space.space.Integer(50000, 5000000), # erase latency in ns - [13] A14
-			  skopt.space.space.Integer(0,5000), # 4KB read FW - [14] A15
-			  skopt.space.space.Integer(0,10000), # read FW - [15] A16
-			  skopt.space.space.Integer(0,10000), # WBUF FW 0 (constant) - [16] A17
-			  skopt.space.space.Integer(0,1000), # WBUF FW 1 (per page) - [17] A18
-			  skopt.space.space.Integer(0,5000), # channel transfer latency - [18] A19
-			  skopt.space.space.Real(0.01, 0.2), # overprovisioning - [19] A20
+			  skopt.space.space.Integer(0,2000), # 4KB read FW - [14] A15
+			  skopt.space.space.Integer(0,7000), # read FW - [15] A16
+			  skopt.space.space.Integer(0,3000), # WBUF FW 0 (constant) - [16] A17
+			  skopt.space.space.Integer(0,400), # WBUF FW 1 (per page) - [17] A18
+			  skopt.space.space.Integer(0,800), # channel transfer latency - [18] A19
+			  skopt.space.space.Real(0.01, 0.15) # overprovisioning - [19] A20
+			  # A21, MDTS, is calculated in make_array_then_gp
 			  ]
 
-	checkpoint_file = f"./output/checkpoints/checkpoint_{TIME_STRING} (FADU).pkl" # change identifier based on real_hynix
+	checkpoint_file = f"./output/checkpoints/checkpoint_{TIME_STRING} (FADU_FULL_20param).pkl" # change identifier based on real_hynix
 	checkpoint_saver = [skopt.callbacks.CheckpointSaver(checkpoint_file)] # set to None to disable checkpointing
-	LOAD = None # put file to load (./output/checkpoints/checkpoint 1691380588.pkl), if not loading a previous result from a file, set to 0
-	res = skopt.load(LOAD) if LOAD else None
+	LOAD = "output/checkpoints/checkpoint_231011T1600 (FADU).pkl" # put file to load (./output/checkpoints/checkpoint 1691380588.pkl), if not loading a previous result from a file, set to 0
+	# load checkpoint
+	loaded_cp = skopt.load(LOAD) if LOAD else None
+	loaded_x0, loadeD_y0 = None, None
+	if LOAD:
+		loaded_x0, loaded_y0 = remove_outofbound_points(loaded_cp, skopt_dim)
 	res = skopt.optimizer.gp_minimize(
 		func=make_array_then_gp, dimensions=skopt_dim,
-		initial_point_generator="hammersly", n_calls=50, n_random_starts=15,
+		initial_point_generator="hammersly", n_calls=100, n_random_starts=15,
 		verbose=True, callback=checkpoint_saver,
-		x0=res.x_iters if LOAD else None, y0=res.func_vals if LOAD else None
+		x0=loaded_x0, y0=loaded_y0
 	)
 	print(res)
 

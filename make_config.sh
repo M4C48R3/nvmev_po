@@ -235,7 +235,7 @@ static_assert((ZONE_SIZE % DIES_PER_ZONE) == 0);
 #define NS_CAPACITY_0 (0)
 #define NS_SSD_TYPE_1 NS_SSD_TYPE_0
 #define NS_CAPACITY_1 (0)
-#define MDTS (6)
+#define MDTS (${21}) // modified depending on buffer size. Current implementation of NVMeVirt makes a request of over GLOBAL_WB_SIZE impossible. (Host has to divide the requests into smaller ones)
 #define CELL_MODE (${1}) // A1
 
 #define SSD_PARTITIONS (${2}) // A2
@@ -247,7 +247,7 @@ static_assert((ZONE_SIZE % DIES_PER_ZONE) == 0);
 #define ONESHOT_PAGE_SIZE (FLASH_PAGE_SIZE*${1}) // (FPS * cell type)
 #define BLKS_PER_PLN (0)
 #define PG_SIZE_IN_LINE (ONESHOT_PAGE_SIZE * NAND_CHANNELS * LUNS_PER_NAND_CH)
-#define BLK_SIZE ((KB(${7}) / PG_SIZE_IN_LINE) * PG_SIZE_IN_LINE) // should be multiple of ONESHOT_PAGE_SIZE * NAND_CHANNELS * LUNS_PER_NAND_CH. A7 is in unit of KB.
+#define BLK_SIZE (DIV_ROUND_UP(KB((int)(${7})), PG_SIZE_IN_LINE) * PG_SIZE_IN_LINE) // should be multiple of ONESHOT_PAGE_SIZE * NAND_CHANNELS * LUNS_PER_NAND_CH. A7 is in unit of KB.
 static_assert((ONESHOT_PAGE_SIZE % FLASH_PAGE_SIZE) == 0);
 
 #define MAX_CH_XFER_SIZE KB(16) /* to overlap with pcie transfer */
@@ -257,11 +257,11 @@ static_assert((ONESHOT_PAGE_SIZE % FLASH_PAGE_SIZE) == 0);
 #define PCIE_BANDWIDTH (${9}ull) //MB/s
 
 #define NAND_4KB_READ_LATENCY_LSB (${10}) //ns, A10
-#define NAND_4KB_READ_LATENCY_MSB ((int)((1 + ${12}) * ${10})) //ns, (1+A12)*A10
-#define NAND_4KB_READ_LATENCY_CSB ((int)((1 + 2 * ${12}) * ${10})) //ns, (1+2*A12)*A10
+#define NAND_4KB_READ_LATENCY_MSB ((int)((1.0 + ${12}) * ${10})) //ns, (1+A12)*A10
+#define NAND_4KB_READ_LATENCY_CSB ((int)((1.0 + 2 * ${12}) * ${10})) //ns, (1+2*A12)*A10
 #define NAND_READ_LATENCY_LSB (${11}) // A11
-#define NAND_READ_LATENCY_MSB ((int)((1 + ${12}) * ${11})) // (1+A12)*A11
-#define NAND_READ_LATENCY_CSB ((int)((1 + 2 * ${12}) * ${11})) // (1+2*A12)*A11
+#define NAND_READ_LATENCY_MSB ((int)((1.0 + ${12}) * ${11})) // (1+A12)*A11
+#define NAND_READ_LATENCY_CSB ((int)((1.0 + 2 * ${12}) * ${11})) // (1+2*A12)*A11
 #define NAND_PROG_LATENCY (${13}) // A13 to A20 from here
 #define NAND_ERASE_LATENCY (${14})
 
@@ -273,8 +273,8 @@ static_assert((ONESHOT_PAGE_SIZE % FLASH_PAGE_SIZE) == 0);
 #define OP_AREA_PERCENT (${20})
 
 #define GLOBAL_WB_SIZE (NAND_CHANNELS * LUNS_PER_NAND_CH * ONESHOT_PAGE_SIZE * ${6}) // A6
-static_assert((${20}) >= 0)
-static_assert((${6}) >= 1)
+static_assert((${20}) >= 0);
+static_assert((${6}) >= 1);
 #define WRITE_EARLY_COMPLETION 1
 #endif 
 ///////////////////////////////////////////////////////////////////////////

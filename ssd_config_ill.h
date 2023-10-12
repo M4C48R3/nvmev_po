@@ -236,45 +236,45 @@ static_assert((ZONE_SIZE % DIES_PER_ZONE) == 0);
 #define NS_SSD_TYPE_1 NS_SSD_TYPE_0
 #define NS_CAPACITY_1 (0)
 #define MDTS (6) // modified depending on buffer size. Current implementation of NVMeVirt makes a request of over GLOBAL_WB_SIZE impossible. (Host has to divide the requests into smaller ones)
-#define CELL_MODE (3) // A1
+#define CELL_MODE (2) // A1
 
-#define SSD_PARTITIONS (2) // A2
+#define SSD_PARTITIONS (4) // A2
 #define NAND_CHANNELS (16) // A3
 #define LUNS_PER_NAND_CH (8) // A4
 #define PLNS_PER_LUN (1) // must be 1 (see ./conv_ftl.c:120, and trace backwards)
 #define FLASH_PAGE_SIZE KB(64) // A5. multiple planes per LUN -> but PLNS_PER_LUN should be 1 to not result in a segmentation fault, compensated by this (e.g. 64KB for PLNS_PER_LUN=4, actual NAND page size=16KB)
 // this is because pages within a die are interleaved, so we need to read all pages in a die at the same position. this is seen as a single page for the emulator, though is actually 4 pages
-#define ONESHOT_PAGE_SIZE (FLASH_PAGE_SIZE*3) // (FPS * cell type)
+#define ONESHOT_PAGE_SIZE (FLASH_PAGE_SIZE*2) // (FPS * cell type)
 #define BLKS_PER_PLN (0)
 #define PG_SIZE_IN_LINE (ONESHOT_PAGE_SIZE * NAND_CHANNELS * LUNS_PER_NAND_CH)
-#define BLK_SIZE (DIV_ROUND_UP(KB((int)(2048.000000000001)), PG_SIZE_IN_LINE) * PG_SIZE_IN_LINE) // should be multiple of ONESHOT_PAGE_SIZE * NAND_CHANNELS * LUNS_PER_NAND_CH. A7 is in unit of KB.
+#define BLK_SIZE (DIV_ROUND_UP(KB((int)(150342.0896)), PG_SIZE_IN_LINE) * PG_SIZE_IN_LINE) // should be multiple of ONESHOT_PAGE_SIZE * NAND_CHANNELS * LUNS_PER_NAND_CH. A7 is in unit of KB.
 static_assert((ONESHOT_PAGE_SIZE % FLASH_PAGE_SIZE) == 0);
 
 #define MAX_CH_XFER_SIZE KB(16) /* to overlap with pcie transfer */
 #define WRITE_UNIT_SIZE (512)
 
-#define NAND_CHANNEL_BANDWIDTH (3609ull) //MB/s
-#define PCIE_BANDWIDTH (11094ull) //MB/s
+#define NAND_CHANNEL_BANDWIDTH (769ull) //MB/s
+#define PCIE_BANDWIDTH (14507ull) //MB/s
 
-#define NAND_4KB_READ_LATENCY_LSB (32749) //ns, A10
-#define NAND_4KB_READ_LATENCY_MSB ((int)((1.0 + 0.8847990651883522) * 32749)) //ns, (1+A12)*A10
-#define NAND_4KB_READ_LATENCY_CSB ((int)((1.0 + 2 * 0.8847990651883522) * 32749)) //ns, (1+2*A12)*A10
-#define NAND_READ_LATENCY_LSB (32076) // A11
-#define NAND_READ_LATENCY_MSB ((int)((1.0 + 0.8847990651883522) * 32076)) // (1+A12)*A11
-#define NAND_READ_LATENCY_CSB ((int)((1.0 + 2 * 0.8847990651883522) * 32076)) // (1+2*A12)*A11
-#define NAND_PROG_LATENCY (2679730) // A13 to A20 from here
-#define NAND_ERASE_LATENCY (1036648)
+#define NAND_4KB_READ_LATENCY_LSB (51560) //ns, A10
+#define NAND_4KB_READ_LATENCY_MSB ((int)((1.0 + 0.459652747) * 51560)) //ns, (1+A12)*A10
+#define NAND_4KB_READ_LATENCY_CSB ((int)((1.0 + 2 * 0.459652747) * 51560)) //ns, (1+2*A12)*A10
+#define NAND_READ_LATENCY_LSB (70691) // A11
+#define NAND_READ_LATENCY_MSB ((int)((1.0 + 0.459652747) * 70691)) // (1+A12)*A11
+#define NAND_READ_LATENCY_CSB ((int)((1.0 + 2 * 0.459652747) * 70691)) // (1+2*A12)*A11
+#define NAND_PROG_LATENCY (755776) // A13 to A20 from here
+#define NAND_ERASE_LATENCY (4858514)
 
-#define FW_4KB_READ_LATENCY (3275)
-#define FW_READ_LATENCY (6539)
-#define FW_WBUF_LATENCY0 (1116)
-#define FW_WBUF_LATENCY1 (361)
-#define FW_CH_XFER_LATENCY (236)
-#define OP_AREA_PERCENT (0.0770542310418871)
+#define FW_4KB_READ_LATENCY (313)
+#define FW_READ_LATENCY (4647)
+#define FW_WBUF_LATENCY0 (3856)
+#define FW_WBUF_LATENCY1 (338)
+#define FW_CH_XFER_LATENCY (295)
+#define OP_AREA_PERCENT (0.187476396)
 
-#define GLOBAL_WB_SIZE (NAND_CHANNELS * LUNS_PER_NAND_CH * ONESHOT_PAGE_SIZE * 8) // A6
-static_assert((0.0770542310418871) >= 0);
-static_assert((8) >= 1);
+#define GLOBAL_WB_SIZE (NAND_CHANNELS * LUNS_PER_NAND_CH * ONESHOT_PAGE_SIZE * 4) // A6
+static_assert((0.187476396) >= 0);
+static_assert((4) >= 1);
 #define WRITE_EARLY_COMPLETION 1
 #endif 
 ///////////////////////////////////////////////////////////////////////////

@@ -14,7 +14,7 @@ jsondata = json.load(f)
 f.close()
 data_table = []
 for key in jsondata.keys():
-    data_table.append([int(math.floor(float(nstr))) for nstr in key.strip('[]').split(', ')]) # keys are list of parameters, stored as strings.
+    data_table.append([(float(nstr)) for nstr in key.strip('[]').split(', ')]) # keys are list of parameters, stored as strings.
     data_table[-1].append(data_table[-1][-1] / 86400 + 25569 + 9/24) # unix timestamp (last element) to excel date & time format (25569 = days from 1900-01-01 to 1970-01-01). + 9/24 = UTC to KST
     data_table[-1].append(jsondata[key]["perf"]) # overall performance
     for j in jobs:
