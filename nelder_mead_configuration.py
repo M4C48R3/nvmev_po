@@ -260,13 +260,18 @@ def remove_outofbound_points_json(loaded_cp, skopt_dim):
 		# list of floats in string converted
 		for x in k.strip('[]').split(','):
 			new_entry.append(float(x.strip()))
+		new_entry = new_entry[0:xsize]
 		
 		# check if out of bounds
 		j = 0
 		toadd = True
+		new_entry[10] /= new_entry[9]
 		while j < xsize: # for each coordinate dimension
+			if (j in (1,2,3,4,5)):
+				new_entry[j] = np.round(np.log2(new_entry[j]),0)
 			if new_entry[j] < skopt_dim[j].low or new_entry[j] > skopt_dim[j].high:
 				toadd = False
+				print("range [%f, %f], given %f" % (skopt_dim[j].low, skopt_dim[j].high, new_entry[j]))
 				j = xsize
 			j += 1
 		if toadd:
@@ -291,7 +296,6 @@ def remove_outofbound_points_json(loaded_cp, skopt_dim):
 	# 		x0_fit.append(loaded_cp.x_iters[i])
 	# 		y0_fit.append(loaded_cp.func_vals[i])
 	# 	i += 1
-
 	return x0_fit, y0_fit
 
 if __name__ == '__main__':
@@ -304,8 +308,8 @@ if __name__ == '__main__':
 			  skopt.space.space.Integer(2,7), # NAND page size in KB, log2 - [4] A5
 			  skopt.space.space.Integer(1,3), # Global WB size, log2 - [5] A6
 			  skopt.space.space.Real(2048, 262144, prior="log-uniform"), # line size in KB - [6] A7
-			  skopt.space.space.Integer(400, 4000), # channel bandwidth in MB/s - [7] A8
-			  skopt.space.space.Integer(5000, 10000), # PCIe bandwidth in MB/s - [8] A9
+			  skopt.space.space.Integer(600, 4000), # channel bandwidth in MB/s - [7] A8
+			  skopt.space.space.Integer(5000, 9000), # PCIe bandwidth in MB/s - [8] A9
 			  skopt.space.space.Integer(5000, 90000), # 4KB read latency in ns - [9] A10
 			  skopt.space.space.Real(0.9, 1.4), # read latency / 4KB read latency - [10] A11 / A10
 			  skopt.space.space.Real(0.2 ,1.5), # MSB, CSB multiplier for read latencies - [11] A12
@@ -322,7 +326,7 @@ if __name__ == '__main__':
 
 	checkpoint_file = f"./output/checkpoints/checkpoint_{TIME_STRING} (FADU_FULL_20param).pkl" # change identifier based on real_hynix
 	checkpoint_saver = [skopt.callbacks.CheckpointSaver(checkpoint_file)] # set to None to disable checkpointing
-	LOAD = "output/checkpoints/checkpoint_231011T1600 (FADU).pkl" # put file to load (./output/checkpoints/checkpoint 1691380588.pkl), if not loading a previous result from a file, set to 0
+	LOAD = "output/ours_hynix.json" # put file to load (./output/checkpoints/checkpoint 1691380588.pkl), if not loading a previous result from a file, set to 0
 	# load checkpoint
 	loaded_cp = None
 	if LOAD.endswith(".pkl"):
@@ -337,9 +341,14 @@ if __name__ == '__main__':
 		loaded_x0, loaded_y0 = remove_outofbound_points(loaded_cp, skopt_dim)
 	elif LOAD.endswith(".json"):
 		loaded_x0, loaded_y0 = remove_outofbound_points_json(loaded_cp, skopt_dim)
+		print(loaded_x0)
+		print(loaded_y0)
+	else:
+		loaded_x0 = None
+		loaded_y0 = None
 	res = skopt.optimizer.gp_minimize(
 		func=make_array_then_gp, dimensions=skopt_dim,
-		initial_point_generator="hammersly", n_calls=100, n_random_starts=15,
+		initial_point_generator="hammersly", n_calls=80, n_random_starts=15,
 		verbose=True, callback=checkpoint_saver,
 		x0=loaded_x0, y0=loaded_y0
 	)

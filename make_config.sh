@@ -270,7 +270,7 @@ static_assert((ONESHOT_PAGE_SIZE % FLASH_PAGE_SIZE) == 0);
 #define FW_WBUF_LATENCY0 (${17})
 #define FW_WBUF_LATENCY1 (${18})
 #define FW_CH_XFER_LATENCY (${19})
-#define OP_AREA_PERCENT (${20})
+#define OP_AREA_PERCENT (${20:-0.1})
 
 #define GLOBAL_WB_SIZE (NAND_CHANNELS * LUNS_PER_NAND_CH * ONESHOT_PAGE_SIZE * ${6}) // A6
 static_assert((${20}) >= 0);
