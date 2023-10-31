@@ -53,11 +53,11 @@ realfiosize = "32G" # size of fio test for real devices. should include G at the
 # without time_based, fio runtime is *at most* runtime.
 # add --time_based=1 to make fio *always* run for runtime.
 # set to empty string to limit only by size
-virt_timebased = "--runtime=45"
-virt_test_size = "--size=8G" 
+virt_timebased = "--runtime=30"
+virt_test_size = "--size=4G" 
 
 
-latency_multiple_cellpos = [1, 1.5, 2] # multiplied factor for latency of LSB, MSB, CSB
+latency_multiple_cellpos = [1, 1, 1.2] # multiplied factor for latency of LSB, MSB, CSB
 
 # format prints warning and waits 10 seconds from version 1.10 onwards. "-f" option skips the warning, but it results in an error for version 1.9 and below. 
 def whether_to_f():

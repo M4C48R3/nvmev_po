@@ -74,7 +74,7 @@ def get_params(values_) -> float:
 			if m[0] == 'randread':
 				gv.printv("doing SW before RR...")
 				cmd = f"sh -c \"sudo fio --minimal --filename={gv.virtdevname} --direct=1 --rw=write --ioengine=psync --bs=256k " \
-				f"--iodepth=1 {gv.virt_test_size} --name=RR_prep --output=/dev/null\""
+				f"--iodepth=1 {gv.virt_test_size} --name=RR_prep --output=/dev/null --runtime=45\""
 				os.system(cmd)
 						  
 			ours[m[0]][f"{bs}"] = 0

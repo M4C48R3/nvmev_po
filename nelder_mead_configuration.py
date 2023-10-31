@@ -211,7 +211,7 @@ def make_array_then_gp(inputs:np.ndarray):
 	inputs_added = [0] * 10
 	inputs_added[0] = inputs[0] # 4KB read latency
 	inputs_added[1] = inputs[1] # (read latency / 4KB read latency)
-	inputs_added[2] = 1.9e6 # prog latency
+	inputs_added[2] = 1.95e6 # prog latency
 	inputs_added[3] = inputs[2] # 4KB read FW
 	inputs_added[4] = inputs[3] # read FW
 	inputs_added[5] = inputs[4] # WBUF FW 0
@@ -233,17 +233,17 @@ if __name__ == '__main__':
 	# channel transfer latency, channel bandwidth
 	# prog latency is set at 1.9e6 and erase latency 3e6
 	x0_lowhigh = [[6e3,50e3,"uniform"],[0.8, 1.4,"uniform"],
-					[0,25e3,"uniform"],[0,25e3,"uniform"],[0,1e4,"uniform"],[0,700,"uniform"],
-					[0,4e3,"uniform"],[800,3000,"uniform"]]
+					[0,20e3,"uniform"],[0,20e3,"uniform"],[0,1e4,"uniform"],[0,700,"uniform"],
+					[0,3e3,"uniform"],[700,2500,"uniform"]]
 	skopt_dim = [skopt.space.space.Real(x0[0], x0[1], prior=x0[2]) for x0 in x0_lowhigh]
 
-	checkpoint_file = f"./output/checkpoints/checkpoint_{TIME_STRING} (FADU).pkl" # change identifier based on real_hynix
+	checkpoint_file = f"./output/checkpoints/checkpoint_{TIME_STRING} (FADU_8).pkl" # change identifier based on real_hynix
 	checkpoint_saver = [skopt.callbacks.CheckpointSaver(checkpoint_file)] # set to None to disable checkpointing
 	LOAD = "output/checkpoints/checkpoint_230915T1648 (FADU).pkl" # put file to load (./output/checkpoints/checkpoint 1691380588.pkl), if not loading a previous result from a file, set to 0
 	res = skopt.load(LOAD) if LOAD else None
 	res = skopt.optimizer.gp_minimize(
 		func=make_array_then_gp, dimensions=skopt_dim,
-		initial_point_generator="hammersly", n_calls=60, n_random_starts=10,
+		initial_point_generator="hammersly", n_calls=300, n_random_starts=20,
 		verbose=True, callback=checkpoint_saver,
 		x0=res.x_iters if LOAD else None, y0=res.func_vals if LOAD else None
 	)
