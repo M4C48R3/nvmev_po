@@ -99,20 +99,24 @@ def get_params(values_) -> float:
 	# print(ours)
 
 	diff = 0
+	max = 0
 	f = open("output/real_hynix.json")
 	real = json.load(f)
 	for m in modlist:
 		for bs in gv.bslist:
-			diff += abs(real[m[0]][f"{bs}"] - ours[m[0]][f"{bs}"]) / real[m[0]][f"{bs}"]
+			new_diff = abs(real[m[0]][f"{bs}"] - ours[m[0]][f"{bs}"]) / real[m[0]][f"{bs}"]
+			if new_diff > max:
+				max = new_diff
+			diff += new_diff
 			# log2(bs): different weights, more weight for larger block size as this does not seem to be getting large block reads right
 	diff /= (modlist.__len__() * gv.bscount) # average error rate
 
 	with open("output/ours_hynix.json", "w") as f:
-		cache[key]['perf'] = diff
+		cache[key]['perf'] = diff + (max/2)
 		cache[key]['vals'] = ours
 		json.dump(cache, f)
-	print(f"{diff}")
-	return diff
+	print(f"{diff} + {(max/2)} = {diff + (max/2)}")
+	return diff + (max/2)
 
 
 
@@ -132,12 +136,12 @@ if __name__ == '__main__':
 	# RW: 21.58 28.48  61.99 134.47
 	#arr=[1900,2100,2300,1500,1700,1900,5e4,2000,2000,3000,1000]
 
-	# arr=[3e4, 1.00, 20e3, 2e3, 1e3, 1e3, 500]
 	# avg read latency = 41us = 1.433 ((1 + 1.5 + 1.8) / 3) * 24e3 (ns) * 1.2 (assumed 4KB read optimization factor)
 	
 	#35000, 52500, 63000, 31500, 47250, 56700, 60000, 0, 0, 0, 0, 0, 2000000
-	arr = [30e3, 1, 1.8e6,		# 7 values for 4KB read latency, (read latency / 4KB read latency), prog latency,
-		10e3, 15e3, 5300, 130,	# 4KB read FW, read FW, WBUF latency 0, WBUF latency 1
-		1900, 2.5e6,			# Possibly 3 more, FW_CH_XFER_LATENCY (values[11], ${12:-0} in make_config) and ERASE_LATENCY (values[12], ${13:-0} in make_config) are defaulted to zero if unspecified.
-		2400]					# finally, NAND_CHANNEL_BANDWIDTH is defaulted to 1000 if unspecified
+	# arr = [30e3, 1, 1.8e6,		# 7 values for 4KB read latency, (read latency / 4KB read latency), prog latency,
+	# 	10e3, 15e3, 5300, 130,	# 4KB read FW, read FW, WBUF latency 0, WBUF latency 1
+	# 	1900, 2.5e6,			# Possibly 3 more, FW_CH_XFER_LATENCY (values[11], ${12:-0} in make_config) and ERASE_LATENCY (values[12], ${13:-0} in make_config) are defaulted to zero if unspecified.
+	# 	2400]					# finally, NAND_CHANNEL_BANDWIDTH is defaulted to 1000 if unspecified
+	arr = [45e3, 1.136, 1.9e6, 5e3, 5e3, 5150, 80, 825, 3e6, 1550]
 	get_params(arr)

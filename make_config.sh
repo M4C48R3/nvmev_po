@@ -234,7 +234,7 @@ static_assert((ZONE_SIZE % DIES_PER_ZONE) == 0);
 #define NS_CAPACITY_0 (0)
 #define NS_SSD_TYPE_1 NS_SSD_TYPE_0
 #define NS_CAPACITY_1 (0)
-#define MDTS (6)
+#define MDTS (8)
 #define CELL_MODE (CELL_MODE_TLC)
 
 #define SSD_PARTITIONS (1) // 1. = SN570 (no longer doing this); 2. = FADU
@@ -245,7 +245,7 @@ static_assert((ZONE_SIZE % DIES_PER_ZONE) == 0);
 // this is because pages within a die are interleaved, so we need to read all pages in a die at the same position. this is seen as a single page for the emulator, though is actually 4 pages
 #define ONESHOT_PAGE_SIZE (FLASH_PAGE_SIZE*3)
 #define BLKS_PER_PLN (0) // 2TB / (66MB block * 16 * 8 = 8448MB line) = 248
-#define BLK_SIZE KB(67584/32) // Block Size: 1344 pages, but is that blk-size or line-size? (/16 is for line-size)
+#define BLK_SIZE MB(96) // Block Size: 1344 pages, but is that blk-size or line-size? (/16 is for line-size)
 static_assert((ONESHOT_PAGE_SIZE % FLASH_PAGE_SIZE) == 0);
 
 #define MAX_CH_XFER_SIZE KB(16) /* to overlap with pcie transfer */
@@ -270,7 +270,7 @@ static_assert((ONESHOT_PAGE_SIZE % FLASH_PAGE_SIZE) == 0);
 #define FW_CH_XFER_LATENCY (${12:-0})
 #define OP_AREA_PERCENT (0.1)
 
-#define GLOBAL_WB_SIZE (NAND_CHANNELS * LUNS_PER_NAND_CH * ONESHOT_PAGE_SIZE * 2)
+#define GLOBAL_WB_SIZE (56e7)
 #define WRITE_EARLY_COMPLETION 1
 #endif 
 ///////////////////////////////////////////////////////////////////////////
