@@ -143,5 +143,5 @@ if __name__ == '__main__':
 	# 	10e3, 15e3, 5300, 130,	# 4KB read FW, read FW, WBUF latency 0, WBUF latency 1
 	# 	1900, 2.5e6,			# Possibly 3 more, FW_CH_XFER_LATENCY (values[11], ${12:-0} in make_config) and ERASE_LATENCY (values[12], ${13:-0} in make_config) are defaulted to zero if unspecified.
 	# 	2400]					# finally, NAND_CHANNEL_BANDWIDTH is defaulted to 1000 if unspecified
-	arr = [45e3, 1.136, 1.9e6, 5e3, 5e3, 5150, 80, 825, 3e6, 1550]
+	arr = [35676, 1.235, 1.9e6, 15e3, 20e3, 5005, 80, 819, 3e6, 1556]
 	get_params(arr)
