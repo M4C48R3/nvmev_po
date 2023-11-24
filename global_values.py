@@ -44,6 +44,9 @@ if hostname == "star3":
 elif hostname == "streaming":
     realdevname = None # device name of actual device to measure
     virtdevname = "/dev/nvme0n1" # device name of virtual device created by NVMeVirt
+elif hostname in ("blaze51-Z790-PG-Lightning", "faduu2test"):
+    realdevname = "/dev/nvme1n1" # device name of actual device to measure
+    virtdevname = "/dev/nvme2n1" # device name of virtual device created by NVMeVirt
 else:
     raise Exception("Unknown hostname: " + hostname)
 

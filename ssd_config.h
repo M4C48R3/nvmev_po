@@ -245,7 +245,7 @@ static_assert((ZONE_SIZE % DIES_PER_ZONE) == 0);
 // this is because pages within a die are interleaved, so we need to read all pages in a die at the same position. this is seen as a single page for the emulator, though is actually 4 pages
 #define ONESHOT_PAGE_SIZE (FLASH_PAGE_SIZE*3)
 #define BLKS_PER_PLN (0) // 2TB / (66MB block * 16 * 8 = 8448MB line) = 248
-#define BLK_SIZE MB(96) // Block Size: 1344 pages, but is that blk-size or line-size? (/16 is for line-size)
+#define BLK_SIZE MB(96) // 96MB block results in a 3GB line
 static_assert((ONESHOT_PAGE_SIZE % FLASH_PAGE_SIZE) == 0);
 
 #define MAX_CH_XFER_SIZE KB(16) /* to overlap with pcie transfer */

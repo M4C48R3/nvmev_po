@@ -212,13 +212,13 @@ def make_array_then_gp(inputs:np.ndarray):
 	inputs_added[0] = inputs[0] # 4KB read latency
 	inputs_added[1] = inputs[1] # (read latency / 4KB read latency)
 	inputs_added[2] = 1.9e6 # prog latency
-	inputs_added[3] = inputs[2] # 4KB read FW
-	inputs_added[4] = inputs[3] # read FW
-	inputs_added[5] = inputs[4] # WBUF FW 0
-	inputs_added[6] = inputs[5] # WBUF FW 1
-	inputs_added[7] = inputs[6] # channel transfer latency
+	inputs_added[3] = 12e3 # 4KB read FW
+	inputs_added[4] = 16e3 # read FW
+	inputs_added[5] = inputs[2] # WBUF FW 0
+	inputs_added[6] = inputs[3] # WBUF FW 1
+	inputs_added[7] = inputs[4] # channel transfer latency
 	inputs_added[8] = 3e6 # erase latency
-	inputs_added[9] = inputs[7] # channel bandwidth
+	inputs_added[9] = inputs[5] # channel bandwidth
 
 	return get_params.get_params(inputs_added)
 
@@ -229,12 +229,12 @@ if __name__ == '__main__':
 	# values in {} are optional
 	# Here, given values are:
 	# 4KB read latency, (read latency / 4KB read latency)
-	# 4KB read FW, read FW, WBUF latency 0 (constant), WBUF latency 1 (per page),
+	# WBUF latency 0 (constant), WBUF latency 1 (per page),
 	# channel transfer latency, channel bandwidth
 	# prog latency is set at 1.9e6 and erase latency 3e6
-	x0_lowhigh = [[42e3,50e3,"uniform"],[1, 1.25,"uniform"],
-					[4000,6e3,"uniform"],[4e3,6e3,"uniform"],[4e3,6e3,"uniform"],[60,100,"uniform"],
-					[500,1200,"uniform"],[1400,1900,"uniform"]]
+	x0_lowhigh = [[35e3,55e3,"uniform"],[0.9, 1.3,"uniform"],
+					[3e3,7e3,"uniform"],[40,150,"uniform"],
+					[400,1300,"uniform"],[1500,2100,"uniform"]]
 	skopt_dim = [skopt.space.space.Real(x0[0], x0[1], prior=x0[2]) for x0 in x0_lowhigh]
 
 	checkpoint_file = f"./output/checkpoints/checkpoint_{TIME_STRING} (FADU_8).pkl" # change identifier based on real_hynix
