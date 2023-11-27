@@ -23,6 +23,7 @@ echo "// SPDX-License-Identifier: GPL-2.0-only
 #define CELL_MODE_MLC 2
 #define CELL_MODE_TLC 3
 #define CELL_MODE_QLC 4
+#define CELL_TYPE_REPEATS 1 /* default value, value repeated only once */
 
 /* Must select one of INTEL_OPTANE, SAMSUNG_970PRO, or ZNS_PROTOTYPE
  * in Makefile */
@@ -235,7 +236,9 @@ static_assert((ZONE_SIZE % DIES_PER_ZONE) == 0);
 #define NS_SSD_TYPE_1 NS_SSD_TYPE_0
 #define NS_CAPACITY_1 (0)
 #define MDTS (8)
-#define CELL_MODE (CELL_MODE_TLC)
+#undef CELL_TYPE_REPEATS
+#define CELL_TYPE_REPEATS 1
+#define CELL_MODE (CELL_MODE_TLC*CELL_TYPE_REPEATS)
 
 #define SSD_PARTITIONS (1) // 1. = SN570 (no longer doing this); 2. = FADU
 #define NAND_CHANNELS (8) // 1. Flash Channels: 4; 2. 16
@@ -243,7 +246,8 @@ static_assert((ZONE_SIZE % DIES_PER_ZONE) == 0);
 #define PLNS_PER_LUN (1) // must be 1 (see ./conv_ftl.c:120, and trace backwards)
 #define FLASH_PAGE_SIZE KB(64) // 4 planes per LUN (known) -> but PLNS_PER_LUN should be 1 to not result in a segmentation fault, compensated by this (16KB * 4)
 // this is because pages within a die are interleaved, so we need to read all pages in a die at the same position. this is seen as a single page for the emulator, though is actually 4 pages
-#define ONESHOT_PAGE_SIZE (FLASH_PAGE_SIZE*3)
+
+#define ONESHOT_PAGE_SIZE (FLASH_PAGE_SIZE*CELL_MODE*CELL_TYPE_REPEATS)
 #define BLKS_PER_PLN (0) // 2TB / (66MB block * 16 * 8 = 8448MB line) = 248
 #define BLK_SIZE MB(3) // 96MB block results in a 3GB line
 static_assert((ONESHOT_PAGE_SIZE % FLASH_PAGE_SIZE) == 0);
@@ -268,7 +272,7 @@ static_assert((ONESHOT_PAGE_SIZE % FLASH_PAGE_SIZE) == 0);
 #define FW_WBUF_LATENCY0 (${10})
 #define FW_WBUF_LATENCY1 (${11})
 #define FW_CH_XFER_LATENCY (${12:-0})
-#define OP_AREA_PERCENT (0.1)
+#define OP_AREA_PERCENT (0.25)
 
 #define GLOBAL_WB_SIZE (56e7)
 #define WRITE_EARLY_COMPLETION 1

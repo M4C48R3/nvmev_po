@@ -48,7 +48,7 @@ enum {
 };
 
 /* Cell type */
-enum { CELL_TYPE_LSB, CELL_TYPE_MSB, CELL_TYPE_CSB, MAX_CELL_TYPES };
+enum { CELL_TYPE_LSB, CELL_TYPE_MSB, CELL_TYPE_CSB, MAX_CELL_TYPES=32 };
 
 #define TOTAL_PPA_BITS (64)
 #define BLK_BITS (16)

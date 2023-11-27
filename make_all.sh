@@ -40,6 +40,7 @@ then
         attempts=9999
     else
         echo "module not inserted: /dev/nvme2n1 does not exist ($attempts/$max_attempts)"
+        sudo rm /dev/nvme2n1
         attempts=$((attempts+1))
     fi
 else

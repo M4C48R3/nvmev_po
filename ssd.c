@@ -66,7 +66,7 @@ static void check_params(struct ssdparams *spp)
 void ssd_init_params(struct ssdparams *spp, uint64_t capacity, uint32_t nparts)
 {
 	uint64_t blk_size, total_size;
-
+	int i;
 	spp->secsz = 512;
 	spp->secs_per_pg = 8;
 	spp->pgsz = spp->secsz * spp->secs_per_pg;
@@ -105,13 +105,14 @@ void ssd_init_params(struct ssdparams *spp, uint64_t capacity, uint32_t nparts)
 	spp->pgs_per_blk = spp->pgs_per_oneshotpg * spp->oneshotpgs_per_blk;
 
 	spp->write_unit_size = WRITE_UNIT_SIZE;
-
-	spp->pg_4kb_rd_lat[CELL_TYPE_LSB] = NAND_4KB_READ_LATENCY_LSB;
-	spp->pg_4kb_rd_lat[CELL_TYPE_MSB] = NAND_4KB_READ_LATENCY_MSB;
-	spp->pg_4kb_rd_lat[CELL_TYPE_CSB] = NAND_4KB_READ_LATENCY_CSB;
-	spp->pg_rd_lat[CELL_TYPE_LSB] = NAND_READ_LATENCY_LSB;
-	spp->pg_rd_lat[CELL_TYPE_MSB] = NAND_READ_LATENCY_MSB;
-	spp->pg_rd_lat[CELL_TYPE_CSB] = NAND_READ_LATENCY_CSB;
+	for (i = 0; i < CELL_TYPE_REPEATS; i++){
+	spp->pg_4kb_rd_lat[CELL_TYPE_LSB * CELL_TYPE_REPEATS + i] = NAND_4KB_READ_LATENCY_LSB;
+	spp->pg_4kb_rd_lat[CELL_TYPE_MSB * CELL_TYPE_REPEATS + i] = NAND_4KB_READ_LATENCY_MSB;
+	spp->pg_4kb_rd_lat[CELL_TYPE_CSB * CELL_TYPE_REPEATS + i] = NAND_4KB_READ_LATENCY_CSB;
+	spp->pg_rd_lat[CELL_TYPE_LSB * CELL_TYPE_REPEATS + i] = NAND_READ_LATENCY_LSB;
+	spp->pg_rd_lat[CELL_TYPE_MSB * CELL_TYPE_REPEATS + i] = NAND_READ_LATENCY_MSB;
+	spp->pg_rd_lat[CELL_TYPE_CSB * CELL_TYPE_REPEATS + i] = NAND_READ_LATENCY_CSB;
+	}
 	spp->pg_wr_lat = NAND_PROG_LATENCY;
 	spp->blk_er_lat = NAND_ERASE_LATENCY;
 	spp->max_ch_xfer_size = MAX_CH_XFER_SIZE;

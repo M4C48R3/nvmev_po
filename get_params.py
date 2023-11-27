@@ -66,17 +66,22 @@ def get_params(values_) -> float:
 	for m in modlist:
 		m[3] = 0
 		ours[m[0]] = {}
+
+		#format once for read test, not before each iteration
+		if m[0] == 'randread':
+			os.system("sh -c \"./make_all.sh\"")
+			# in case of RR, do SW beforehand
+
+			gv.printv("doing SW before RR...")
+			cmd = f"sh -c \"sudo fio --minimal --filename={gv.virtdevname} --direct=1 --rw=write --ioengine=psync --bs=256k " \
+			f"--iodepth=1 {gv.virt_test_size} --name=RR_prep --output=/dev/null --runtime=45\""
+			os.system(cmd)
+
 		for bs in gv.bslist:
 			# format before read/write
-			os.system("sh -c \"./make_all.sh\"")
+			if m[0] != 'randread':
+				os.system("sh -c \"./make_all.sh\"")
 
-			# in case of RR, do SW beforehand
-			if m[0] == 'randread':
-				gv.printv("doing SW before RR...")
-				cmd = f"sh -c \"sudo fio --minimal --filename={gv.virtdevname} --direct=1 --rw=write --ioengine=psync --bs=256k " \
-				f"--iodepth=1 {gv.virt_test_size} --name=RR_prep --output=/dev/null --runtime=45\""
-				os.system(cmd)
-						  
 			ours[m[0]][f"{bs}"] = 0
 
 			with open('output/temp.txt', 'a') as f, stdout_redirected(f):
@@ -143,5 +148,5 @@ if __name__ == '__main__':
 	# 	10e3, 15e3, 5300, 130,	# 4KB read FW, read FW, WBUF latency 0, WBUF latency 1
 	# 	1900, 2.5e6,			# Possibly 3 more, FW_CH_XFER_LATENCY (values[11], ${12:-0} in make_config) and ERASE_LATENCY (values[12], ${13:-0} in make_config) are defaulted to zero if unspecified.
 	# 	2400]					# finally, NAND_CHANNEL_BANDWIDTH is defaulted to 1000 if unspecified
-	arr = [35676, 1.235, 1.9e6, 15e3, 20e3, 5005, 80, 819, 3e6, 1556]
+	arr = [37000, 1.21, 19e5, 15e3, 20e3, 6300, 175, 825, 2e6, 1600]
 	get_params(arr)
