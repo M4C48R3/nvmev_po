@@ -64,6 +64,9 @@ latency_multiple_cellpos = [1, 1, 1.2] # multiplied factor for latency of LSB, M
 
 # format prints warning and waits 10 seconds from version 1.10 onwards. "-f" option skips the warning, but it results in an error for version 1.9 and below. 
 def whether_to_f():
+    global hostname
+    if hostname == "faduu2test":
+        return "-f"
     # return "" # uncomment this line to disable -f option and see the warning for higher versions
     versionstring = os.popen("nvme version").read()
     # this gives "nvme version vmaj.vmin\n". Parsing below.
