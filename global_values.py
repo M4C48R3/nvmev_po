@@ -36,7 +36,7 @@ modlist = [['randread', 'RR', 0,0], ['randwrite', 'RW', 1,0]]
 #modlist = [['read', 'SR', 0,0], ['write', 'SW', 1,0], ['randread', 'RR', 2,0], ['randwrite', 'RW', 3,0]]
 def bs_from_index(i):
     return bslist[i]
-
+#.
 hostname = os.popen("hostname -f").read().strip()
 if hostname == "star3":
     realdevname = "/dev/nvme2n1" # device name of actual device to measure
