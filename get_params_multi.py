@@ -1,3 +1,4 @@
+exit() # should not use this script anymore
 """
 input: configurations (array of dim 1x9)
 output: error percentage

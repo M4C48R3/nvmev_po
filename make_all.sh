@@ -34,13 +34,13 @@ fi
 # check if module is inserted: for some reason, the module is frequently not inserted in some machines.
 if [ $(hostname -f) = "blaze51-Z790-PG-Lightning" ] || [ $(hostname -f) = "faduu2test" ]
 then
-    if sudo nvme list | grep -q "/dev/nvme3n1";
+    if sudo nvme list | grep -q "/dev/nvme2n1";
     then
         echo "module inserted: confirmed"
         attempts=9999
     else
-        echo "module not inserted: /dev/nvme3n1 does not exist ($attempts/$max_attempts)"
-        sudo rm /dev/nvme3n1
+        echo "module not inserted: /dev/nvme2n1 does not exist ($attempts/$max_attempts)"
+        sudo rm /dev/nvme2n1
         attempts=$((attempts+1))
     fi
 else

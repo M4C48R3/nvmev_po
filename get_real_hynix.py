@@ -1,3 +1,4 @@
+exit() # should not use this script anymore
 import os
 from common import stdout_redirected
 import json

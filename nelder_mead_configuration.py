@@ -243,7 +243,7 @@ if __name__ == '__main__':
 	res = skopt.load(LOAD) if LOAD else None
 	res = skopt.optimizer.gp_minimize(
 		func=make_array_then_gp, dimensions=skopt_dim,
-		initial_point_generator="hammersly", n_calls=150, n_initial_points=20,
+		initial_point_generator="hammersly", n_calls=80, n_initial_points=15,
 		verbose=True, callback=checkpoint_saver,
 		x0=res.x_iters if LOAD else None, y0=res.func_vals if LOAD else None
 	)
