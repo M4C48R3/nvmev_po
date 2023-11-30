@@ -9,7 +9,7 @@ dic = {}
 modlist = copy.deepcopy(gv.modlist)
 def printv(x):
 	gv.printv(x)
-repeats = 4
+repeats = 2
 latencies = [[] for dummy in modlist]
 
 
@@ -22,17 +22,20 @@ for current_iter in range(repeats):
 
 	for m in modlist:
 		m[3] = 0 # reset the number of read lines (pertaining to that mode) in temp.txt
+
+		if m[0] == 'randread': # RR should be done after SW. Also, for reads, no need to format before each read test, only need to format once before writing data.
+			os.system(f"sh -c \"sudo nvme format {gv.realdevname} {gv.forceformat} >/dev/null\"")
+			printv("doing SW before RR...")
+			cmd = f"sh -c \"sudo fio --minimal --filename={gv.realdevname} --direct=1 --rw=write --ioengine=psync --bs=256k " \
+			f"--iodepth=1 --size={gv.realfiosize} --name=RR_prep --output=/dev/null\""
+			os.system(cmd)
+
 		dic[m[0]] = {}
 		for bs in gv.bslist:
-			os.system(f"sh -c \"sudo nvme format {gv.realdevname} {gv.forceformat} >/dev/null\"")
+			if m[0] == 'randwrite': # for write tests, format before each test
+				os.system(f"sh -c \"sudo nvme format {gv.realdevname} {gv.forceformat} >/dev/null\"")
 			# offset is set randomly so that one region does not degrade quickly as a result of repeated writes and reads
 			# fio_offset = (time.time_ns() % 100) * 8
-
-			if m[0] == 'randread': # RR should be done after SW
-				printv("doing SW before RR...")
-				cmd = f"sh -c \"sudo fio --minimal --filename={gv.realdevname} --direct=1 --rw=write --ioengine=psync --bs=256k " \
-				f"--iodepth=1 --size={gv.realfiosize} --name=RR_prep --output=/dev/null\""
-				os.system(cmd)
 
 			dic[m[0]][f"{bs}"] = 0
 
