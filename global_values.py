@@ -38,6 +38,7 @@ def bs_from_index(i):
     return bslist[i]
 #.
 hostname = os.popen("hostname -f").read().strip()
+#CAUTION: ALSO MODIFY global_values.py!!!
 if hostname == "star3":
     realdevname = "/dev/nvme2n1" # device name of actual device to measure
     virtdevname = "/dev/nvme7n1" # device name of virtual device created by NVMeVirt
@@ -46,7 +47,7 @@ elif hostname == "streaming":
     virtdevname = "/dev/nvme0n1" # device name of virtual device created by NVMeVirt
 elif hostname in ("blaze51-Z790-PG-Lightning", "faduu2test"):
     realdevname = "/dev/nvme1n1" # device name of actual device to measure
-    virtdevname = "/dev/nvme2n1" # device name of virtual device created by NVMeVirt
+    virtdevname = "/dev/nvme3n1" # device name of virtual device created by NVMeVirt
 else:
     raise Exception("Unknown hostname: " + hostname)
 

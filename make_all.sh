@@ -14,6 +14,7 @@ fi
 
 echo "insert module"
 
+# CAUTION: ALSO UPDATE global_values.py!
 if [ $(hostname -f) = "star3" ]
 then
     # star3 server
@@ -25,7 +26,7 @@ then
 elif [ $(hostname -f) = "blaze51-Z790-PG-Lightning" ] || [ $(hostname -f) = "faduu2test" ]
 then
     # desktop
-    sudo insmod nvmev.ko memmap_start=6G memmap_size=48G cpus=1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16
+    sudo insmod nvmev.ko memmap_start=12G memmap_size=40G cpus=1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16
 else
     echo "Unknown host: $(hostname -f)"
     attempts=9999
@@ -34,13 +35,13 @@ fi
 # check if module is inserted: for some reason, the module is frequently not inserted in some machines.
 if [ $(hostname -f) = "blaze51-Z790-PG-Lightning" ] || [ $(hostname -f) = "faduu2test" ]
 then
-    if sudo nvme list | grep -q "/dev/nvme2n1";
+    if sudo nvme list | grep -q "/dev/nvme3n1";
     then
         echo "module inserted: confirmed"
         attempts=9999
     else
-        echo "module not inserted: /dev/nvme2n1 does not exist ($attempts/$max_attempts)"
-        sudo rm /dev/nvme2n1
+        echo "module not inserted: /dev/nvme3n1 does not exist ($attempts/$max_attempts)"
+        sudo rm /dev/nvme3n1
         attempts=$((attempts+1))
     fi
 else
