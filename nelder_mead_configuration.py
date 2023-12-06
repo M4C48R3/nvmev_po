@@ -10,7 +10,7 @@ import skopt
 
 #SAMPLE_INITIAL_INPUTS = np.array([[1,2,6,3,8], [7,2,5,4,3], [1,7,4,11,6]], dtype = np.float64)
 SAMPLE_INITIAL_INPUTS = np.random.randint(0, 20, size=(15,14)).astype(np.float64)
-t = datetime.datetime.utcnow() + datetime.timedelta(hours=9) # adding 9h for KST
+t = datetime.datetime.now(datetime.UTC) + datetime.timedelta(hours=9) # adding 9h for KST
 TIME_STRING = t.strftime("%y%m%dT%H%M")
 class NpEncoder(json.JSONEncoder):
 	def default(self, obj):

@@ -18,6 +18,14 @@ elif [ $(hostname -f) = "streaming" ]
 then
     # desktop
     sudo insmod nvmev.ko memmap_start=16G memmap_size=24G cpus=1,2,3
+elif [ $(hostname -f) = "blaze51-Z790-PG-Lightning" ] || [ $(hostname -f) = "faduu2test" ]
+then
+    # desktop
+    sudo insmod nvmev.ko memmap_start=12G memmap_size=40G cpus=1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16
+elif [ $(hostname -f) = "gpu2" ]
+then
+    # gpu2 server
+    sudo insmod nvmev.ko memmap_start=16G memmap_size=40G cpus=1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16
 else
     echo "Unknown host: $(hostname -f)"
 fi

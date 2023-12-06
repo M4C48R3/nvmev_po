@@ -270,7 +270,7 @@ static_assert((ONESHOT_PAGE_SIZE % FLASH_PAGE_SIZE) == 0);
 #define FW_CH_XFER_LATENCY (${12:-0})
 #define OP_AREA_PERCENT (0.1)
 
-#define GLOBAL_WB_SIZE (56e7)
+#define GLOBAL_WB_SIZE (2<<20)
 #define WRITE_EARLY_COMPLETION 1
 #endif 
 ///////////////////////////////////////////////////////////////////////////
