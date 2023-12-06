@@ -10,7 +10,7 @@ import skopt
 
 #SAMPLE_INITIAL_INPUTS = np.array([[1,2,6,3,8], [7,2,5,4,3], [1,7,4,11,6]], dtype = np.float64)
 SAMPLE_INITIAL_INPUTS = np.random.randint(0, 20, size=(15,14)).astype(np.float64)
-t = datetime.datetime.utcnow() + datetime.timedelta(hours=9) # adding 9h for KST
+t = datetime.datetime.now(datetime.UTC) + datetime.timedelta(hours=9) # adding 9h for KST
 TIME_STRING = t.strftime("%y%m%dT%H%M")
 class NpEncoder(json.JSONEncoder):
 	def default(self, obj):
@@ -208,7 +208,7 @@ def simplex_generator(input_centric):
 	return simplex
 
 def make_array_then_gp(inputs:np.ndarray):
-	inputs_added = [0] * 10
+	inputs_added = [0] * 11
 	inputs_added[0] = inputs[0] # 4KB read latency
 	inputs_added[1] = inputs[1] # (read latency / 4KB read latency)
 	inputs_added[2] = 3.4e6 # prog latency
@@ -219,6 +219,7 @@ def make_array_then_gp(inputs:np.ndarray):
 	inputs_added[7] = inputs[6] # channel transfer latency
 	inputs_added[8] = 5e6 # erase latency
 	inputs_added[9] = inputs[7] # channel bandwidth
+	inputs_added[10] = inputs[8]*4096 # write buffer
 
 	return get_params.get_params(inputs_added)
 
@@ -232,9 +233,9 @@ if __name__ == '__main__':
 	# (4KB, page) read FW, WBUF latency 0 (constant), WBUF latency 1 (per page),
 	# channel transfer latency, channel bandwidth
 	# prog latency is set at 1.9e6 and erase latency 3e6
-	x0_lowhigh = [[1e4,12e4,"uniform"],[0.8, 1.4,"uniform"],
-					[5e3,25e3,"uniform"],[5e3,25e3,"uniform"],[1e3,10e3,"uniform"],[40,500,"uniform"],
-					[100,2500,"uniform"],[550,2000,"uniform"]]
+	x0_lowhigh = [[4e4,10e4,"uniform"],[0.8, 1.4,"uniform"],
+					[0,30e3,"uniform"],[0,30e3,"uniform"],[0,30e3,"uniform"],[0,3000,"uniform"],
+					[0,4000,"uniform"],[500,2000,"uniform"], [512,2048,"uniform"]]  # added write buffer size (in 4KB pages)
 	skopt_dim = [skopt.space.space.Real(x0[0], x0[1], prior=x0[2]) for x0 in x0_lowhigh]
 
 	checkpoint_file = f"./output/checkpoints/checkpoint_{TIME_STRING} (FADU_8).pkl" # change identifier based on real_hynix
@@ -243,7 +244,7 @@ if __name__ == '__main__':
 	res = skopt.load(LOAD) if LOAD else None
 	res = skopt.optimizer.gp_minimize(
 		func=make_array_then_gp, dimensions=skopt_dim,
-		initial_point_generator="hammersly", n_calls=80, n_initial_points=15,
+		initial_point_generator="hammersly", n_calls=90, n_initial_points=15,
 		verbose=True, callback=checkpoint_saver,
 		x0=res.x_iters if LOAD else None, y0=res.func_vals if LOAD else None
 	)

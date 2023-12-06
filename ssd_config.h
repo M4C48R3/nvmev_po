@@ -249,32 +249,32 @@ static_assert((ZONE_SIZE % DIES_PER_ZONE) == 0);
 
 #define ONESHOT_PAGE_SIZE (FLASH_PAGE_SIZE*CELL_MODE*CELL_TYPE_REPEATS)
 #define BLKS_PER_PLN (0) // 2TB / (66MB block * 16 * 8 = 8448MB line) = 248
-#define BLK_SIZE KB(3072) // 96MB block results in a 3GB line
+#define BLK_SIZE KB(5120) // 96MB block results in a 3GB line
 static_assert((ONESHOT_PAGE_SIZE % FLASH_PAGE_SIZE) == 0);
 
 #define MAX_CH_XFER_SIZE KB(16) /* to overlap with pcie transfer */
 #define WRITE_UNIT_SIZE (512)
 
-#define NAND_CHANNEL_BANDWIDTH (550ull) //MB/s
+#define NAND_CHANNEL_BANDWIDTH (750ull) //MB/s
 #define PCIE_BANDWIDTH (3300ull) //MB/s
 
-#define NAND_4KB_READ_LATENCY_LSB (10000) //ns
-#define NAND_4KB_READ_LATENCY_MSB (10000)
-#define NAND_4KB_READ_LATENCY_CSB (12000)
-#define NAND_READ_LATENCY_LSB (8000 - 0)
-#define NAND_READ_LATENCY_MSB (8000 + 0)
-#define NAND_READ_LATENCY_CSB (9600)
-#define NAND_PROG_LATENCY (3400000)
-#define NAND_ERASE_LATENCY (5000000)
+#define NAND_4KB_READ_LATENCY_LSB (70000) //ns
+#define NAND_4KB_READ_LATENCY_MSB (70000)
+#define NAND_4KB_READ_LATENCY_CSB (84000)
+#define NAND_READ_LATENCY_LSB (91000 - 0)
+#define NAND_READ_LATENCY_MSB (91000 + 0)
+#define NAND_READ_LATENCY_CSB (109200)
+#define NAND_PROG_LATENCY (2200000)
+#define NAND_ERASE_LATENCY (2700000)
 
-#define FW_4KB_READ_LATENCY (5000)
-#define FW_READ_LATENCY (5000)
-#define FW_WBUF_LATENCY0 (1000)
-#define FW_WBUF_LATENCY1 (40)
-#define FW_CH_XFER_LATENCY (100)
+#define FW_4KB_READ_LATENCY (4000)
+#define FW_READ_LATENCY (4000)
+#define FW_WBUF_LATENCY0 (4000)
+#define FW_WBUF_LATENCY1 (1600)
+#define FW_CH_XFER_LATENCY (1200)
 #define OP_AREA_PERCENT (0.25)
 
-#define GLOBAL_WB_SIZE (16e7)
+#define GLOBAL_WB_SIZE (3145728)
 #define WRITE_EARLY_COMPLETION 1
 #endif 
 ///////////////////////////////////////////////////////////////////////////

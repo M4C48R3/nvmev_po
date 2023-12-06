@@ -249,7 +249,7 @@ static_assert((ZONE_SIZE % DIES_PER_ZONE) == 0);
 
 #define ONESHOT_PAGE_SIZE (FLASH_PAGE_SIZE*CELL_MODE*CELL_TYPE_REPEATS)
 #define BLKS_PER_PLN (0) // 2TB / (66MB block * 16 * 8 = 8448MB line) = 248
-#define BLK_SIZE KB(3072) // 96MB block results in a 3GB line
+#define BLK_SIZE KB(5120) // 96MB block results in a 3GB line
 static_assert((ONESHOT_PAGE_SIZE % FLASH_PAGE_SIZE) == 0);
 
 #define MAX_CH_XFER_SIZE KB(16) /* to overlap with pcie transfer */
@@ -274,7 +274,7 @@ static_assert((ONESHOT_PAGE_SIZE % FLASH_PAGE_SIZE) == 0);
 #define FW_CH_XFER_LATENCY (${12:-0})
 #define OP_AREA_PERCENT (0.25)
 
-#define GLOBAL_WB_SIZE (16e7)
+#define GLOBAL_WB_SIZE (${15:-2<<20})
 #define WRITE_EARLY_COMPLETION 1
 #endif 
 ///////////////////////////////////////////////////////////////////////////

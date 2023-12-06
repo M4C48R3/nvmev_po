@@ -19,11 +19,11 @@ def first_non_digit(string: str, startidx: int, endidx_: int = -1) -> int:
             break
     return retv
 
-t = datetime.datetime.utcnow() + datetime.timedelta(hours=9) # adding 9h for KST
+t = datetime.datetime.now(datetime.UTC) + datetime.timedelta(hours=9) # adding 9h for KST
 TIME_STRING = t.strftime("%y%m%dT%H%M") # e.g. 17 Aug 2023 11:45 KST => 230817T1145
 def update_time_string():
     global TIME_STRING
-    t = datetime.datetime.utcnow() + datetime.timedelta(hours=9)
+    t = datetime.datetime.now(datetime.UTC) + datetime.timedelta(hours=9)
     TIME_STRING = t.strftime("%y%m%dT%H%M")
     
 
@@ -48,6 +48,9 @@ elif hostname == "streaming":
 elif hostname in ("blaze51-Z790-PG-Lightning", "faduu2test"):
     realdevname = "/dev/nvme1n1" # device name of actual device to measure
     virtdevname = "/dev/nvme3n1" # device name of virtual device created by NVMeVirt
+elif hostname == "gpu2":
+    realdevname = "/dev/nvme1n1"
+    virtdevname = "/dev/nvme3n1"
 else:
     raise Exception("Unknown hostname: " + hostname)
 
