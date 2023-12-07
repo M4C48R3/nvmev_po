@@ -45,8 +45,8 @@ then
         attempts=9999
     else
         echo "module not inserted: /dev/nvme3n1 does not exist ($attempts/$max_attempts)"
-        sudo rm /dev/nvme3
-        sudo rm /dev/nvme3n1
+        # sudo rm /dev/nvme3
+        # sudo rm /dev/nvme3n1
         attempts=$((attempts+1))
     fi
 elif [ $(hostname -f) = "gpu2" ]
@@ -57,8 +57,8 @@ then
         attempts=9999
     else
         echo "module not inserted: /dev/nvme3n1 does not exist ($attempts/$max_attempts)"
-        sudo rm /dev/nvme3
-        sudo rm /dev/nvme3n1
+        # sudo rm /dev/nvme3
+        # sudo rm /dev/nvme3n1
         attempts=$((attempts+1))
     fi
 else # unknown host
