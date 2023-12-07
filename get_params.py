@@ -18,7 +18,8 @@ def get_params(values_) -> float:
 
 	# reduced to 7 to 10 values, given ratios of LSB/MSB/CSB latencies. FW_CH_XFER_LATENCY (values[11], ${12:-0} in make_config) and ERASE_LATENCY (values[12], ${13:-0} in make_config), are defaulted to zero if unspecified.
 	# CHANNEL_BANDWIDTH (values[13], ${14:-1000}) is defaulted to 1000 if unspecified
-	if len(values_) < 7 or len(values_) > 10:
+	# GLOBAL_WB_SIZE (values[14], ${15:-2<<20}) is default to 2MB. Take account of MDTS when making it small!
+	if len(values_) < 7 or len(values_) > 11:
 		print("ERROR! There must be 7 to 10 values.")
 		return
 	vcount = len(values_) + 4
@@ -143,5 +144,6 @@ if __name__ == '__main__':
 	# 	10e3, 15e3, 5300, 130,	# 4KB read FW, read FW, WBUF latency 0, WBUF latency 1
 	# 	1900, 2.5e6,			# Possibly 3 more, FW_CH_XFER_LATENCY (values[11], ${12:-0} in make_config) and ERASE_LATENCY (values[12], ${13:-0} in make_config) are defaulted to zero if unspecified.
 	# 	2400]					# finally, NAND_CHANNEL_BANDWIDTH is defaulted to 1000 if unspecified
-	arr = [45e3, 1.136, 1.9e6, 5e3, 5e3, 5150, 80, 825, 3e6, 1550]
+	#arr = [45e3, 1.136, 1.9e6, 5e3, 5e3, 5150, 80, 825, 3e6, 1550]
+	arr = [7e4, 1.29, 23e5, 4e3, 4e3, 4e3, 1300, 1400, 25e5, 760]
 	get_params(arr)

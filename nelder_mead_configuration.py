@@ -208,33 +208,34 @@ def simplex_generator(input_centric):
 	return simplex
 
 def make_array_then_gp(inputs:np.ndarray):
-	inputs_added = [0] * 10
+	inputs_added = [0] * 11
 	inputs_added[0] = inputs[0] # 4KB read latency
 	inputs_added[1] = inputs[1] # (read latency / 4KB read latency)
-	inputs_added[2] = 1.9e6 # prog latency
-	inputs_added[3] = inputs[2] # 4KB read FW
-	inputs_added[4] = inputs[3] # read FW
-	inputs_added[5] = inputs[4] # WBUF FW 0
-	inputs_added[6] = inputs[5] # WBUF FW 1
-	inputs_added[7] = inputs[6] # channel transfer latency
-	inputs_added[8] = 3e6 # erase latency
-	inputs_added[9] = inputs[7] # channel bandwidth
+	inputs_added[2] = inputs[2] # prog latency
+	inputs_added[3] = inputs[3] # 4KB read FW
+	inputs_added[4] = inputs[4] # read FW
+	inputs_added[5] = inputs[5] # WBUF FW 0
+	inputs_added[6] = inputs[6] # WBUF FW 1
+	inputs_added[7] = inputs[7] # channel transfer latency
+	inputs_added[8] = inputs[2] # erase latency = prog latency (doesn't matter really for now)
+	inputs_added[9] = inputs[8] # channel bandwidth
+	inputs_added[10] = inputs[9]*4096 # write buffer size (because MDTS is set to be 8, should be at least 256*4096)
 
 	return get_params.get_params(inputs_added)
 
 
 if __name__ == '__main__':
 	# low and high of each variable for x0
-	# up to 10 for 4KB read lat, (readlat/4KBread), PROGLAT, 4KBrFW, rFW, WBUF0, WBUF1, {CHXFERLAT, ERASELAT, CHBW}
+	# up to 10 for 4KB read lat, (readlat/4KBread), PROGLAT, 4KBrFW, rFW, WBUF0, WBUF1, {CHXFERLAT, ERASELAT, CHBW, WBSIZE}
 	# values in {} are optional
 	# Here, given values are:
-	# 4KB read latency, (read latency / 4KB read latency)
+	# 4KB read latency, (read latency / 4KB read latency), program latency
 	# 4KB read FW, read FW, WBUF latency 0 (constant), WBUF latency 1 (per page),
-	# channel transfer latency, channel bandwidth
+	# channel transfer latency, channel bandwidth, write buffer size (in 4KB pages)
 	# prog latency is set at 1.9e6 and erase latency 3e6
-	x0_lowhigh = [[42e3,50e3,"uniform"],[1, 1.25,"uniform"],
-					[4000,6e3,"uniform"],[4e3,6e3,"uniform"],[4e3,6e3,"uniform"],[60,100,"uniform"],
-					[500,1200,"uniform"],[1400,1900,"uniform"]]
+	x0_lowhigh = [[3e4,1e5,"uniform"],[0.9, 1.4,"uniform"], [5e5, 4e6, "uniform"],
+					[0,2e4,"uniform"],[0,2e4,"uniform"],[0,8e3,"uniform"],[0,2e3,"uniform"],
+					[0,2e3,"uniform"],[600,1500,"uniform"], [512,4096, "uniform"]]
 	skopt_dim = [skopt.space.space.Real(x0[0], x0[1], prior=x0[2]) for x0 in x0_lowhigh]
 
 	checkpoint_file = f"./output/checkpoints/checkpoint_{TIME_STRING} (FADU_8).pkl" # change identifier based on real_hynix
@@ -243,7 +244,7 @@ if __name__ == '__main__':
 	res = skopt.load(LOAD) if LOAD else None
 	res = skopt.optimizer.gp_minimize(
 		func=make_array_then_gp, dimensions=skopt_dim,
-		initial_point_generator="hammersly", n_calls=90, n_initial_points=15,
+		initial_point_generator="hammersly", n_calls=120, n_initial_points=20,
 		verbose=True, callback=checkpoint_saver,
 		x0=res.x_iters if LOAD else None, y0=res.func_vals if LOAD else None
 	)
